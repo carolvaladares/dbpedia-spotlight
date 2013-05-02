@@ -1,0 +1,17 @@
+<annotation text="Durante programa em família, Adriana Lima deu uma ajeitadinha em seu biquíni para não mostrar demais. Exibindo boa forma, a modelo brasileira se divertiu com a filha mais velha, Valentina, e com o marido, Marko Jaric, no último final de semana. Deitadas em uma boia, Adriana e Valentina foram puxadas por um jet sky pilotado por Marko. Adriana também é mãe de Sienna, de sete meses.">
+<surfaceForm name="Adriana Lima" offset="29">
+	<resource label="Adriana Lima" uri="Adriana_Lima"/>
+</surfaceForm>
+<surfaceForm name="biquíni" offset="69">
+	<resource label="Biquíni" uri="Biquíni"/>
+</surfaceForm>
+<surfaceForm name="Valentina" offset="178">
+	<resource label="" uri=""/>
+</surfaceForm>
+<surfaceForm name="Marko Jaric" offset="205">
+	<resource label="Marko Jaric" uri="Marko_Jaric"/>
+</surfaceForm>
+<surfaceForm name="Sienna" offset="361">
+	<resource label=" " uri=" "/>
+</surfaceForm>
+</annotation>

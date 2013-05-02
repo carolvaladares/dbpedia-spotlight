@@ -1,0 +1,17 @@
+<annotation text="Com um dia de atraso, Ángel Di María se juntou ao grupo de Real Madrid em Dortmund. O jogador havia ficado na capital espanhola para acompanhar o nascimento prematuro do seu filho, que passa bem após um parto considerado complicado pelos médicos. Em princípio, o argentino está em perfeitas condições de jogo, uma vez que perdeu apenas um treinamento, e poderá ajudar o time merengue contra Borussia Dortmund nesta quarta-feira, às 15h45m. Di María foi, inclusive, relacionado entre os prováveis titulares do time na primeira partida das semifinais da Liga dos Campeões.">
+<surfaceForm name="Ángel di María" offset="22">
+	<resource label=" Ángel di María" uri=" Ángel_Di_María "/>
+</surfaceForm>
+<surfaceForm name="Real Madrid" offset="59">
+	<resource label="Real Madrid Club de Fútbol" uri="Real_Madrid"/>
+</surfaceForm>
+<surfaceForm name="Dortmund" offset="74">
+	<resource label="Dortmund" uri="Dortmund"/>
+</surfaceForm>
+<surfaceForm name="Borussia Dortmund" offset="391">
+	<resource label="Ballspiel-Verein Borussia 1909 e. V. Dortmund" uri="Borussia_dortmund"/>
+</surfaceForm>
+<surfaceForm name="Liga dos Campeões" offset="552">
+	<resource label="Liga dos Campeões da UEFA" uri="Liga_dos_Campeões_da_UEFA"/>
+</surfaceForm>
+</annotation>

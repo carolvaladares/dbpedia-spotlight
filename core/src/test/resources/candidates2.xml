@@ -1,0 +1,56 @@
+<annotation text="24/04/2013 09h05 - Atualizado em 24/04/2013 09h05 Após nascimento do filho, Di María chega a Dortmund para jogar semis Argentino estava em Madri para acompanhar o parto, mas deve ser titular na partida desta quarta-feira contra o Borussia Dortmund Por GLOBOESPORTE.COM Dortmund, Alemanha Com um dia de atraso, Ángel Di María se juntou ao grupo de Real Madrid em Dortmund. O jogador havia ficado na capital espanhola para acompanhar o nascimento prematuro do seu filho, que passa bem após um parto considerado complicado pelos médicos. Em princípio, o argentino está em perfeitas condições de jogo, uma vez que perdeu apenas um treinamento, e poderá ajudar o time merengue contra Borussia Dortmund nesta quarta-feira, às 15h45m. Di María foi, inclusive, relacionado entre os prováveis titulares do time na primeira partida das semifinais da Liga dos Campeões. O GLOBOESPORTE.COM segue o jogão em Tempo Real, a partir das 15h. Di María ajudou o Real Madrid a passar pelo Galatasaray nas quartas da Champions (Foto: Getty Images)   ">
+  <surfaceForm name="Dortmund" offset="93">
+    <resource label="Dortmund" uri="Dortmund" contextualScore="0.2945441896018845" percentageOfSecondRank="0.6949521165307263" support="216" priorScore="1.2578217880821851E-5" finalScore="0.5899816624610665" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace"/>
+    <resource label="Ballspiel-Verein Borussia 1909 e. V. Dortmund" uri="Ballspiel-Verein_Borussia_1909_e._V._Dortmund" contextualScore="0.6879428552894723" percentageOfSecondRank="2.1216334016589085E-5" support="329" priorScore="1.9158489272177727E-5" finalScore="0.41000900504163473" types=""/>
+    <resource label="Campeonato Mundial de Ginástica Artística de 1966" uri="Campeonato_Mundial_de_Ginástica_Artística_de_1966" contextualScore="0.015514027062065883" percentageOfSecondRank="0.05914399993171996" support="13" priorScore="7.570223724568707E-7" finalScore="8.69888800077268E-6" types=""/>
+    <resource label="Campeonato Mundial de Ginástica Artística de 1994 (Equipes)" uri="Campeonato_Mundial_de_Ginástica_Artística_de_1994_(Equipes)" contextualScore="0.00198805016691557" percentageOfSecondRank="0.0" support="6" priorScore="3.493949411339403E-7" finalScore="5.144870313237389E-7" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Di María" offset="728">
+    <resource label="Ángel di María" uri="Ángel_di_María" contextualScore="0.9999999407168634" percentageOfSecondRank="0.0" support="16" priorScore="9.317198430238408E-7" finalScore="0.9999999999993179" types="DBpedia:Agent, Schema:Person, DBpedia:Http://xmlns.com/foaf/0.1/Person, DBpedia:Person, DBpedia:Athlete, DBpedia:SoccerPlayer"/>
+  </surfaceForm>
+  <surfaceForm name="Madri" offset="139">
+    <resource label="Madrid" uri="Madrid" contextualScore="0.12259821052713273" percentageOfSecondRank="7.114325874032011E-5" support="5113" priorScore="2.9774272233630615E-4" finalScore="0.9998631011674877" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace, DBpedia:Settlement"/>
+    <resource label="Arquidiocese de Madri" uri="Arquidiocese_de_Madri" contextualScore="0.6856599815109684" percentageOfSecondRank="0.5417887244559628" support="14" priorScore="8.152548626458607E-7" finalScore="7.113351931125743E-5" types=""/>
+    <resource label="Palácio Real de Madrid" uri="Palácio_Real_de_Madrid" contextualScore="0.155246562839006" percentageOfSecondRank="0.27456148485777915" support="67" priorScore="3.901576842662334E-6" finalScore="3.853933869370977E-5" types=""/>
+    <resource label="Tratado de Madrid (1750)" uri="Tratado_de_Madrid_(1750)" contextualScore="0.024202175393338955" percentageOfSecondRank="0.7870569075386568" support="59" priorScore="3.435716921150413E-6" finalScore="1.0581418057181816E-5" types=""/>
+    <resource label="Universidade Complutense de Madrid" uri="Universidade_Complutense_de_Madrid" contextualScore="0.009063394112310504" percentageOfSecondRank="0.9985184841897543" support="124" priorScore="7.220828783434766E-6" finalScore="8.328178173459221E-6" types=""/>
+    <resource label="Comunidade autónoma de Madrid" uri="Comunidade_autónoma_de_Madrid" contextualScore="0.0032293405820983667" percentageOfSecondRank="0.0" support="278" priorScore="1.6188632272539234E-5" finalScore="8.315839845824698E-6" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Real Madrid" offset="347">
+    <resource label="Real Madrid Club de Fútbol" uri="Real_Madrid_Club_de_Fútbol" contextualScore="0.9998024671782477" percentageOfSecondRank="1.5021692206570274E-8" support="1622" priorScore="9.445309908654187E-5" finalScore="0.9999999805056634" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, Schema:SportsTeam, DBpedia:SportsTeam, DBpedia:SoccerClub"/>
+    <resource label="CF Real Madrid" uri="CF_Real_Madrid" contextualScore="4.065475388523147E-5" percentageOfSecondRank="0.292731029335381" support="30" priorScore="1.7469747056697015E-6" finalScore="1.502169191373235E-8" types=""/>
+    <resource label="Real Madrid Baloncesto" uri="Real_Madrid_Baloncesto" contextualScore="1.487613494024927E-4" percentageOfSecondRank="0.013741171605682301" support="12" priorScore="6.987898822678806E-7" finalScore="4.39731533626584E-9" types=""/>
+    <resource label="Real Madrid (basquete)" uri="Real_Madrid_(basquete)" contextualScore="4.0883104608648085E-6" percentageOfSecondRank="0.2463330211010237" support="6" priorScore="3.493949411339403E-7" finalScore="6.042426463992747E-11" types=""/>
+    <resource label="Real Madrid (basquetebol)" uri="Real_Madrid_(basquetebol)" contextualScore="4.028343468096376E-6" percentageOfSecondRank="0.0" support="3" priorScore="1.7469747056697016E-7" finalScore="1.4884491656561094E-11" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Galatasaray" offset="969">
+    <resource label="Galatasaray" uri="Galatasaray" contextualScore="0.9200460878204684" percentageOfSecondRank="0.5276681135463498" support="51" priorScore="2.9698569996384927E-6" finalScore="0.6534828061114638" types=""/>
+    <resource label="Galatasaray Spor Kulübü" uri="Galatasaray_Spor_Kulübü" contextualScore="0.07006306189976778" percentageOfSecondRank="0.004916026625621017" support="148" priorScore="8.618408547970527E-6" finalScore="0.3448220395358112" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, Schema:SportsTeam, DBpedia:SportsTeam, DBpedia:SoccerClub"/>
+    <resource label="Sunderland Association Football Club" uri="Sunderland_Association_Football_Club" contextualScore="0.009890849743774285" percentageOfSecondRank="0.0" support="201" priorScore="1.1704730527987E-5" finalScore="0.0016951543274589908" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, Schema:SportsTeam, DBpedia:SportsTeam, DBpedia:SoccerClub"/>
+  </surfaceForm>
+  <surfaceForm name="Dortmund" offset="362">
+    <resource label="Dortmund" uri="Dortmund" contextualScore="0.2945441896018845" percentageOfSecondRank="0.6949521165307263" support="216" priorScore="1.2578217880821851E-5" finalScore="0.5899816624610665" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace"/>
+    <resource label="Ballspiel-Verein Borussia 1909 e. V. Dortmund" uri="Ballspiel-Verein_Borussia_1909_e._V._Dortmund" contextualScore="0.6879428552894723" percentageOfSecondRank="2.1216334016589085E-5" support="329" priorScore="1.9158489272177727E-5" finalScore="0.41000900504163473" types=""/>
+    <resource label="Campeonato Mundial de Ginástica Artística de 1966" uri="Campeonato_Mundial_de_Ginástica_Artística_de_1966" contextualScore="0.015514027062065883" percentageOfSecondRank="0.05914399993171996" support="13" priorScore="7.570223724568707E-7" finalScore="8.69888800077268E-6" types=""/>
+    <resource label="Campeonato Mundial de Ginástica Artística de 1994 (Equipes)" uri="Campeonato_Mundial_de_Ginástica_Artística_de_1994_(Equipes)" contextualScore="0.00198805016691557" percentageOfSecondRank="0.0" support="6" priorScore="3.493949411339403E-7" finalScore="5.144870313237389E-7" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Di María" offset="76">
+    <resource label="Ángel di María" uri="Ángel_di_María" contextualScore="0.9999999407168634" percentageOfSecondRank="0.0" support="16" priorScore="9.317198430238408E-7" finalScore="0.9999999999993179" types="DBpedia:Agent, Schema:Person, DBpedia:Http://xmlns.com/foaf/0.1/Person, DBpedia:Person, DBpedia:Athlete, DBpedia:SoccerPlayer"/>
+  </surfaceForm>
+  <surfaceForm name="Real Madrid" offset="943">
+    <resource label="Real Madrid Club de Fútbol" uri="Real_Madrid_Club_de_Fútbol" contextualScore="0.9998024671782477" percentageOfSecondRank="1.5021692206570274E-8" support="1622" priorScore="9.445309908654187E-5" finalScore="0.9999999805056634" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, Schema:SportsTeam, DBpedia:SportsTeam, DBpedia:SoccerClub"/>
+    <resource label="CF Real Madrid" uri="CF_Real_Madrid" contextualScore="4.065475388523147E-5" percentageOfSecondRank="0.292731029335381" support="30" priorScore="1.7469747056697015E-6" finalScore="1.502169191373235E-8" types=""/>
+    <resource label="Real Madrid Baloncesto" uri="Real_Madrid_Baloncesto" contextualScore="1.487613494024927E-4" percentageOfSecondRank="0.013741171605682301" support="12" priorScore="6.987898822678806E-7" finalScore="4.39731533626584E-9" types=""/>
+    <resource label="Real Madrid (basquete)" uri="Real_Madrid_(basquete)" contextualScore="4.0883104608648085E-6" percentageOfSecondRank="0.2463330211010237" support="6" priorScore="3.493949411339403E-7" finalScore="6.042426463992747E-11" types=""/>
+    <resource label="Real Madrid (basquetebol)" uri="Real_Madrid_(basquetebol)" contextualScore="4.028343468096376E-6" percentageOfSecondRank="0.0" support="3" priorScore="1.7469747056697016E-7" finalScore="1.4884491656561094E-11" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Di María" offset="925">
+    <resource label="Ángel di María" uri="Ángel_di_María" contextualScore="0.9999999407168634" percentageOfSecondRank="0.0" support="16" priorScore="9.317198430238408E-7" finalScore="0.9999999999993179" types="DBpedia:Agent, Schema:Person, DBpedia:Http://xmlns.com/foaf/0.1/Person, DBpedia:Person, DBpedia:Athlete, DBpedia:SoccerPlayer"/>
+  </surfaceForm>
+  <surfaceForm name="Di María" offset="316">
+    <resource label="Ángel di María" uri="Ángel_di_María" contextualScore="0.9999999407168634" percentageOfSecondRank="0.0" support="16" priorScore="9.317198430238408E-7" finalScore="0.9999999999993179" types="DBpedia:Agent, Schema:Person, DBpedia:Http://xmlns.com/foaf/0.1/Person, DBpedia:Person, DBpedia:Athlete, DBpedia:SoccerPlayer"/>
+  </surfaceForm>
+  <surfaceForm name="Borussia Dortmund" offset="679">
+    <resource label="Ballspiel-Verein Borussia 1909 e. V. Dortmund" uri="Ballspiel-Verein_Borussia_1909_e._V._Dortmund" contextualScore="0.9999841880648546" percentageOfSecondRank="0.0" support="329" priorScore="1.9158489272177727E-5" finalScore="1.0" types=""/>
+  </surfaceForm>
+</annotation>
