@@ -1,17 +1,17 @@
-<annotation text="Com um dia de atraso, Ángel Di María se juntou ao grupo de Real Madrid em Dortmund. O jogador havia ficado na capital espanhola para acompanhar o nascimento prematuro do seu filho, que passa bem após um parto considerado complicado pelos médicos. Em princípio, o argentino está em perfeitas condições de jogo, uma vez que perdeu apenas um treinamento, e poderá ajudar o time merengue contra Borussia Dortmund nesta quarta-feira, às 15h45m. Di María foi, inclusive, relacionado entre os prováveis titulares do time na primeira partida das semifinais da Liga dos Campeões.">
-<surfaceForm name="Ángel di María" offset="22">
-	<resource label=" Ángel di María" uri=" Ángel_Di_María "/>
+<annotation text="24/04/2013 09h05 - Atualizado em 24/04/2013 09h05 ApÃ³s nascimento do filho, Di MarÃ­a chega a Dortmund para jogar semis Argentino estava em Madri para acompanhar o parto, mas deve ser titular na partida desta quarta-feira contra o Borussia Dortmund Por GLOBOESPORTE.COM Dortmund, Alemanha Com um dia de atraso, Ãngel Di MarÃ­a se juntou ao grupo de Real Madrid em Dortmund. O jogador havia ficado na capital espanhola para acompanhar o nascimento prematuro do seu filho, que passa bem apÃ³s um parto considerado complicado pelos mÃ©dicos. Em princÃ­pio, o argentino estÃ¡ em perfeitas condiÃ§Ãµes de jogo, uma vez que perdeu apenas um treinamento, e poderÃ¡ ajudar o time merengue contra Borussia Dortmund nesta quarta-feira, Ã s 15h45m. Di MarÃ­a foi, inclusive, relacionado entre os provÃ¡veis titulares do time na primeira partida das semifinais da Liga dos CampeÃµes. O GLOBOESPORTE.COM segue o jogÃ£o em Tempo Real, a partir das 15h. Di MarÃ­a ajudou o Real Madrid a passar pelo Galatasaray nas quartas da Champions (Foto: Getty Images) Â  ">
+<surfaceForm name="Di MarÃ­a" offset="76">
+	<resource label=" Ãngel di MarÃ­a" uri=" Ãngel_Di_MarÃ­a "/>
 </surfaceForm>
-<surfaceForm name="Real Madrid" offset="59">
-	<resource label="Real Madrid Club de Fútbol" uri="Real_Madrid"/>
+<surfaceForm name="Real Madrid" offset="347">
+	<resource label="Real Madrid Club de FÃºtbol" uri="Real_Madrid"/>
 </surfaceForm>
-<surfaceForm name="Dortmund" offset="74">
+<surfaceForm name="Dortmund" offset="93">
 	<resource label="Dortmund" uri="Dortmund"/>
 </surfaceForm>
-<surfaceForm name="Borussia Dortmund" offset="391">
+<surfaceForm name="Borussia Dortmund" offset="230">
 	<resource label="Ballspiel-Verein Borussia 1909 e. V. Dortmund" uri="Borussia_dortmund"/>
 </surfaceForm>
-<surfaceForm name="Liga dos Campeões" offset="552">
-	<resource label="Liga dos Campeões da UEFA" uri="Liga_dos_Campeões_da_UEFA"/>
+<surfaceForm name="Liga dos CampeÃµes" offset="840">
+	<resource label="Liga dos CampeÃµes da UEFA" uri="Liga_dos_CampeÃµes_da_UEFA"/>
 </surfaceForm>
 </annotation>

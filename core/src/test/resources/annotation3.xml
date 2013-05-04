@@ -1,17 +1,17 @@
-<annotation text="Durante programa em família, Adriana Lima deu uma ajeitadinha em seu biquíni para não mostrar demais. Exibindo boa forma, a modelo brasileira se divertiu com a filha mais velha, Valentina, e com o marido, Marko Jaric, no último final de semana. Deitadas em uma boia, Adriana e Valentina foram puxadas por um jet sky pilotado por Marko. Adriana também é mãe de Sienna, de sete meses.">
-<surfaceForm name="Adriana Lima" offset="29">
+<annotation text="Quarta-feira, 24/4/2013 Ã s 2:12 atualizado em 24/4/2013 Ã s 5:13 Em programa famÃ­lia, Adriana Lima dÃ¡ ajeitadinha no biquÃ­ni em Miami Modelo brasileira se divertiu com a filha mais velha, Valentina, e com o marido, Marko Jaric. do EGO, no  Rio Durante programa em famÃ­lia, Adriana Lima deu uma ajeitadinha em seu biquÃ­ni para nÃ£o mostrar demais. Exibindo boa forma, a modelo brasileira se divertiu com a filha mais velha, Valentina, e com o marido, Marko Jaric, no Ãºltimo final de semana. Deitadas em uma boia, Adriana e Valentina foram puxadas por um jet sky pilotado por Marko. Adriana tambÃ©m Ã© mÃ£e deÂ  Sienna , de sete meses. Adriana Lima em Miami, nos Estados Unidos Adriana Lima em Miami Adriana Lima com a filha Valentina em Miami Link ">
+<surfaceForm name="Adriana Lima" offset="85">
 	<resource label="Adriana Lima" uri="Adriana_Lima"/>
 </surfaceForm>
-<surfaceForm name="biquíni" offset="69">
-	<resource label="Biquíni" uri="Biquíni"/>
+<surfaceForm name="biquÃ­ni" offset="116">
+	<resource label="BiquÃ­ni" uri="BiquÃ­ni"/>
 </surfaceForm>
-<surfaceForm name="Valentina" offset="178">
+<surfaceForm name="Valentina" offset="421">
 	<resource label="" uri=""/>
 </surfaceForm>
-<surfaceForm name="Marko Jaric" offset="205">
+<surfaceForm name="Marko Jaric" offset="214">
 	<resource label="Marko Jaric" uri="Marko_Jaric"/>
 </surfaceForm>
-<surfaceForm name="Sienna" offset="361">
+<surfaceForm name="Sienna" offset="604">
 	<resource label=" " uri=" "/>
 </surfaceForm>
 </annotation>
