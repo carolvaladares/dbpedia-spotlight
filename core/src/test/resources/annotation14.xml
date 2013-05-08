@@ -1,0 +1,41 @@
+<annotation text="02/05/2013 15h23 - Atualizado em 02/05/2013 16h27 Divulgados os vencedores do Prêmio Imprensa Embratel Foram premiadas reportagens em 5 categorias regionais e 12 nacionais. Reportagem do Globo Rural e série do Jornal das Dez receberam prêmio. G1, em São Paulo Tweet Foram divulgados nesta quinta-feira (2) os vencedores da 14ª edição do Prêmio Imprensa Embratel nas cinco categorias regionais e nas 12 nacionais. Confira aqui a lista dos vencedores. A reportagem &quot;Tinoco&quot; , do Globo Rural, da TV Globo, foi a vencedora na categoria reportagem cultural, e a série &quot;Juízes Ameaçados&quot; , produzida pelo Jornal das Dez, da Globo News, foi premiada na categoria reportagem de televisão. Na cerimônia de premiação, que acontecerá em 14 de maio, no Rio de Janeiro, será anunciado o vencedor do Grande Prêmio Barbosa Lima Sobrinho. Segundo a organização do prêmio, foram inscritas 1.862 reportagens de 860 jornalistas de todo o país. Foram registradas 1.577 reportagens nas 12 categorias nacionais e 285 nas cinco categorias regionais. No total será distribuído R$ 194 mil em premiações. Confira as reportagens vencedoras das categorias regionais e nacionais: Vencedora categoria Reportagem Regional Centro-Oeste Título reportagem: “Fim do 14º e 15º salários” Data publicação: 23/02/2012 Jornal Correio Braziliense Equipe: João Valadares, Adriana Caitanto, Karla Korreia, Renata Mariz, Junia Gama, Ricardo Taffner e Lilian Tahan. Vencedora categoria Reportagem Regional Nordeste Título da reportagem: “Paraíso às avessas” Data da publicação: 26/06/2011 Equipe: Ciara Carvalho e Fotógrafo Ricardo B. Labastier. Vencedora categoria Reportagem Regional Norte Título da reportagem: “Cheia do Século - Estamos prontos para outra?” Data da publicação: 05/06/2012 Jornal A Crítica - Caderno Especial Equipe: Elaíze Farias, Leandro Prazeres, Carolina Silva, Cimone Barros, Jonas Santos, Adauto Silva e Carla Yael.(editora) Vencedora categoria Reportagem Regional Sudeste Título da Reportagem: “Morte S/A” Data da publicação: 30/10/2011 Equipe: Mateus Parreiras, Valquiria Lopes e Luiz Ribeiro Vencedora categoria Reportagem Regional Sul Título da Reportagem: “Polícia fora da lei” Data da publicação: 20/05/2012 Equipe: Mauri König, Diego Ribeiro, Felippe Aníbal e Albari Rosa. Vencedora categoria Reportagem Cinematográfica Título da Reportagem: “BRS Presidente Vargas” Data da publicação: 17/04/2012 TV BRASIL - RJ ( Repórter Rio) Equipe: Marco Motta ( repórter cinematográfico); Júlio (repórter) e Bruno ( auxiliar e motorista). Vencedora categoria Reportagem Cultural Data da publicação: 13/05/2012 TV Globo – Globo Rural Equipe: Repórter José Hamilton Ribeiro; Produção, José Augusto Bezerra; Operador de áudio, Wilson Berzuini; Edição, Maurino Marques; Editores, Orlando Daniel e Olympio Giuzio; Cinegrafista, Jorge dos Santos; Arte, Fernando César. Vencedora categoria Reportagem Econômica Título da Reportagem: “Onde o Brasil desponta” Data da publicação: 14/12/2011 Revista Exame Equipe: Mariana Segala, Eduardo Salgado, Luciene Antunes, Patrick Cruz, Lucas Vettorazzo, Daniel Barros, Angela Pimenta, Lucas Amorim e Tatiana Gianini Vencedora categoria Reportagem de Rádio Título da Reportagem: “Os 50 anos da renúncia de Jânio Quadros” Data da publicação: 22/08/2011 Rádio Senado Equipe: Repórter, Adriano Faria; Produção, Jefferson Dalmoro; Áudio, Josevaldo Souza e Carlos Xavier; Edição, Ester Monteiro Vencedora categoria Reportagem de Televisão Título da Reportagem (série): “Juízes Ameaçados&quot; Data da publicação: 06/08/2012 TV Globo News (Jornal da dez) Equipe: Repórter Rodrigo Carvalho; Cinegrafista Egledio Vianna; editora de texto, Ana Terra Athayde; editor de imagem, Felipe Martins; produção, Inês Valladão. Vencedora categoria Reportagem em Jornal/Revista/Internet (tema livre) Título da Reportagem: “Filhos da rua” Data da publicação: 17/06/2012 Equipe: Letícia Duarte (Repórter) e Jefferson Botega (Fotógrafo). Vencedora categoria Reportagem Esportiva Título da Reportagem: “Os negócios suspeitos e a queda de Ricardo Teixeira” Data da publicação: 15/02/2012 Jornal Folha de São Paulo Equipe: Leandro Colon, Filipe Coutinho, Júlio Wiziack, Rodrigo Mattos e Sérgio Rangel Vencedora categoria Reportagem Fotográfica ">
+  <surfaceForm name="Globo Rural" offset="187">
+    <resource label="Globo Rural" uri="Globo_Rural"/>
+  </surfaceForm>
+  <surfaceForm name="G1" offset="243">
+    <resource label="G1" uri="G1"/>
+  </surfaceForm>
+  <surfaceForm name="Embratel" offset="353">
+    <resource label="Embratel" uri="Embratel"/>
+  </surfaceForm>
+  <surfaceForm name="Globo Rural" offset="477">
+    <resource label="Globo Rural" uri="Globo_Rural"/>
+  </surfaceForm>
+  <surfaceForm name="TV Globo" offset="493">
+    <resource label="Rede Globo" uri="Rede_Globo"/>
+  </surfaceForm>
+  <surfaceForm name="Globo News" offset="618">
+    <resource label="Globo News" uri="Globo_News"/>
+  </surfaceForm>
+  <surfaceForm name="Barbosa Lima Sobrinho" offset="800">
+    <resource label="Barbosa Lima Sobrinho" uri="Barbosa_Lima_Sobrinho"/>
+  </surfaceForm>
+  <surfaceForm name="A Crítica" offset="1755">
+    <resource label="A Crítica" uri="A_Crítica"/>
+  </surfaceForm>
+  <surfaceForm name="TV Globo" offset="2586">
+    <resource label="Rede Globo" uri="Rede_Globo"/>
+  </surfaceForm>
+  <surfaceForm name="José Hamilton Ribeiro" offset="2626">
+    <resource label="José Hamilton Ribeiro" uri="José_Hamilton_Ribeiro"/>
+  </surfaceForm>
+  <surfaceForm name="Brasil" offset="2910">
+    <resource label="Brasil" uri="Brasil"/>
+  </surfaceForm>
+  <surfaceForm name="Globo News" offset="3524">
+    <resource label="Globo News" uri="Globo_News"/>
+  </surfaceForm>
+  <surfaceForm name="Felipe Martins" offset="3670">
+    <resource label="Felipe Martins" uri="Felipe_Martins"/>
+  </surfaceForm>
+</annotation>

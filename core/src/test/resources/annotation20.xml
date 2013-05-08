@@ -1,0 +1,59 @@
+<annotation text="07/05/2013 07h00 - Atualizado em 07/05/2013 07h00 Búfalos 'viram o jogo' e fazem leão bater em retirada após ataque Cena foi registrada no Parque Nacional Kruger, na África do Sul. Gerente de projetos celebrava com mulher em passeio quando fez o flagra. Do G1, em São Paulo Tweet Um sul-africano flagrou uma cena impressionante durante um passeio no Parque Nacional de Kruger, na África do Sul . O gerente de projetos Dave Woollacott, de Joanesburgo, comemorava os 33 anos de casamento em um passeio com a mulher quando flagrou o momento em que um leão executa um ataque frustrado a um grupo de búfalos, e acaba sendo afugentado em disparada. O grupo de búfalos-africanos que o felino pretendia atacar se uniu para perseguir e afugentar o leão, que por pouco não saiu ferido. Cena inusitada: de predador, leão acabou quase virando a presa de búfalos em um parque nacional da África do Sul (Foto: Dave Woollacott/Caters News) Os búfalos-africanos chegam a pesar 1 tonelada e têm chifres poderosos, que chegam a resistir a tiros de rifle. O gerente de projetos que fez o flagra contou como foi. &quot;Estava escurecendo e bastante nublado quando começávamos a deixar o parque pelo Portão Phabeni. De repente, passamos por um grupo de búfalos em uma beira de rio com baixo nível de água. Vimos quando o leão tentou atacar pelo lado esquerdo, mas os búfalos estavam em maior número e espantaram o leão para longe, atravessando o rio e adentrando o matagal&quot;, relatou Woollacott.   Imagem aproximada mostra o leão batendo em retirada com um dos búfalos em seu encalço (Foto: Dave Woollacott/Caters News)   ">
+  <surfaceForm name="Búfalos" offset="50">
+    <resource label="Búfalo" uri="Búfalos"/>
+  </surfaceForm>
+  <surfaceForm name="búfalos" offset="595">
+    <resource label="Búfalo" uri="Búfalos"/>
+  </surfaceForm>
+  <surfaceForm name="búfalos" offset="654">
+    <resource label="Búfalo" uri="Búfalos"/>
+  </surfaceForm>
+  <surfaceForm name="búfalos" offset="842">
+    <resource label="Búfalo" uri="Búfalos"/>
+  </surfaceForm>
+  <surfaceForm name="búfalos" offset="928">
+    <resource label="Búfalo" uri="Búfalos"/>
+  </surfaceForm>
+  <surfaceForm name="búfalos" offset="1232">
+    <resource label="Búfalo" uri="Búfalos"/>
+  </surfaceForm>
+  <surfaceForm name="búfalos" offset="1346">
+    <resource label="Búfalo" uri="Búfalos"/>
+  </surfaceForm>
+  <surfaceForm name="búfalos" offset="1544">
+    <resource label="Búfalo" uri="Búfalos"/>
+  </surfaceForm>
+  <surfaceForm name="leão" offset="81">
+    <resource label="Leão" uri="Leão"/>
+  </surfaceForm>
+  <surfaceForm name="leão" offset="548">
+    <resource label="Leão" uri="Leão"/>
+  </surfaceForm>
+  <surfaceForm name="leão" offset="739">
+    <resource label="Leão" uri="Leão"/>
+  </surfaceForm>
+  <surfaceForm name="leão" offset="805">
+    <resource label="Leão" uri="Leão"/>
+  </surfaceForm>
+  <surfaceForm name="leão" offset="1300">
+    <resource label="Leão" uri="Leão"/>
+  </surfaceForm>
+  <surfaceForm name="leão" offset="1393">
+    <resource label="Leão" uri="Leão"/>
+  </surfaceForm>
+  <surfaceForm name="leão" offset="1508">
+    <resource label="Leão" uri="Leão"/>
+  </surfaceForm>
+  <surfaceForm name="Parque Nacional Kruger" offset="139">
+    <resource label="Parque Nacional Kruger" uri="Parque_Nacional_Kruger"/>
+  </surfaceForm>
+  <surfaceForm name="G1" offset="257">
+    <resource label="G1" uri="G1"/>
+  </surfaceForm>
+  <surfaceForm name="Joanesburgo" offset="438">
+    <resource label="Joanesburgo" uri="Joanesburgo"/>
+  </surfaceForm>
+  <surfaceForm name="África do Sul" offset="875">
+    <resource label="África do Sul" uri="África_do_Sul"/>
+  </surfaceForm>
+</annotation>

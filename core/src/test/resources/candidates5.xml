@@ -1,0 +1,89 @@
+<annotation text="08/05/2013 08h20 - Atualizado em 08/05/2013 10h00 Supremo deve julgar ação em que Varig pede R$ 6 bilhões à União Metade do valor deve ser usado para pagar dívidas com trabalhadores. União diz que não deve pagar indenização por congelamento de preços. Do G1, em Brasília Ex-funcionários da Varig durante protesto no Rio no fim do ano passado (Foto: Reprodução/ TV Globo) O Supremo Tribunal Federal (STF) deve julgar nesta quarta-feira (8) processo em que a Varig pede indenização por tarifas aéreas congeladas durante planos econômicos adotados pelo governo federal nas décadas de 1980 e 1990. A estimativa é de que a compensação, que deverá ser paga pela União, chegue a R$ 6 bilhões. Caso a Varig ganhe, metade desse valor deve ser usado para o pagamento de dívidas da empresa com o fundo de previdência Aerus, do qual participam ex-funcionários e aposentados pela Varig. Os trabalhadores aguardam pelo julgamento do STF porque o Aerus é um dos credores preferenciais para receber valores após a decretação da falência da empresa , em 2010. A situação mais urgente é a de 8.170 participantes do chamado plano 1 da Varig no Aerus, que só têm as aposentadorias asseguradas até junho. O tema já é tratado na Justiça brasileira há 20 anos - a Varig entrou com ação na Justiça Federal do Distrito Federal em 1993. O Tribunal Regional Federal da 1ª Região fixou, em 2002, em R$ 3 bilhões a indenização para a Varig - os valores corrigidos chegam ao dobro da quantia inicial. Em 2006, o Superior Tribunal de Justiça (STJ) confirmou o direito da Varig, o que levou a União a recorrer ao Supremo. O recurso extraordinário apresentado pela União e pelo Ministério Público Federal em 2007 é o primeiro tema da pauta da sessão do Supremo desta quarta. Cabe ao presidente da corte, Joaquim Barbosa, chamar ou não o processo para julgamento. O recurso da União alega, entre outras coisas, que “mera redução ou perda de receita, decorrente de defasagem verificada nas tarifas de transporte aéreo por ato da autoridade pública (decretos de congelamento de preços), não impõe ao poder concedente a obrigação de indenizar à concessionária por dano econômico”. saiba mais ">
+  <surfaceForm name="Varig" offset="1540">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+  <surfaceForm name="STF" offset="399">
+    <resource label="Supremo Tribunal Federal" uri="Supremo_Tribunal_Federal" contextualScore="1.0" percentageOfSecondRank="0.0" support="1188" priorScore="6.918019834452018E-5" finalScore="1.0" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Distrito Federal" offset="1285">
+    <resource label="Distrito Federal (Brasil)" uri="Distrito_Federal_(Brasil)" contextualScore="0.011160041063500811" percentageOfSecondRank="0.6896643075656677" support="1721" priorScore="1.0021811561525188E-4" finalScore="0.5736674092282551" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace, Schema:AdministrativeArea, DBpedia:AdministrativeRegion"/>
+    <resource label="Brasília" uri="Brasília" contextualScore="0.983518555384843" percentageOfSecondRank="0.06212173430630816" support="5202" priorScore="3.0292541396312626E-4" finalScore="0.3956379365583951" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace, DBpedia:Settlement, Schema:City, DBpedia:City"/>
+    <resource label="Rio de Janeiro (cidade)" uri="Rio_de_Janeiro_(cidade)" contextualScore="0.0020812591322699305" percentageOfSecondRank="0.24511748494827637" support="23494" priorScore="0.0013681141245001323" finalScore="0.024577714776376623" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace, DBpedia:Settlement, Schema:City, DBpedia:City"/>
+    <resource label="Rio de Janeiro" uri="Rio_de_Janeiro" contextualScore="0.0027379862196740554" percentageOfSecondRank="0.006731841620523869" support="22763" priorScore="0.0013255461741719806" finalScore="0.006024427631761527" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace, Schema:AdministrativeArea, DBpedia:AdministrativeRegion"/>
+    <resource label="Cidade do México" uri="Cidade_do_México" contextualScore="8.538065733370431E-5" percentageOfSecondRank="0.7667057910431779" support="1890" priorScore="1.100594064571912E-4" finalScore="4.0555492671326296E-5" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace"/>
+    <resource label="Buenos Aires" uri="Buenos_Aires" contextualScore="3.6813859405341573E-4" percentageOfSecondRank="0.5742952075385045" support="4369" priorScore="2.5441774963569754E-4" finalScore="3.1094131089715035E-5" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace, DBpedia:Settlement"/>
+    <resource label="Distrito federal" uri="Distrito_federal" contextualScore="1.6098922306998807E-6" percentageOfSecondRank="0.14777871845317228" support="798" priorScore="4.646952717081406E-5" finalScore="1.7857210467397357E-5" types=""/>
+    <resource label="Guanabara" uri="Guanabara" contextualScore="4.244479517511288E-5" percentageOfSecondRank="0.08275267654195326" support="536" priorScore="3.121261474129867E-5" finalScore="2.638915678020555E-6" types=""/>
+    <resource label="Unidades federativas do Brasil" uri="Unidades_federativas_do_Brasil" contextualScore="8.919728384197878E-7" percentageOfSecondRank="0.6297866932378778" support="12664" priorScore="7.3745625575337E-4" finalScore="2.1837733552472425E-7" types=""/>
+    <resource label="Washington, D.C." uri="Washington,_D.C." contextualScore="2.1427816972818685E-6" percentageOfSecondRank="0.037562044950344854" support="1660" priorScore="9.666593371372348E-5" finalScore="1.3753114001821464E-7" types="Schema:Place, DBpedia:Place, DBpedia:PopulatedPlace"/>
+    <resource label="Distrito Federal (México)" uri="Distrito_Federal_(México)" contextualScore="4.77174484418732E-8" percentageOfSecondRank="0.4772971711738272" support="80" priorScore="4.658599215119205E-6" finalScore="5.165950863436351E-9" types=""/>
+    <resource label="Distrito Federal do Brasil (1891-1960)" uri="Distrito_Federal_do_Brasil_(1891-1960)" contextualScore="6.89790468787718E-8" percentageOfSecondRank="0.8276520345537453" support="43" priorScore="2.5039970781265724E-6" finalScore="2.4656937335411605E-9" types=""/>
+    <resource label="Estado da Guanabara" uri="Estado_da_Guanabara" contextualScore="7.594288421545149E-7" percentageOfSecondRank="0.11108290740366002" support="139" priorScore="8.094316136269617E-6" finalScore="2.0407364351517617E-9" types=""/>
+    <resource label="Brasilia" uri="Brasilia" contextualScore="1.8321842752545176E-7" percentageOfSecondRank="0.7245218257798302" support="64" priorScore="3.726879372095363E-6" finalScore="2.2669093646123838E-10" types=""/>
+    <resource label="Federação Brasiliense de Futebol" uri="Federação_Brasiliense_de_Futebol" contextualScore="3.53988665672669E-7" percentageOfSecondRank="0.4763318591805503" support="24" priorScore="1.3975797645357613E-6" finalScore="1.6424253117263592E-10" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation"/>
+    <resource label="Distrito Capital (Venezuela)" uri="Distrito_Capital_(Venezuela)" contextualScore="8.797360656453607E-8" percentageOfSecondRank="0.04335275480362678" support="23" priorScore="1.3393472743467713E-6" finalScore="7.823395022998116E-11" types=""/>
+    <resource label="Distritos federais da Rússia" uri="Distritos_federais_da_Rússia" contextualScore="2.9239886158468766E-8" percentageOfSecondRank="0.548349677501071" support="6" priorScore="3.493949411339403E-7" finalScore="3.3916572616395146E-12" types=""/>
+    <resource label="Distrito Federal do México" uri="Distrito_Federal_do_México" contextualScore="1.6033682145168025E-8" percentageOfSecondRank="0.05757286392268474" support="3" priorScore="1.7469747056697016E-7" finalScore="1.8598141656141935E-12" types=""/>
+    <resource label="PMDF" uri="PMDF" contextualScore="2.7693150009695373E-9" percentageOfSecondRank="0.0" support="2" priorScore="1.164649803779801E-7" finalScore="1.0707482787838742E-13" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="290">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="1116">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Tribunal Regional Federal" offset="1313">
+    <resource label="Tribunal Regional Federal" uri="Tribunal_Regional_Federal" contextualScore="1.0" percentageOfSecondRank="0.0" support="86" priorScore="5.007994156253145E-6" finalScore="1.0" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="1241">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+  <surfaceForm name="STJ" offset="1512">
+    <resource label="Superior Tribunal de Justiça" uri="Superior_Tribunal_de_Justiça" contextualScore="1.0" percentageOfSecondRank="2.0538600942161946E-19" support="198" priorScore="1.153003305742003E-5" finalScore="1.0" types=""/>
+    <resource label="Supremo Tribunal de Justiça de Portugal" uri="Supremo_Tribunal_de_Justiça_de_Portugal" contextualScore="4.15212797425328E-18" percentageOfSecondRank="0.0" support="111" priorScore="6.463806410977896E-6" finalScore="2.0538600942161946E-19" types=""/>
+  </surfaceForm>
+  <surfaceForm name="STF" offset="919">
+    <resource label="Supremo Tribunal Federal" uri="Supremo_Tribunal_Federal" contextualScore="1.0" percentageOfSecondRank="0.0" support="1188" priorScore="6.918019834452018E-5" finalScore="1.0" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Supremo Tribunal Federal" offset="373">
+    <resource label="Supremo Tribunal Federal" uri="Supremo_Tribunal_Federal" contextualScore="1.0" percentageOfSecondRank="2.5277622442617095E-19" support="1188" priorScore="6.918019834452018E-5" finalScore="1.0" types=""/>
+    <resource label="Praça dos Três Poderes" uri="Praça_dos_Três_Poderes" contextualScore="2.102087082327561E-15" percentageOfSecondRank="0.0" support="38" priorScore="2.212834627181622E-6" finalScore="2.5277622442617095E-19" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="867">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="693">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Joaquim Barbosa" offset="1771">
+    <resource label="Joaquim Barbosa" uri="Joaquim_Barbosa" contextualScore="0.9999999993563051" percentageOfSecondRank="0.0" support="36" priorScore="2.0963696468036417E-6" finalScore="1.0" types=""/>
+  </surfaceForm>
+  <surfaceForm name="G1" offset="255">
+    <resource label="G1" uri="G1" contextualScore="0.8801053597134896" percentageOfSecondRank="0.005507008811480179" support="86" priorScore="5.007994156253145E-6" finalScore="0.9945102291924394" types="Schema:CreativeWork, DBpedia:Work, Schema:WebPage, DBpedia:Website"/>
+    <resource label="G1 (website)" uri="G1_(website)" contextualScore="0.11208613795059302" percentageOfSecondRank="0.0018431178357099624" support="17" priorScore="9.899523332128308E-7" finalScore="0.005476776595269936" types=""/>
+    <resource label="T-Mobile G1" uri="T-Mobile_G1" contextualScore="0.007023990639747932" percentageOfSecondRank="0.2871829693244879" support="7" priorScore="4.0762743132293036E-7" finalScore="1.0094344624940901E-5" types=""/>
+    <resource label="Fase G1" uri="Fase_G1" contextualScore="7.84455189944939E-4" percentageOfSecondRank="0.0" support="6" priorScore="3.493949411339403E-7" finalScore="2.898923862775212E-6" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="457">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Ministério Público Federal" offset="1645">
+    <resource label="Ministério Público Federal" uri="Ministério_Público_Federal" contextualScore="0.9989191062158413" percentageOfSecondRank="1.7256540821760475E-4" support="165" priorScore="9.608360881183359E-6" finalScore="0.9998274568422321" types=""/>
+    <resource label="Ministério Público do Brasil" uri="Ministério_Público_do_Brasil" contextualScore="0.0010770459377627633" percentageOfSecondRank="4.3611618208000504E-5" support="446" priorScore="2.5971690624289564E-5" finalScore="1.7253563323714935E-4" types=""/>
+    <resource label="Procuradoria-Geral da República" uri="Procuradoria-Geral_da_República" contextualScore="3.8478463050608385E-6" percentageOfSecondRank="0.0" support="49" priorScore="2.8533920192605126E-6" finalScore="7.524558164014159E-9" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="1405">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+  <surfaceForm name="TV Globo" offset="361">
+    <resource label="Rede Globo" uri="Rede_Globo" contextualScore="0.9901777579574622" percentageOfSecondRank="1.4233970211511537E-7" support="8015" priorScore="4.6673340886475525E-4" finalScore="0.9999998250834932" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, DBpedia:Broadcaster, Schema:TelevisionStation, DBpedia:TelevisionStation"/>
+    <resource label="TV Globo Brasília" uri="TV_Globo_Brasília" contextualScore="0.009611908522338867" percentageOfSecondRank="0.1664488248735475" support="57" priorScore="3.319251940772433E-6" finalScore="1.4233967721755187E-7" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, DBpedia:Broadcaster, Schema:TelevisionStation, DBpedia:TelevisionStation"/>
+    <resource label="TV Globo Nordeste" uri="TV_Globo_Nordeste" contextualScore="1.3102554607054284E-4" percentageOfSecondRank="0.35216738664625574" support="87" priorScore="5.0662266464421344E-6" finalScore="2.3692272005741575E-8" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, DBpedia:Broadcaster, Schema:TelevisionStation, DBpedia:TelevisionStation"/>
+    <resource label="TV Globo Rio de Janeiro" uri="TV_Globo_Rio_de_Janeiro" contextualScore="3.702072069616829E-5" percentageOfSecondRank="0.06358938440426948" support="347" priorScore="2.020667409557955E-5" finalScore="8.343645515974254E-9" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, DBpedia:Broadcaster, Schema:TelevisionStation, DBpedia:TelevisionStation"/>
+    <resource label="TV Globo São Paulo" uri="TV_Globo_São_Paulo" contextualScore="3.241592536615944E-5" percentageOfSecondRank="0.01931563091779128" support="63" priorScore="3.668646881906373E-6" finalScore="5.305672820482462E-10" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, DBpedia:Broadcaster, Schema:TelevisionStation, DBpedia:TelevisionStation"/>
+    <resource label="TV Globo do Rio" uri="TV_Globo_do_Rio" contextualScore="9.861611291145457E-6" percentageOfSecondRank="0.0" support="4" priorScore="2.329299607559602E-7" finalScore="1.024824179709959E-11" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="82">
+    <resource label="Varig" uri="Varig" contextualScore="0.9999999900883267" percentageOfSecondRank="0.0" support="309" priorScore="1.7993839468397928E-5" finalScore="0.9999999999686224" types=""/>
+  </surfaceForm>
+</annotation>

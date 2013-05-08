@@ -1,0 +1,47 @@
+<annotation text="08/05/2013 08h15 - Atualizado em 08/05/2013 08h31 IGP-DI tem deflação de 0,06% em abril, após alta em março, indica FGV No acumulado de 2013, inflação medida pelo IGP-DI varia 0,76%. IGP-DI funciona como indexador das dívidas dos estados com a União. Da  Reuters Tweet A inflação medida pelo Índice Geral de Preços-Disponibilidade Interna (IGP-DI) teve variação negativa de 0,06% em abril, ante elevação de 0,31% em março, informou a Fundação Getulio Vargas ( FGV ), nesta quarta-feira (8). Levantamento da Reuters mostrou que, pela mediana de 23 previsões, o indicador teria variação positiva de 0,05% em abril. Em abril do ano passado, a variação do IGP-DI havia sido de 1,02%. No acumulado de janeiro a abril deste ano, o indicador da FGV acumula alta de 0,76%. Usado no cálculo do IGP-DI, o Índice de Preços ao Produtor Amplo (IPA) teve deflação de 0,39% no mês passado, após variação de 0,12% em março. Também utilizado no cálculo do indicador, o Índice Nacional de Custo da Construção (INCC) registrou, em abril, taxa de variação de 0,74%, acima do resultado do mês anterior, de 0,50%. O Índice de Preços ao Consumidor (IPC), outro subíndice do IGP-DI, desacelerou para 0,52% em abril, ante 0,72%, no mês anterior. O IGP-DI é usado como referência para correções de preços e valores contratuais, sendo o indexador das dívidas dos estados com a União. O índice também é diretamente empregado no cálculo do Produto Interno Bruto (PIB) e das contas nacionais em geral. tópicos: ">  
+  <surfaceForm name="FGV" offset="460">
+    <resource label="Fundação Getulio Vargas" uri="Fundação_Getulio_Vargas"/>
+  </surfaceForm>
+  <surfaceForm name="FGV" offset="738">
+    <resource label="Fundação Getulio Vargas" uri="Fundação_Getulio_Vargas"/>
+  </surfaceForm>
+  <surfaceForm name="Fundação Getulio Vargas" offset="434">
+    <resource label="Fundação Getulio Vargas" uri="Fundação_Getulio_Vargas"/>
+  </surfaceForm>
+  <surfaceForm name="Reuters" offset="507">
+    <resource label="Reuters" uri="Reuters"/>
+  </surfaceForm>
+  <surfaceForm name="IGP-DI" offset="50">
+    <resource label="Índices de inflação do Brasil" uri="Igp-di"/>
+  </surfaceForm>
+  <surfaceForm name="IGP-DI" offset="163">
+    <resource label="Índices de inflação do Brasil" uri="Igp-di"/>
+  </surfaceForm>
+  <surfaceForm name="IGP-DI" offset="183">
+    <resource label="Índices de inflação do Brasil" uri="Igp-di"/>
+  </surfaceForm>
+  <surfaceForm name="IGP-DI" offset="340">
+    <resource label="Índices de inflação do Brasil" uri="Igp-di"/>
+  </surfaceForm>
+  <surfaceForm name="IGP-DI" offset="652">
+    <resource label="Índices de inflação do Brasil" uri="Igp-di"/>
+  </surfaceForm>
+  <surfaceForm name="IGP-DI" offset="785">
+    <resource label="Índices de inflação do Brasil" uri="Igp-di"/>
+  </surfaceForm>
+  <surfaceForm name="IGP-DI" offset="1151">
+    <resource label="Índices de inflação do Brasil" uri="Igp-di"/>
+  </surfaceForm>
+  <surfaceForm name="IGP-DI" offset="1223">
+    <resource label="Índices de inflação do Brasil" uri="Igp-di"/>
+  </surfaceForm>
+  <surfaceForm name="Produto Interno Bruto" offset="1411">
+    <resource label="Produto Interno Bruto" uri="Produto_Interno_Bruto"/>
+  </surfaceForm>
+  <surfaceForm name="PIB" offset="1434">
+    <resource label="Produto interno bruto" uri="Produto_interno_bruto"/>
+  </surfaceForm>
+  <surfaceForm name="IPC" offset="1126">
+    <resource label="Comitê Paralímpico Internacional" uri="Comitê_Paralímpico_Internacional"/>
+  </surfaceForm>
+</annotation>

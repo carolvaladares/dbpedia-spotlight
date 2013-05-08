@@ -1,0 +1,59 @@
+<annotation text="08/05/2013 08h20 - Atualizado em 08/05/2013 10h00 Supremo deve julgar ação em que Varig pede R$ 6 bilhões à União Metade do valor deve ser usado para pagar dívidas com trabalhadores. União diz que não deve pagar indenização por congelamento de preços. Do G1, em Brasília Ex-funcionários da Varig durante protesto no Rio no fim do ano passado (Foto: Reprodução/ TV Globo) O Supremo Tribunal Federal (STF) deve julgar nesta quarta-feira (8) processo em que a Varig pede indenização por tarifas aéreas congeladas durante planos econômicos adotados pelo governo federal nas décadas de 1980 e 1990. A estimativa é de que a compensação, que deverá ser paga pela União, chegue a R$ 6 bilhões. Caso a Varig ganhe, metade desse valor deve ser usado para o pagamento de dívidas da empresa com o fundo de previdência Aerus, do qual participam ex-funcionários e aposentados pela Varig. Os trabalhadores aguardam pelo julgamento do STF porque o Aerus é um dos credores preferenciais para receber valores após a decretação da falência da empresa , em 2010. A situação mais urgente é a de 8.170 participantes do chamado plano 1 da Varig no Aerus, que só têm as aposentadorias asseguradas até junho. O tema já é tratado na Justiça brasileira há 20 anos - a Varig entrou com ação na Justiça Federal do Distrito Federal em 1993. O Tribunal Regional Federal da 1ª Região fixou, em 2002, em R$ 3 bilhões a indenização para a Varig - os valores corrigidos chegam ao dobro da quantia inicial. Em 2006, o Superior Tribunal de Justiça (STJ) confirmou o direito da Varig, o que levou a União a recorrer ao Supremo. O recurso extraordinário apresentado pela União e pelo Ministério Público Federal em 2007 é o primeiro tema da pauta da sessão do Supremo desta quarta. Cabe ao presidente da corte, Joaquim Barbosa, chamar ou não o processo para julgamento. O recurso da União alega, entre outras coisas, que “mera redução ou perda de receita, decorrente de defasagem verificada nas tarifas de transporte aéreo por ato da autoridade pública (decretos de congelamento de preços), não impõe ao poder concedente a obrigação de indenizar à concessionária por dano econômico”. saiba mais ">
+  <surfaceForm name="Varig" offset="82">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="290">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="457">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="693">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="867">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="1116">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="1241">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="1405">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Varig" offset="1540">
+    <resource label="Varig" uri="Varig"/>
+  </surfaceForm>
+  <surfaceForm name="Supremo Tribunal Federal" offset="373">
+    <resource label="Supremo Tribunal Federal" uri="Supremo_Tribunal_Federal"/>
+  </surfaceForm>
+  <surfaceForm name="STF" offset="399">
+    <resource label="Supremo Tribunal Federal" uri="Supremo_Tribunal_Federal"/>
+  </surfaceForm>
+  <surfaceForm name="STF" offset="919">
+    <resource label="Supremo Tribunal Federal" uri="Supremo_Tribunal_Federal"/>
+  </surfaceForm>
+  <surfaceForm name="Distrito Federal" offset="1285">
+    <resource label="Distrito Federal (Brasil)" uri="Distrito_Federal_(Brasil)"/>
+  </surfaceForm>
+  <surfaceForm name="Tribunal Regional Federal" offset="1313">
+    <resource label="Tribunal Regional Federal" uri="Tribunal_Regional_Federal"/>
+  </surfaceForm>
+  <surfaceForm name="STJ" offset="1512">
+    <resource label="Superior Tribunal de Justiça" uri="Superior_Tribunal_de_Justiça"/>
+  </surfaceForm>
+  <surfaceForm name="Joaquim Barbosa" offset="1771">
+    <resource label="Joaquim Barbosa" uri="Joaquim_Barbosa"/>
+  </surfaceForm>
+  <surfaceForm name="G1" offset="255">
+    <resource label="G1" uri="G1"/>
+  </surfaceForm>
+  <surfaceForm name="Ministério Público Federal" offset="1645">
+    <resource label="Ministério Público Federal" uri="Ministério_Público_Federal"/>
+  </surfaceForm>
+  <surfaceForm name="TV Globo" offset="361">
+    <resource label="Rede Globo" uri="Rede_Globo"/>
+  </surfaceForm>
+</annotation>

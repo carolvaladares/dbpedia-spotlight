@@ -1,0 +1,32 @@
+<annotation text="02/05/2013 07h27 - Atualizado em 02/05/2013 15h11 Pepsi retira do ar comercial acusado de racista Vídeo mostra mulher branca vítima de agressão tendo de identificar agressor em meio a grupo de negros e um bode. Da BBC Tweet A empresa de refrigerantes PepsiCo retirou do ar um comercial em meio a críticas de que o anúncio usa estereótipos raciais e banaliza a violência contra a mulher. O comercial postado na internet mostra uma mulher e um policial em uma delegacia. O policial pede à mulher, que foi vítima de uma agressão e usa muletas e colete ortopédico, para que ela identifique seu agressor entre um grupo de suspeitos enfileirados, formado por homens negros e um bode. O vídeo de 60 segundos foi descrito como &quot;provavelmente o comercial mais racista da história&quot; pelo acadêmico negro americano Boyce Watkins. Após ter retirado o anúncio do ar, a PepsiCo se desculpou pelo anúncio de seu refrigerante Mountain Dew. No anúncio, o bode ameaça atacar a mulher quando ele sair da prisão, caso ela o identifique para a polícia. Em meio às ameaças do bode, o policial pressiona a mulher para que ela identifique seu agressor. O policial usa a expressão &quot;do it&quot; (faça-o) um jogo de palavras com o termo &quot;dew&quot;, do nome do refrigerante. 'Total responsabilidade' A mulher começa a repetir que não tem como fazê-lo e acaba saindo correndo, aos gritos, da chefatura de polícia. Em um comunicado divulgado na quarta-feira, a PepsiCo disse que assumia &quot;total responsabilidade&quot; por qualquer ofensa causada pelo comercial e disse ter retirado o anúncio de seus sites online. Um dos criadores do argumento do comercial foi o rapper americano Tyler the Creator, que já foi criticado no passado por ter assinado letras supostamente misóginas e homofóbicas com a sua trupe de rap, Odd Future. Em sua defesa, o rapper disse que o anúncio fazia parte de uma série de comerciais criados para a PepsiCo e que o anúncio que o antecedeu mostrava a mulher vista na delegacia trabalhando como garçonete, quando era agredida pelo bode. veja também Ypê aparece na 2ª colocação, seguida por Colgate, Omo e Tang. Marca também lidera no ranking mundial da Kantar Worldpanel. Thu May 02 2013 13:03:19 -0300 02/05/2013 Empresa teve lucro líquido de US$ 3,1 milhões no primeiro trimestre. Faturamento com publicidade teve queda de 11,2% no período. Thu Apr 25 2013 15:23:41 -0300 25/04/2013 ">
+  <surfaceForm name="Pepsi" offset="50">
+    <resource label="Pepsi" uri="Pepsi"/>
+  </surfaceForm>
+  <surfaceForm name="PepsiCo" offset="251">
+    <resource label="PepsiCo" uri="PepsiCo"/>
+  </surfaceForm>
+  <surfaceForm name="PepsiCo" offset="855">
+    <resource label="PepsiCo" uri="PepsiCo"/>
+  </surfaceForm>
+  <surfaceForm name="PepsiCo" offset="1420">
+    <resource label="PepsiCo" uri="PepsiCo"/>
+  </surfaceForm>
+  <surfaceForm name="PepsiCo" offset="1879">
+    <resource label="PepsiCo" uri="PepsiCo"/>
+  </surfaceForm>
+  <surfaceForm name="Mountain Dew" offset="909">
+    <resource label="Mountain Dew" uri="Mountain_Dew"/>
+  </surfaceForm>
+  <surfaceForm name="Tyler the Creator" offset="1637">
+    <resource label="Tyler, The Creator" uri="Tyler,_The_Creator"/>
+  </surfaceForm>
+  <surfaceForm name="Colgate" offset="2068">
+    <resource label="Colgate" uri="Colgate"/>
+  </surfaceForm>
+  <surfaceForm name="Omo" offset="2077">
+    <resource label="Omo (sabão em pó)" uri="Omo_(sabão_em_pó)"/>
+  </surfaceForm>
+  <surfaceForm name="Tang" offset="2083">
+    <resource label="Tang" uri="Tang"/>
+  </surfaceForm>
+</annotation>

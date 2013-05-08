@@ -1,0 +1,50 @@
+<annotation text="08/05/2013 07h45 - Atualizado em 08/05/2013 08h00 Bolsas asiáticas sobem com dados comerciais fortes da China Importações e exportações da China cresceram mais que o esperado. Índice Nikkei, do Japão, registrou o maior nível em cinco anos. Da  Reuters As ações asiáticas atingiram o maior nível em quase dois anos nesta quarta-feira (8), à medida que dados comerciais fortes da China somaram-se ao sentimento positivo já alimentado por máximas recordes em ações globais durante a noite. saiba mais Acompanhe mais cotações do mercado financeiro Às 7h37 (horário de Brasília), o índice MSCI que reúne ações da região Ásia-Pacífico com exceção do Japão subia 1,02%, atingindo o maior nível desde agosto de 2011, guiado por um ganho de 1,09% das ações australianas, levando-as para uma nova máxima desde julho de 2008. As ações de Hong Kong avançaram 0,86%. Depois dos dados otimistas de emprego nos Estados Unidos na sexta-feira e de encomendas à indústria alemã mostrando um fortalecimento inesperado, a China seguiu a tendência nesta quarta-feira com números comerciais melhores que o esperado para abril, cimentando ainda mais o humor positivo. As importações e exportações da China cresceram mais que o esperado em abril ante o ano anterior, possivelmente aliviando algumas das preocupações com a fraqueza da recuperação da segunda maior economia e a maior consumidora de commodities do mundo, após uma sequência de dados fracos nas últimas semanas. As ações japonesas tiveram desempenho superior aos seus pares regionais, escalando para um nova máxima em cinco anos. O índice Nikkei subiu 0,74%, depois de ter avançado 1,7% mais cedo, atingindo o maior nível desde junho de 2008. O índice de Seul encerrou em leve alta de 0,11%, a bolsa de Taiwan avançou 1,27%, enquanto o índice referencial de Xangai ganhou 0,48% e Cingapura subiu 0,88%. veja também Ganhos foram ampliados após dados positivos sobre a economia alemã. Índice Standard &amp; Poor's 500 teve valorização de 0,52%, a 1.625 pontos. Tue May 07 2013 18:22:26 -0300 07/05/2013 Ibovespa subiu 1,52%, aos 56.174 pontos. Bolsa encerrou o dia no maior nível de fechamento desde 28 de março. Tue May 07 2013 18:18:56 -0300 07/05/2013 Moeda fechou em queda de 0,27%, a R$ 2,0075. Mercado de câmbio tem variado pouco em torno do patamar de R$ 2, Tue May 07 2013 18:25:25 -0300 07/05/2013 Em Frankfurt, o índice DAX subiu 0,86%, para 8.181 pontos. Bons resultados de bancos impulsionaram mercados. Tue May 07 2013 14:26:28 -0300 07/05/2013 Link ">
+  <surfaceForm name="China" offset="139">
+    <resource label="República Popular da China" uri="República_Popular_da_China"/>
+  </surfaceForm>
+  <surfaceForm name="China" offset="378">
+    <resource label="República Popular da China" uri="República_Popular_da_China"/>
+  </surfaceForm>
+  <surfaceForm name="China" offset="1002">
+    <resource label="República Popular da China" uri="República_Popular_da_China"/>
+  </surfaceForm>
+  <surfaceForm name="China" offset="1177">
+    <resource label="República Popular da China" uri="República_Popular_da_China"/>
+  </surfaceForm>
+  <surfaceForm name="Japão" offset="194">
+    <resource label="Japão" uri="Japão"/>
+  </surfaceForm>
+  <surfaceForm name="Japão" offset="644">
+    <resource label="Japão" uri="Japão"/>
+  </surfaceForm>
+  <surfaceForm name="Nikkei" offset="183">
+    <resource label="Nikkei 225" uri="NIKKEI_225"/>
+  </surfaceForm>
+  <surfaceForm name="Brasília" offset="564">
+    <resource label="Brasília" uri="Brasília"/>
+  </surfaceForm>
+  <surfaceForm name="Hong Kong" offset="827">
+    <resource label="Bolsa de Valores de Hong Kong" uri="Bolsa_de_Valores_de_Hong_Kong"/>
+  </surfaceForm>
+  <surfaceForm name="Estados Unidos" offset="896">
+    <resource label="Estados Unidos" uri="Estados_Unidos"/>
+  </surfaceForm>
+  <surfaceForm name="Taiwan" offset="1742">
+    <resource label="República da China" uri="República_da_China"/>
+  </surfaceForm>
+  <surfaceForm name="Xangai" offset="1797">
+    <resource label="Bolsa de Valores de Xangai" uri="Bolsa_de_Valores_de_Xangai"/>
+  </surfaceForm>
+  <surfaceForm name="Cingapura" offset="1819">
+    <resource label="Singapura" uri="Singapura"/>
+  </surfaceForm>
+  <surfaceForm name="Ibovespa" offset="2036">
+    <resource label="Ibovespa" uri="Ibovespa"/>
+  </surfaceForm>
+  <surfaceForm name="Frankfurt" offset="2343">
+    <resource label="Bolsa de Valores de Frankfurt" uri="Bolsa_de_Valores_de_Frankfurt"/>
+  </surfaceForm>
+  <surfaceForm name="DAX" offset="2363">
+    <resource label="DAX-30" uri="DAX-30"/>
+  </surfaceForm>
+</annotation>

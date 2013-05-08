@@ -1,0 +1,33 @@
+<annotation text="08/05/2013 08h15 - Atualizado em 08/05/2013 08h31 IGP-DI tem deflação de 0,06% em abril, após alta em março, indica FGV No acumulado de 2013, inflação medida pelo IGP-DI varia 0,76%. IGP-DI funciona como indexador das dívidas dos estados com a União. Da  Reuters Tweet A inflação medida pelo Índice Geral de Preços-Disponibilidade Interna (IGP-DI) teve variação negativa de 0,06% em abril, ante elevação de 0,31% em março, informou a Fundação Getulio Vargas ( FGV ), nesta quarta-feira (8). Levantamento da Reuters mostrou que, pela mediana de 23 previsões, o indicador teria variação positiva de 0,05% em abril. Em abril do ano passado, a variação do IGP-DI havia sido de 1,02%. No acumulado de janeiro a abril deste ano, o indicador da FGV acumula alta de 0,76%. Usado no cálculo do IGP-DI, o Índice de Preços ao Produtor Amplo (IPA) teve deflação de 0,39% no mês passado, após variação de 0,12% em março. Também utilizado no cálculo do indicador, o Índice Nacional de Custo da Construção (INCC) registrou, em abril, taxa de variação de 0,74%, acima do resultado do mês anterior, de 0,50%. O Índice de Preços ao Consumidor (IPC), outro subíndice do IGP-DI, desacelerou para 0,52% em abril, ante 0,72%, no mês anterior. O IGP-DI é usado como referência para correções de preços e valores contratuais, sendo o indexador das dívidas dos estados com a União. O índice também é diretamente empregado no cálculo do Produto Interno Bruto (PIB) e das contas nacionais em geral. tópicos: ">
+  <surfaceForm name="IPC" offset="1126">
+    <resource label="Comitê Paralímpico Internacional" uri="Comitê_Paralímpico_Internacional" contextualScore="0.8321787225551411" percentageOfSecondRank="0.020681581073852106" support="69" priorScore="4.018041823040314E-6" finalScore="0.9797360418919361" types=""/>
+    <resource label="Comunicação entre processos" uri="Comunicação_entre_processos" contextualScore="0.167805024254957" percentageOfSecondRank="6.211519241031508E-5" support="46" priorScore="2.6786945486935425E-6" finalScore="0.02026249038136304" types=""/>
+    <resource label="Instituto do Cinema e Audiovisual" uri="Instituto_do_Cinema_e_Audiovisual" contextualScore="8.126594965672605E-6" percentageOfSecondRank="0.0" support="59" priorScore="3.435716921150413E-6" finalScore="1.258608488750524E-6" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Reuters" offset="507">
+    <resource label="Reuters" uri="Reuters" contextualScore="0.9999576016173537" percentageOfSecondRank="0.0" support="114" priorScore="6.638503881544866E-6" finalScore="0.999999635400921" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, DBpedia:Company"/>
+  </surfaceForm>
+  <surfaceForm name="Produto Interno Bruto" offset="1411">
+    <resource label="Produto Interno Bruto" uri="Produto_Interno_Bruto" contextualScore="0.7499855253878657" percentageOfSecondRank="0.04184069420332116" support="456" priorScore="2.6554015526179463E-5" finalScore="0.9598396430124869" types=""/>
+    <resource label="Produto interno bruto" uri="Produto_interno_bruto" contextualScore="0.25001418975606154" percentageOfSecondRank="0.0" support="2134" priorScore="1.2426813406330478E-4" finalScore="0.040160356987510415" types=""/>
+  </surfaceForm>
+  <surfaceForm name="FGV" offset="738">
+    <resource label="Fundação Getulio Vargas" uri="Fundação_Getulio_Vargas" contextualScore="0.999993215354658" percentageOfSecondRank="0.0" support="376" priorScore="2.189541631106026E-5" finalScore="0.9999999823112377" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, Schema:EducationalOrganization, DBpedia:EducationalInstitution, Schema:CollegeOrUniversity, DBpedia:University"/>
+  </surfaceForm>
+  <surfaceForm name="IPA" offset="831">
+    <resource label="Alfabeto fonético internacional" uri="Alfabeto_fonético_internacional" contextualScore="0.052486305154545505" percentageOfSecondRank="0.01442508054191212" support="365" priorScore="2.125485891898137E-5" finalScore="0.9857372556467854" types=""/>
+    <resource label="Instituto Português de Arqueologia" uri="Instituto_Português_de_Arqueologia" contextualScore="0.9474805728295296" percentageOfSecondRank="0.0029599611565675667" support="14" priorScore="8.152548626458607E-7" finalScore="0.014219339305868295" types=""/>
+    <resource label="Betim Esporte Clube" uri="Betim_Esporte_Clube" contextualScore="2.504022939444205E-5" percentageOfSecondRank="0.0" support="224" priorScore="1.3044077802333772E-5" finalScore="4.208869201742458E-5" types=""/>
+  </surfaceForm>
+  <surfaceForm name="FGV" offset="460">
+    <resource label="Fundação Getulio Vargas" uri="Fundação_Getulio_Vargas" contextualScore="0.999993215354658" percentageOfSecondRank="0.0" support="376" priorScore="2.189541631106026E-5" finalScore="0.9999999823112377" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, Schema:EducationalOrganization, DBpedia:EducationalInstitution, Schema:CollegeOrUniversity, DBpedia:University"/>
+  </surfaceForm>
+  <surfaceForm name="PIB" offset="1434">
+    <resource label="Produto interno bruto" uri="Produto_interno_bruto" contextualScore="0.24619588923963648" percentageOfSecondRank="0.06513635189008649" support="2134" priorScore="1.2426813406330478E-4" finalScore="0.938842275180695" types=""/>
+    <resource label="Produto Interno Bruto" uri="Produto_Interno_Bruto" contextualScore="0.7385314950318531" percentageOfSecondRank="8.116512665407132E-5" support="456" priorScore="2.6554015526179463E-5" finalScore="0.06115276080545916" types=""/>
+    <resource label="Paridade do poder de compra" uri="Paridade_do_poder_de_compra" contextualScore="0.015272335222794697" percentageOfSecondRank="0.0" support="105" priorScore="6.114411469843956E-6" finalScore="4.963471576021221E-6" types=""/>
+  </surfaceForm>
+  <surfaceForm name="Fundação Getulio Vargas" offset="434">
+    <resource label="Fundação Getulio Vargas" uri="Fundação_Getulio_Vargas" contextualScore="0.999993215354658" percentageOfSecondRank="0.0" support="376" priorScore="2.189541631106026E-5" finalScore="1.0" types="DBpedia:Agent, Schema:Organization, DBpedia:Organisation, Schema:EducationalOrganization, DBpedia:EducationalInstitution, Schema:CollegeOrUniversity, DBpedia:University"/>
+  </surfaceForm>
+</annotation>
