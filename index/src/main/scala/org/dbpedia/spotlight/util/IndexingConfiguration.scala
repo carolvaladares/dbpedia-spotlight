@@ -85,7 +85,13 @@ class IndexingConfiguration(val configFile: File) {
         value
     }
 
-
+    def set(key : String, newValue : String) {
+        val value = get(key, null)
+        if (value == null) {
+            throw new ConfigurationException(key+" not specified in "+configFile)
+        }
+        properties.setProperty(key, newValue)
+    }
 
     def getStopWords(language: String) : Set[String] = {
         val f = new File(get("org.dbpedia.spotlight.data.stopWords."+language.toLowerCase, ""))

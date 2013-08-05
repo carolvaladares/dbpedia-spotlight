@@ -8,6 +8,7 @@
 export DBPEDIA_WORKSPACE=C:/Users/Renan/Documents/dbpedia_data
 
 export INDEX_CONFIG_FILE=../conf/indexing.properties
+export lang_i18n=pt
 
 JAVA_XMX=2g
 
@@ -76,6 +77,13 @@ echo -e "Adding Surface Forms to index...\n"
  #mvn scala:run -Dlauncher=AddSurfaceFormsToIndex "-DjavaOpts.Xmx=4g" "-DaddArgs=C:/Users/Renan/Documents/GitHub/dbpedia-spotlight/conf/indexing.properties|C:/Users/Renan/Documents/dbpedia_data/data/output/index"
 # or
  mvn scala:run -Dlauncher=CandidateIndexer "-DjavaOpts.Xmx=$JAVA_XMX" "-DaddArgs=$DBPEDIA_WORKSPACE/data/output/surfaceForms.tsv|$DBPEDIA_WORKSPACE/data/output/candidateIndex|3|case-insensitive|overwrite"
+
+# (optional) complement the entity types with another language
+if [ -e $DBPEDIA_WORKSPACE/dbpedia_data/original/dbpedia/$lang_i18n/TDB  ]; then
+    echo -e "Complementing types...\n"
+    mvn scala:run -Dlauncher=ComplementTypes "-DjavaOpts.Xmx=$JAVA_XMX" "-DaddArgs=E:/instance_types_$lang_i18n.nt|E:/instance_types_en.nt|E:/$lang_i18n_en_links.nt|$DBPEDIA_WORKSPACE/original/dbpedia/$lang_i18n/TDB/$lang_i18n|$DBPEDIA_WORKSPACE/original/dbpedia/$lang_i18n/TDB/en|$DBPEDIA_WORKSPACE/original/dbpedia/$lang_i18n/instance_types_$lang_i18n_en.nt|C:/Users/Renan/Documents/GitHub/dbpedia-spotlight/conf/indexing.properties"
+    #mvn scala:run -Dlauncher=ComplementTypes "-DjavaOpts.Xmx=$JAVA_XMX" "-DaddArgs=$DBPEDIA_WORKSPACE/original/dbpedia/$lang_i18n/instance_types_$lang_i18n.nt|$DBPEDIA_WORKSPACE/original/dbpedia/en/instance_types_en.nt|$DBPEDIA_WORKSPACE/original/dbpedia/$lang_i18n/$lang_i18n_en_links.nt|$DBPEDIA_WORKSPACE/original/dbpedia/$lang_i18n/TDB/$lang_i18n|$DBPEDIA_WORKSPACE/original/dbpedia/$lang_i18n/TDB/en|$DBPEDIA_WORKSPACE/original/dbpedia/$lang_i18n/instance_types_$lang_i18n.nt|C:/Users/Renan/Documents/GitHub/dbpedia-spotlight/conf/indexing.properties"
+fi
 
 # add entity types to index
 mvn scala:run -Dlauncher=AddTypesToIndex "-DjavaOpts.Xmx=$JAVA_XMX" "-DaddArgs=$INDEX_CONFIG_FILE|$DBPEDIA_WORKSPACE/data/output/index-withSF"

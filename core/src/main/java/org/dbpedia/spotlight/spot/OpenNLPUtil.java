@@ -47,13 +47,53 @@ public class OpenNLPUtil {
 
 
     public enum OpenNlpModels {
+        ////////////////////////////////////////
+        /*        Sentence Detectors          */
         SentenceModel("-sent"),
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        /*              Chunkers              */
+        //Current model
         ChunkModel("-chunker"),
+
+        //Wikipedia based model
+        //ChunkModel("-small-wiki-chunker"),
+
+        //Mac_morpho chunker model
+        //ChunkModel("-mac-morpho-chunker"),
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        /*             Tokenizers             */
+        //Current model
         TokenizerModel("-token"),
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        /*       Part-Of-Speech Taggers       */
+        //Current model
         POSModel("-pos-maxent"),
-        person("-ner-person"),
-        organization("-ner-organization"),
-        location("-ner-location");
+        ////////////////////////////////////////
+
+        ////////////////////////////////////////
+        /*             NER Models             */
+        //Current models
+        //person("-ner-person"),
+        //organization("-ner-organization"),
+        //location("-ner-location");
+
+        //Wikipedia specific type models
+        //person("-wikiperson2"),
+        person("-ner-person1"),
+        organization("-wikiorganization2"),
+        location("-wikilocation2");
+
+        //Wikipedia all types models
+        //person("-wikiall"),
+        //organization("-wikiall"),
+        //location("-wikiall");
+        ////////////////////////////////////////
 
         private final String name; // filename
         OpenNlpModels(String fname) {

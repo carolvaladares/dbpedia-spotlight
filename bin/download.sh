@@ -10,6 +10,7 @@ export lang_i18n=pt
 export language=portuguese
 export dbpedia_workspace=/var/local/spotlight
 export dbpedia_version=3.8
+export complement_types=0
 
 # error_exit function by William Shotts. http://stackoverflow.com/questions/64786/error-handling-in-bash
 function error_exit
@@ -82,6 +83,23 @@ if [ -e $dbpedia_workspace/dbpedia_data/data/opennlp/$language  ]; then
 else
     mkdir $dbpedia_workspace/dbpedia_data/data/opennlp/$language
 fi
+
+if [ -e $lang != "en" ]; then
+    echo "Do you want to complement your language instance types file? the new file will be used in the indexing stage."
+    select yn in "Yes" "No"; do
+        case $yn in
+            Yes ) if [ -e $dbpedia_workspace/dbpedia_data/original/dbpedia/en  ]; then
+                      echo "$dbpedia_workspace"'/dbpedia_data/original/dbpedia/'"en"'already exists.'
+                  else
+                      mkdir $dbpedia_workspace/dbpedia_data/original/dbpedia/en
+                      $complement_types=1
+                  fi
+                  break;;
+            No ) break;;
+        esac
+    done
+fi
+
 set +e
 
 
@@ -90,6 +108,17 @@ wget http://downloads.dbpedia.org/$dbpedia_version/$lang_i18n/labels_$lang_i18n.
 wget http://downloads.dbpedia.org/$dbpedia_version/$lang_i18n/redirects_$lang_i18n.nt.bz2 --directory-prefix=$dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n
 wget http://downloads.dbpedia.org/$dbpedia_version/$lang_i18n/disambiguations_$lang_i18n.nt.bz2 --directory-prefix=$dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n
 wget http://downloads.dbpedia.org/$dbpedia_version/$lang_i18n/instance_types_$lang_i18n.nt.bz2 --directory-prefix=$dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n
+
+if [ -e $complement_types == 1 ]; then
+    wget http://downloads.dbpedia.org/$dbpedia_version/$lang_i18n/interlanguage_links_same_as_$lang_i18n.nt.bz2 --directory-prefix=$dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n
+    wget http://downloads.dbpedia.org/$dbpedia_version/$lang_i18n/instance_types_en.nt.bz2 --directory-prefix=$dbpedia_workspace/dbpedia_data/original/dbpedia/en
+    bzcat $dbpedia_workspace/dbpedia_data/original/dbpedia/en/instance_types_en.nt.bz2 > $dbpedia_workspace/dbpedia_data/original/dbpedia/en/instance_types_en.nt
+    bzcat $dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n/instance_types_$lang_i18n.nt.bz2 > $dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n/instance_types_$lang_i18n.nt
+    bzcat $dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n/interlanguage_links_same_as_$lang_i18n.nt.bz2 > $dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n/interlanguage_links_same_as_$lang_i18n.nt
+    mkdir $dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n/TDB/$lang_i18n
+    mkdir $dbpedia_workspace/dbpedia_data/original/dbpedia/$lang_i18n/TDB/en
+fi
+
 echo 'done!'
 
 echo 'Getting Wikipedia Dump...'

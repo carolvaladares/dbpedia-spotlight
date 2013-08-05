@@ -20,7 +20,11 @@ package org.dbpedia.spotlight.spot
 
 import xml.{Node, XML}
 import org.dbpedia.spotlight.model.{SurfaceForm, SurfaceFormOccurrence, Text}
+import scala.collection.mutable
 import scala.collection.JavaConversions._
+import scala.collection.mutable.ListBuffer
+import org.dbpedia.spotlight.model.Factory.SurfaceFormOccurrence
+import org.dbpedia.spotlight.model.SurfaceFormOccurrence
 
 /**
  * This is a parser disguised as a spotter.
@@ -36,6 +40,9 @@ import scala.collection.JavaConversions._
 class SpotXmlParser extends Spotter {
 
   var name = "SpotXmlParser"
+  var occurences = ListBuffer[SurfaceFormOccurrence]()
+  //var occurences = java.util.List[SurfaceFormOccurrence]
+  //val occurences = scala.collection.mutable.MutableList[SurfaceFormOccurrence]()
 
   /**
    * Extracts a set of surface form occurrences from the text
@@ -44,8 +51,11 @@ class SpotXmlParser extends Spotter {
     val xml = XML.loadString(spotsXml.text)
     val text = (xml \\ "annotation" \ "@text").toString
     val surfaceForms = xml \\"annotation" \ "surfaceForm"
-    val occs = surfaceForms.map(buildOcc(_, new Text(text)))
-    occs.toList
+    //val occs = surfaceForms.map(buildOcc(_, new Text(text)))
+    //occurences ::: (surfaceForms.map(buildOcc(_, new Text(text)))).toList
+    occurences ++= (surfaceForms.map(buildOcc(_, new Text(text)))).toList
+    //occurences :+ (surfaceForms.map(buildOcc(_, new Text(text)))).toList
+    //occurences :+ occs.toList
   }
 
   def buildOcc(sf: Node, text: Text) = {
