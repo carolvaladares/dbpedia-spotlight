@@ -8,33 +8,33 @@ package org.dbpedia.spotlight.lucene.index
  * To change this template use File | Settings | File Templates.
  */
 
-import org.dbpedia.spotlight.util.{IndexingConfiguration, TypesLoader}
+//import org.dbpedia.spotlight.util.{IndexingConfiguration, TypesLoader}
 import com.hp.hpl.jena.rdf.model.ModelFactory
 import com.hp.hpl.jena.rdf.model.Model
-import com.hp.hpl.jena.rdf.model.Resource
 import com.hp.hpl.jena.rdf.model.StmtIterator
 import com.hp.hpl.jena.util.FileManager
-import com.hp.hpl.jena.query.ARQ
-import com.hp.hpl.jena.query.Query
-import com.hp.hpl.jena.query.QueryExecution
 import com.hp.hpl.jena.query.QueryExecutionFactory
 import com.hp.hpl.jena.query.QueryFactory
-import com.hp.hpl.jena.query.QuerySolution
 import com.hp.hpl.jena.query.ResultSet
-//import java.net.URL
-//import java.net.HttpURLConnection
 import java.io._
-//import java.io.OutputStreamWriter
-//import java.io.BufferedReader
-//import java.io.InputStreamReader
-import scala.util.control.Breaks._
 import scala.util.matching.Regex
 import com.hp.hpl.jena.tdb.TDBFactory
+import java.util.Properties
+import org.dbpedia.spotlight.exceptions.ConfigurationException
+import org.apache.commons.logging.LogFactory
+import org.apache.commons.logging.Log
 
 class ComplementTypes {
+  def testArrayLength(anArrayLength: Int, aLog: Log) {
+    if (anArrayLength < 1) {
+      aLog.error("At least one language must be supplied to execute this process.")
+      System.exit(1)
+    }
+  }
+
   def createModel(aDirectory: String): Model = {
     val dataset = TDBFactory.createDataset(aDirectory)
-    dataset.getDefaultModel();
+    dataset.getDefaultModel
   }
 
   def createNTFileIterator(aFile: String): StmtIterator = {
@@ -71,100 +71,131 @@ class ComplementTypes {
 }
 
 object ComplementTypes {
+  private val LOG = LogFactory.getLog(this.getClass)
   val aTypeManager = new ComplementTypes()
 
   def main(args: Array[String]) {
-    val initialTypesFile = args(0)
-    val complementTypesFile = args(1)
-    val langToLangLinksFile = args(2)
-    val tdbStoreInitialLang = args(3)
-    val tdbStoreCompLang = args(4)
-    val outputPath = args(5)
+
+    // Creates an empty property list
+    val config: Properties = new Properties()
+
+    try {
+      config.load(new FileInputStream(new File("conf/indexing.properties")))
+    }
+    catch {
+      case e: IOException => {
+        throw new ConfigurationException("Cannot find configuration file " + "conf/indexing.properties", e)
+      }
+    }
+
+    // Read in from the indexing.properties files all the data we need. Creates arrays accordingly
+    val mainLanguage = Array(config.getProperty("org.dbpedia.spotlight.language_i18n_code", ""))
+    val compLangsArray = config.getProperty("org.dbpedia.spotlight.complement_languages", "").split(",").toArray
+    val allLangsArray = mainLanguage ++ compLangsArray
+
+    // Checks if the number of languages is not valid
+    aTypeManager.testArrayLength(allLangsArray.length, LOG)
+
+    // Get the base directories used in this process. The user can set the paths to them in the indexing.properties file.
+    // If the download.sh script was executed with the complement types option, all the needed directories were already created
+    // and are defined inside the script.
+    // TODO: make the download.sh script use directories arguments from the indexing.properties file, centralizing this process. ALso change the comment above accordingly
+    val tdbStoreBaseDir = config.getProperty("org.dbpedia.spotlight.data.tdbStoreBaseDir","")
+    val dbpediaBaseDir = config.getProperty("org.dbpedia.spotlight.data.dbpediaBaseDir","")
+    val outputBaseDir = config.getProperty("org.dbpedia.spotlight.data.outputBaseDir","")
+
+    // Creates an array to hold all the names of the instance types files we are going to need
+    val instTypesNamesArray = new Array[String](allLangsArray.length)
+    // Creates an array to hold all models so we can query the instance types files from all the required languages
+    val tdbStoreArray = new Array[Model](allLangsArray.length)
+    // Creates an iterator array so we can check every resource of the main language related to each complement language
+    val fileIteratorArray = new Array[StmtIterator](allLangsArray.length-1)
+
+    // Checks if the number of files to iterate through is not valid
+    aTypeManager.testArrayLength(fileIteratorArray.length, LOG)
+
+    var i = 0
+    for( langName <- allLangsArray ){
+      instTypesNamesArray(i) = "instance_types_" + langName + ".nt"
+      println(instTypesNamesArray(i))
+      println(tdbStoreBaseDir + langName + "/TDB")
+      println(dbpediaBaseDir + langName + '/' + instTypesNamesArray(i))
+      tdbStoreArray(i) = aTypeManager.createModel(tdbStoreBaseDir + langName + "/TDB")
+      FileManager.get().readModel( tdbStoreArray(i), dbpediaBaseDir + langName + '/' + instTypesNamesArray(i), "N-TRIPLES" )
+      if (i > 0) {
+        println(outputBaseDir + mainLanguage(0) + '/' + allLangsArray(0) + '_' + langName + '_' + "links.nt")
+        fileIteratorArray(i-1) = aTypeManager.createNTFileIterator(outputBaseDir + mainLanguage(0) + '/' + allLangsArray(0) + '_' + langName + '_' + "links.nt")
+      }
+      i += 1
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    // Iterator using the bijective inter-language links triples file path as input. We will iterate through
-    // all the lines in this file
-    val it = aTypeManager.createNTFileIterator(langToLangLinksFile)
 
-    // Create models so we can query the instance types files from both languages
+    // Now for each bijective inter languages links file we proceed with the core routine of the language types complement.
+    // First it executes the query over the main language instance types file to see if there are types for the current resource.
+    // If not, executes another query using the sameAs relation in the complement language instance types file. In the end the
+    // routine adds the results to the current instance types file of the main language, complementing it
+    i = 1
+    for( aLinksFile <- fileIteratorArray ){
+      while (aLinksFile.hasNext) {
+        val stmt = aLinksFile.nextStatement()
+        val subject = stmt.getSubject.toString
+        val obj = stmt.getObject.toString
 
-    // Creates the dataset and loads the model for the initial instance types file
-    val tdb1 = aTypeManager.createModel(tdbStoreInitialLang)
-    FileManager.get().readModel( tdb1, initialTypesFile, "N-TRIPLES" )
+        // The idea is to query the instance types file related to the object in order to complement the instance types file
+        // related to the subject. For instance, if in portuguese a subject has no types associated to it, we can
+        // use other languages to find dbpedia types for it
+        val newSubject = obj
 
-    // Creates the model for the complement language instance types file
-    val tdb2 = aTypeManager.createModel(tdbStoreCompLang)
-    FileManager.get().readModel( tdb2, complementTypesFile, "N-TRIPLES" )
+        // A query to find if the subject from the main language has any types in the instance types triples file
+        val occsQuery = aTypeManager.buildQuery(subject)
+        val occsResults = aTypeManager.executeQuery(occsQuery, tdbStoreArray(0))
 
-    while (it.hasNext()) {
-      val stmt = it.nextStatement()
-      val subject = stmt.getSubject().toString()
-      val obj = stmt.getObject().toString()
+        // A query to find the types of a subject in the instance types triples file
+        val newTypesQuery = aTypeManager.buildQuery(newSubject)
+        val newTypesResult = aTypeManager.executeQuery(newTypesQuery, tdbStoreArray(i))
 
-      // Displays the corresponding entity in another language.
-      //System.out.println(obj)
+        //TODO, if the subject has at least one type, search for new types in the object instance types file and add them accordingly, a join operation
+        /*if (occsResults.hasNext()) {
+          while (occsResults.hasNext()) {
 
-      // The object from a bijective inter-language links triples file can be used as input here. The idea
-      // is to query the instance types file related to the object in order to complement the instance types file
-      // related to the subject. For instance, if in portuguese a subject has no types associated to it, we can
-      // use other languages to find dbpedia types for it
-      val newSubject = obj
-
-      //////////////////////////////////////////////////////////////////////////////////////////////
-
-      // A query to find if the subject has any types in the instance types triples file
-      val occQuery = aTypeManager.buildQuery(subject)
-      val results1 = aTypeManager.executeQuery(occQuery, tdb1)
-
-      // A query to find the types of a subject in the instance types triples file
-      val typesQuery = aTypeManager.buildQuery(newSubject)
-      val results2 = aTypeManager.executeQuery(typesQuery, tdb2)
-
-      //TODO, if the subject has at least one type, search for new types in the object instance types file and add them accordingly
-      /*if (results1.hasNext()) {
-        while (results1.hasNext()) {
-          var soln = results1.nextSolution()
-          var name = soln.get("o")
-          var finalString = "<" + subject + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "
-          finalString += "<" + name + "> "
-
-          // Displays the types for the current entity. These types are the ones already present in the initial instance
-          // types languange triples file for the current entity.
-          //System.out.println(finalString)
-        }
-      } else {*/
-      if (!results1.hasNext()) {
-
-        // Make a pattern so we can replace the owl occurrences
-        val pattern = new Regex("(O|o)wl")
-
-        // Iterating the ResultSet to get all its elements
-        while (results2.hasNext()) {
-
-          // <subject> <predicate> <object>
-          var finalString = "<" + subject + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "
-          var soln = results2.nextSolution()
-
-          if ((pattern findFirstMatchIn(soln.toString())) != None) {
-            finalString += "<http://www.w3.org/2002/07/owl#Thing> "
-          } else {
-            var name = soln.get("o")
-            finalString += "<" + name + "> "
           }
+        } else {*/
+        if (!occsResults.hasNext) {
 
-          // Displays on the screen the final string to be added to the subject
-          // instance types triples file
-          //System.out.println(finalString);
+          // Make a pattern so we can replace the owl occurrences
+          val pattern = new Regex("(O|o)wl")
 
-          // We can now concatenate the final string to the current instance types file
-          aTypeManager.appendToFile(outputPath, finalString)
+          // Iterating the ResultSet to get all its elements
+          while (newTypesResult.hasNext) {
 
+            // <subject> <predicate> <object>
+            var finalString = "<" + subject + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "
+            val soln = newTypesResult.nextSolution()
+
+            if ((pattern findFirstMatchIn soln.toString) != None) {
+              finalString += "<http://www.w3.org/2002/07/owl#Thing> "
+            } else {
+              val name = soln.get("o")
+              finalString += "<" + name + "> "
+            }
+
+            // Displays on the screen the final string to be added to the subject
+            // instance types triples file
+            //System.out.println(finalString)
+
+            // We can now concatenate the final string to the current instance types file
+            aTypeManager.appendToFile(outputBaseDir + instTypesNamesArray(0), finalString)
+          }
         }
       }
     }
 
     // Close the datasets now that we are done
-    tdb1.close()
-    tdb2.close()
+    i = 0
+    for( langName <- allLangsArray ){
+      tdbStoreArray(i).close()
+      i += 1
+    }
   }
 }

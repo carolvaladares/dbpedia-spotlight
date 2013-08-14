@@ -7,9 +7,9 @@ PROGNAME=$(basename $0)
 
 ##### Config parameters (adjust according your target language and folder)
 
-export lang_i18n=it
-export comp_languages=(ko pl ru sl tr)
-export language=italian
+export lang_i18n=pt
+export language=portuguese
+export comp_languages=(it es en)
 export dbpedia_workspace="E:/Spotlight"
 #export dbpedia_workspace=/var/local/Spotlight
 export dbpedia_version=3.8
@@ -53,37 +53,7 @@ function create_dir()
     fi
 }
 
-# The function used to test the languages used as complement to the initial language
-function test_comp_lang()
-{
-    local arr=$1
-    # Loop through the languages array
-    for i in ${arr[@]}
-    do
-       # Checking if the complement languages supplied are valid
-       if ([ $(expr length $i) -ne 2 ] | [ "$i" == "$lang_i18n" ] | [ $( expr match $i [a-zA-Z]\. ) -ne 2 ]); then
-           error_exit "ERROR: Invalid complement languages!"
-       fi
-    done
-}
-
-# Just some initial processing for the types complement task
-function init_complement
-{
-    # We will decompress the instance types file to a .nt format so we can use the FileManager class from Apache Jena. The original
-    # compressed file will be preserved in the process
-    bunzip2 -fk $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt.bz2 > $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt
-
-    # Create a directory to keep the TDB store of the initial language. This way we do not have to load everything to memory in
-    # order to execute SPARQL queries
-    create_dir $JENA_DATA/$lang_i18n/TDB
-
-    # We will also download the bijective interlanguage links file of the initial language. This file has 'sameAs' relations that can
-    # be used to find types for a resource in another language
-    download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$lang_i18n interlanguage_links_same_as_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
-}
-
-# Just a helper function to download files from a given path. The first parameter is the path from where to download the file
+# A helper function to download files from a given path. The first parameter is the path from where to download the file
 # without the file name, the second states the file name, and the third is where to save that file
 function download_file()
 {
@@ -127,6 +97,37 @@ function dl_opennlp_file()
             wget -N $new_path --directory-prefix=$3
         fi
     fi
+}
+
+# The function used to test the languages used as complement to the initial language
+function test_comp_lang()
+{
+    local arr=$1
+    # Loop through the languages array
+    for i in ${arr[@]}
+    do
+       # Checking if the complement languages supplied are valid
+       if ([ $(expr length $i) -ne 2 ] | [ "$i" == "$lang_i18n" ] | [ $( expr match $i [a-zA-Z]\. ) -ne 2 ]); then
+           error_exit "ERROR: Invalid complement languages!"
+       fi
+    done
+}
+
+# Just some initial processing for the types complement task
+function init_complement
+{
+    # We will decompress the instance types file to a .nt format so we can use the FileManager class from Apache Jena. The original
+    # compressed file will be preserved in the process
+    bunzip2 -fk $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt.bz2 > $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt
+
+    # Create a directory to keep the TDB store of the initial language. This way we do not have to load everything to memory in
+    # order to execute SPARQL queries
+    create_dir $JENA_DATA/$lang_i18n/TDB
+
+    # We will also download the bijective interlanguage links file of the initial language. This file has 'sameAs' relations that can
+    # be used to find types for a resource in another language
+    download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$lang_i18n interlanguage_links_same_as_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
+    tar -xvf $DBPEDIA_DATA/$lang_i18n/$lang_i18n interlanguage_links_same_as_$lang_i18n.nt.bz2 --force-local -C $DBPEDIA_DATA/$lang_i18n
 }
 
 # The function used in case the user wants to complement the instance types triples file
