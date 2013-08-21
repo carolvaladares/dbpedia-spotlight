@@ -120,6 +120,10 @@ function init_complement
     # compressed file will be preserved in the process
     bunzip2 -fk $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt.bz2 > $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt
 
+    # Removing the last line of the file if there is a "completed" message in the end
+    sed '/\(\# completed\)/d' $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt > $DBPEDIA_DATA/$lang_i18n/tmp.nt
+    mv $DBPEDIA_DATA/$lang_i18n/tmp.nt $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt
+
     # Create a directory to keep the TDB store of the initial language. This way we do not have to load everything to memory in
     # order to execute SPARQL queries
     create_dir $JENA_DATA/$lang_i18n/TDB
@@ -127,7 +131,7 @@ function init_complement
     # We will also download the bijective interlanguage links file of the initial language. This file has 'sameAs' relations that can
     # be used to find types for a resource in another language
     download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$lang_i18n interlanguage_links_same_as_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
-    tar -xvf $DBPEDIA_DATA/$lang_i18n/$lang_i18n interlanguage_links_same_as_$lang_i18n.nt.bz2 --force-local -C $DBPEDIA_DATA/$lang_i18n
+    bunzip2 -fk $DBPEDIA_DATA/$lang_i18n/interlanguage_links_same_as_$lang_i18n.nt.bz2 > $DBPEDIA_DATA/$lang_i18n/interlanguage_links_same_as_$lang_i18n.nt
 }
 
 # The function used in case the user wants to complement the instance types triples file
@@ -152,6 +156,8 @@ function complement_types()
                       # Download and unzip the file we are going to query over
                       download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$i instance_types_$i.nt.bz2 $DBPEDIA_DATA/$i
                       bunzip2 -fk $DBPEDIA_DATA/$i/instance_types_$i.nt.bz2 > $DBPEDIA_DATA/$i/instance_types_$i.nt
+                      sed '/\(\# completed\)/d' $DBPEDIA_DATA/$i/instance_types_$i.nt > $DBPEDIA_DATA/$i/tmp.nt
+                      mv $DBPEDIA_DATA/$i/tmp.nt $DBPEDIA_DATA/$i/instance_types_$i.nt
                   done
                   break;;
             No ) break;;
