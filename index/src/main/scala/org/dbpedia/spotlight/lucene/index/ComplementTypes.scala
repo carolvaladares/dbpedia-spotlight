@@ -37,11 +37,14 @@ import org.apache.commons.logging.Log
 import org.apache.commons.io.FileUtils
 import com.hp.hpl.jena.vocabulary.RDF
 import com.google.api.client.http.GenericUrl
-import com.google.api.client.http.javanet.NetHttpTransport
-import com.jayway.jsonpath.JsonPath
-import org.json.simple.parser.JSONParser
-import org.json.simple.JSONObject
-
+import org.apache.http.util.EntityUtils
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.DefaultHttpClient
+import scala.util.parsing.json.JSON
+import scala.Predef._
+import scala.Some
+import scala.collection.mutable.ListBuffer
+import scala.util.control.Breaks
 
 class ComplementTypes {
   def testArrayLength(anArrayLength: Int, aLog: Log) {
@@ -112,6 +115,50 @@ class ComplementTypes {
     }
   }
 
+  def preprocessDbFbFiles(aMainLanguage:String, aFbLinksFile: String, aMainEnLinksFile: String, anOutputPath: String) {
+    val loop = new Breaks
+    var i = 0
+    var j = 0
+    var auxIndex = 0
+    for (lineA <- (Source fromFile aMainEnLinksFile).getLines()) {
+      val lineAList = lineA.split(" ").toList
+      //println("DERP" + lineAList.mkString)
+      loop.breakable {
+        for (lineB <- (Source fromFile aFbLinksFile).getLines()) {
+          if (j >= auxIndex) {
+            val lineBList: List[String] = lineB.split(" ").toList
+            //println("ESSE AI... " + lineAList(2)(29) + " MAIOR DO QUE " + lineBList.head(29))
+            lineBList match {
+              case a if lineBList.head(29) > lineAList(2)(29) => {
+                //println("ESSE AI... " + lineAList(2)(29) + " MAIOR DO QUE " + lineBList.head(29))
+                //System.exit(1)
+                j = 0
+                loop.break()
+              }
+              //TODO: Add Scala 2.10 StringContext class for regex comparison, some strings are not getting caught here
+              case b if lineAList(2) == lineBList.head => {
+                auxIndex = j
+                val finalString = lineAList(2) + " <http://www.w3.org/2002/07/owl#sameAs> " + lineBList(2)
+                appendToFile(anOutputPath + aMainLanguage + "_mid.nt", finalString)
+                //println(finalString)
+                println("Hum j = " + j.toString + " e aux = " + auxIndex.toString)
+                j = 0
+                loop.break()
+              }
+              case _ =>
+            }
+          }
+          j += 1
+        }
+      }
+      j = 0
+      i += 1
+      if (i % 10000 == 0) {
+        println("Entries " + i + "...")
+      }
+    }
+  }
+
   // We need an update method in case we update models during execution
   def addStatementToModel(aSubject:String, aPredicate:String, anObject:String, aModel:Model) {
     val aSubjectNode = ResourceFactory.createResource(aSubject)
@@ -127,18 +174,22 @@ class ComplementTypes {
     val mainLanguage = ComplementTypes.mainLanguage(0)
     val freebaseBaseDir = ComplementTypes.freebaseBaseDir
     val outputBaseDir = ComplementTypes.outputBaseDir
+    val dbpediaBaseDir = ComplementTypes.dbpediaBaseDir
 
-    val apiKey = "AIzaSyC7AS70LZ_lAU5NReFneH8ApbEAUEaSmXY"
-    val httpTransport = new NetHttpTransport()
-    val requestFactory = httpTransport.createRequestFactory()
-    val parser = new JSONParser()
-    val url = new GenericUrl("https://www.googleapis.com/freebase/v1/search")
-    //val url = new GenericUrl("https://www.googleapis.com/freebase/v1/mqlread?")
+    // We need to make an implicit extraction of types in scala to prevent runtime errors
+    // when trying to cast objects from one class loader to another
+    implicit def any2string(a: Any)  = a.toString
+    implicit def any2boolean(a: Any) = a.asInstanceOf[Boolean]
+    implicit def any2double(a: Any)  = a.asInstanceOf[Double]
+    case class Language(aId: String, aType: String)
+
+    // Create a client to execute all of our requests
+    val httpClient = new DefaultHttpClient()
 
     // In the case of complementing types using Freebase we only delete the TDB store files to prevent NULL pointer exceptions.
     // This line can be commented out if the model was generated correctly in a previous execution of this method. No statements
     // are added to this model during execution
-    //FileUtils.cleanDirectory(new java.io.File(freebaseBaseDir + "/TDB"))
+    FileUtils.cleanDirectory(new java.io.File(freebaseBaseDir + "/TDB"))
 
     // Create a model to represent the links between DBpedia and Freebase
     val fbTdbStore = createModel(freebaseBaseDir + "/TDB")
@@ -146,6 +197,10 @@ class ComplementTypes {
     println(freebaseBaseDir + "freebase_links.nt")
 
     val ptEnFileIterator = createNTFileIterator(outputBaseDir + mainLanguage + "/" + mainLanguage + "_en_links.nt")
+
+    // Join the files to speed up the process. Usage arguments: Main language, the links file from DBpedia to Freebase,
+    // the links file from the main language to the english language and the output path
+    preprocessDbFbFiles(mainLanguage, freebaseBaseDir + "freebase_links_sorted.nt", outputBaseDir + mainLanguage + "_en_links_sorted.nt", outputBaseDir + mainLanguage)
 
     while (ptEnFileIterator.hasNext) {
       val stmt = ptEnFileIterator.nextStatement()
@@ -155,43 +210,104 @@ class ComplementTypes {
       val dbFbOccsResults = executeQuery(dbFbOccsQuery, fbTdbStore)
 
       while (dbFbOccsResults.hasNext) {
-
         val soln = dbFbOccsResults.nextSolution()
         val fbObject = soln.get("o").toString.replace("http://rdf.freebase.com/ns/","").replace('.','/')
-        //fbObject.replace('.','/')
-        println(fbObject)
 
-        //url.put("query", "[{\"id\": /" + fbObject + ",\"type\": []}]")
-        //url.put("query", "\"mid\": \"/" + fbObject + "\", \"type\": []")
-        url.put("query", "\"mid\": \"/" + fbObject + "\"")
-        //url.put("query", fbObject)
-        url.put("limit", "20")
-        url.put("key", apiKey)
+        // Print the freebase object, for debugging purposes
+        //println(fbObject)
 
-        val request = requestFactory.buildGetRequest(url)
-        val httpResponse = request.execute()
+        // The endpoint from where we get the types related to a resource
+        val url = new GenericUrl("https://www.googleapis.com/freebase/v1/mqlread")
+        url.put("query", """[{"id":"/""" + fbObject + """","type":[]}]""")
 
-        val response = parser.parse(httpResponse.parseAsString())
-        //val results = response.get("result").asInstanceOf[JSONArray]
-        //val results = response.asInstanceOf[org.json.simple.JSONArray].toString
-        val results = response.toString
-        //for (result: Object <- results) {
-        println(results)
-          //println(JsonPath.read(result,"$.name").toString)
-        //}
-        System.exit(1)
+        // Print the final url, for debugging purposes
+        //println(url)
+
+        // Actually executing the request for types. This uses Apache http because
+        // the Google API does not fully support Java and Scala
+        val httpResponse = httpClient.execute(new HttpGet(url.toString))
+
+        // The JSON string to be parsed
+        val response = JSON.parseFull(EntityUtils.toString(httpResponse.getEntity))
+
+        // Some simple pattern matching to get the initial set
+        var canProcess = false
+        response match {
+          case Some(x) => {
+            val m = x.asInstanceOf[Map[String, List[Map[String, Any]]]]
+            if (m contains "result") {
+              m("result") map {l => Language(l("id"), l("type"))}
+              canProcess = true
+            }
+          }
+          case None => {
+            canProcess = false
+          }
+        }
+
+        if (canProcess) {
+          // String buffer to hold the types of each resource
+          var typesBuffer = new ListBuffer[String]()
+
+          // At this point we got a class of type Some so in order to make it a Map we use the get method
+          val initialMap = response.get
+
+          // The first loop gets all Tuples inside the initial Map. We only have one internal Tuple at this point since the freebase
+          // result is is mapped by "result -> List(Map(type -> List(type1, type2, ..., typeN)))"
+          for (initialTuple <- initialMap.asInstanceOf[Map[String,List[Map[String,List[String]]]]]) {
+            // Change the Tuple to a List so we can reach the internal Map
+            val internalList: List[Map[String,List[String]]] = initialTuple._2.asInstanceOf[List[Map[String,List[String]]]].toList
+            // The internal mapping gives us the relation of "type -> List(type1, type2, ..., typeN)". At this point
+            // the class type changes to $colon$colon
+            val internalMapColon = internalList(0)
+            for (internalMap <- internalMapColon.asInstanceOf[Map[String,List[String]]]) {
+              // There are two possible cases here. The first one is "id -> string" and the second one
+              // is "type -> List(type1, type2, ..., typeN)" so we match accordingly
+              internalMap match {
+                case input: (String, List[String]) => {
+                  if (input._2.isInstanceOf[List[String]]) {
+                    // If we reached this part it means that we only need to get the types for this resource
+                    val typeList = input._2
+                    for (aType <- typeList) {
+                      // Save the types to the buffer
+                      typesBuffer += aType
+                    }
+                  }
+                }
+                case _ =>
+              }
+            }
+          }
+
+          // Build the final string to be added
+          for (aType <- typesBuffer) {
+            // <subject> <predicate> <object>
+            val finalString = "<" + stmt.getSubject.toString + "> <" + RDF.`type` + "> <http://rdf.freebase.com/ns/" + aType + "> ."
+
+            // Displays on the screen the final string to be added to the subject
+            // instance types triples file. For debugging purposes
+            //System.out.println(finalString)
+
+            // We can now concatenate the final string to the current instance types file
+            appendToFile(dbpediaBaseDir + mainLanguage + '/' + "instance_types_" + mainLanguage + ".nt", finalString)
+          }
+
+          typesBuffer --= typesBuffer
+        }
       }
     }
+
+    // Close the datasets now that we are done
+    fbTdbStore.close()
     println("Done!")
   }
 
   // A method that uses types from Freebase to complement DBpedia resources types locally, requires pre-processing.
-  // More information in the freebase_types.sh script
+  // More information in the freebase_types.sh script. Recommended memory of 24GB
   def compTypesWithFreebaseLocal(){
     println("Starting types complement using a local version of the freebase...")
     // Get the information we need from the companion object
     val mainLanguage = ComplementTypes.mainLanguage(0)
-    val instTypesNamesArray = ComplementTypes.instTypesNamesArray
     val freebaseBaseDir = ComplementTypes.freebaseBaseDir
     val outputBaseDir = ComplementTypes.outputBaseDir
     val dbpediaBaseDir = ComplementTypes.dbpediaBaseDir
@@ -239,10 +355,10 @@ class ComplementTypes {
 
               // Displays on the screen the final string to be added to the subject
               // instance types triples file. For debugging purposes
-              //System.out.println(finalString)
+              System.out.println(finalString)
 
               // We can now concatenate the final string to the current instance types file
-              appendToFile(dbpediaBaseDir + mainLanguage + '/' + instTypesNamesArray(0), finalString)
+              appendToFile(dbpediaBaseDir + mainLanguage + '/' + "instance_types_" + mainLanguage + ".nt", finalString)
             }
             break()
           }
@@ -411,6 +527,8 @@ object ComplementTypes {
     // Core methods for the types complement task
     //aTypeManager.compTypesWithOtherLanguages
     //aTypeManager.compTypesWithFreebaseLocal()
-    aTypeManager.compTypesWithFreebaseRemote()
+    //aTypeManager.compTypesWithFreebaseRemote()
+
+    aTypeManager.preprocessDbFbFiles(mainLanguage(0), freebaseBaseDir + "freebase_links_sorted.nt", outputBaseDir + mainLanguage(0) + '/' + mainLanguage(0) + "_en_links_sorted.nt", outputBaseDir + mainLanguage(0) + '/')
   }
 }

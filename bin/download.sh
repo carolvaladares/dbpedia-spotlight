@@ -206,6 +206,7 @@ complement_types $lang_i18n
 
 echo "Getting Wikipedia Dump..."
 download_file $WIKIMEDIA_DOWNLOADS $lang_i18n"wiki-latest-pages-articles.xml.bz2" $WIKIPEDIA_DATA/$lang_i18n
+bunzip2 -fk $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml.bz2" > $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml"
 
 echo "Getting LingPipe Spotter..."
 download_file $SOURCEFORGE_DOWNLOADS "spotter.dict" $RESOURCES_DATA
