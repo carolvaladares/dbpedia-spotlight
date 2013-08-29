@@ -120,9 +120,9 @@ object LinuxTDBLoader {
     
 
     /** download http file into datasetLocation directory **/
-    var bz2File:String = wget(datasetLocation, httpLink)
+    val bz2File:String = wget(datasetLocation, httpLink)
     /** uncompress the downloaded file in the same directory **/
-    var unzipedFile:String = unzip(bz2File)
+    val unzipedFile:String = unzip(bz2File)
     /** tdbloader2 representation by taking an uncompressed dataset and loading it into tdbLocation directory **/
     tdbLoad2(tdbLocation, unzipedFile)
     /** Return the dataset names and location */
@@ -130,9 +130,9 @@ object LinuxTDBLoader {
   }
   
   def fileExists(file: String) {
-    var command: Array[String] = Array("!", "-f", file.trim )
-	println(command)
-	//process(command)  
+    val command: Array[String] = Array("!", "-f", file.trim )
+	  println(command)
+	  //process(command)
   } 
   
   /***
@@ -144,10 +144,10 @@ object LinuxTDBLoader {
     var lines = Vector.empty[ String ]
     val log = ProcessLogger( lines :+= _ )
     /** Execute command line and logs its execution */
-    println(stringSeqToProcess (args))
-    val process   = ( stringSeqToProcess (args)).run( log )
+    println(stringSeqToProcess(args))
+    val process = stringSeqToProcess (args).run( log )
     /** Blocks until process is finished and returns the exit value **/
-    val response = process.exitValue 
+    val response = process.exitValue()
     /** The resulting output **/
     println(lines.mkString( "\n" ))
   }
@@ -160,7 +160,7 @@ object LinuxTDBLoader {
    */
   def wget(path: String, link: String) : String = {
     /** Download file **/
-    var command: Array[String] = Array( "/usr/local/bin/wget",  "-P" , path, link)
+    val command: Array[String] = Array( "/usr/local/bin/wget",  "-P" , path, link)
     process(command)
     
     /** File name **/
@@ -175,7 +175,7 @@ object LinuxTDBLoader {
    */
   def unzip(file: String) : String = {
     /** Uncompress file **/
-    var command: Array[String] = Array("bzip2", "-d" , file)
+    val command: Array[String] = Array("bzip2", "-d" , file)
     process(command)
     
     /**File name**/
@@ -190,9 +190,7 @@ object LinuxTDBLoader {
    */
   def tdbLoad2(location: String, datafile: String) {
     /** Load TDB **/
-    var command: Array[String] = Array("/Users/carol/Documents/dev/apache-jena-2.10.1/bin/tdbloader2", "--loc" , location, datafile)
+    val command: Array[String] = Array("/Users/carol/Documents/dev/apache-jena-2.10.1/bin/tdbloader2", "--loc" , location, datafile)
     process(command)
   }
-  
-  
 }

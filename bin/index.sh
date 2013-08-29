@@ -14,6 +14,8 @@ export lang_i18n=pt
 JAVA_XMX=8g
 
 cd $SPOTLIGHT_WORKSPACE/index
+pwd
+exit
 # first step is to extract valid URIs, synonyms and surface forms from DBpedia
 mvn scala:run -Dlauncher=ExtractCandidateMap "-DjavaOpts.Xmx=$JAVA_XMX" "-DaddArgs=$INDEX_CONFIG_FILE"
 

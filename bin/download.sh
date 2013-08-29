@@ -10,8 +10,8 @@ PROGNAME=$(basename $0)
 export lang_i18n=pt
 export language=portuguese
 export comp_languages=(it es en)
-export dbpedia_workspace="E:/Spotlight"
-#export dbpedia_workspace=/var/local/Spotlight
+#export dbpedia_workspace="E:/Spotlight"
+export dbpedia_workspace="/home/ubuntu/SpotlightData"
 export dbpedia_version=3.8
 RELEASE_VERSION="0.5"
 

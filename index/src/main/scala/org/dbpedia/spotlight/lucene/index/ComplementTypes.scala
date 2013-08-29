@@ -46,7 +46,7 @@ import scala.Some
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks
 
-class ComplementTypes {
+class ComplementTypes() {
   def testArrayLength(anArrayLength: Int, aLog: Log) {
     if (anArrayLength < 1) {
       aLog.error("At least one language must be supplied to execute this process.")
@@ -528,7 +528,6 @@ object ComplementTypes {
     //aTypeManager.compTypesWithOtherLanguages
     //aTypeManager.compTypesWithFreebaseLocal()
     //aTypeManager.compTypesWithFreebaseRemote()
-
-    aTypeManager.preprocessDbFbFiles(mainLanguage(0), freebaseBaseDir + "freebase_links_sorted.nt", outputBaseDir + mainLanguage(0) + '/' + mainLanguage(0) + "_en_links_sorted.nt", outputBaseDir + mainLanguage(0) + '/')
+    //aTypeManager.preprocessDbFbFiles(mainLanguage(0), freebaseBaseDir + "freebase_links_sorted.nt", outputBaseDir + mainLanguage(0) + '/' + mainLanguage(0) + "_en_links_sorted.nt", outputBaseDir + mainLanguage(0) + '/')
   }
 }
