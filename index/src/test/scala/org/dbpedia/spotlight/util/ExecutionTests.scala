@@ -38,7 +38,7 @@ class ExecutionTests extends Assertions {
   val config: Properties = new Properties()
 
   try {
-    config.load(new FileInputStream(new java.io.File("conf/indexing.properties")))
+    config.load(new FileInputStream(new java.io.File("/home/ubuntu/dbpedia-spotlight/conf/indexing.properties")))
   }
   catch {
     case e: IOException => {
@@ -138,12 +138,12 @@ class ExecutionTests extends Assertions {
   def extract() {
 
     /** Loads the labels dataset if it is the first iteration**/
-    var first:Boolean = false
+    var first:Boolean = false 
     
     /** (0) output , (1) input file , (2) name**/
     val files: Array[String] = Array(
-      "http://downloads.dbpedia.org/3.8/pt/instance_types_pt.nt.bz2"
-      /*"https://dl.dropboxusercontent.com/u/10940054/mappingbased.bz2",
+      //"http://downloads.dbpedia.org/3.8/pt/instance_types_pt.nt.bz2"
+ //     "http://downloads.dbpedia.org/3.8/pt/mappingbased_properties_pt.nt.bz2",
       "http://downloads.dbpedia.org/3.8/pt/page_links_pt.nt.bz2",
       "http://downloads.dbpedia.org/3.8/pt/page_links_unredirected_pt.nt.bz2",      
       "http://downloads.dbpedia.org/3.8/pt/long_abstracts_pt.nt.bz2",
@@ -198,15 +198,17 @@ class ExecutionTests extends Assertions {
       "http://downloads.dbpedia.org/3.8/pt/infobox_property_definitions_en_uris_pt.nt.bz2",
       "http://downloads.dbpedia.org/3.8/pt/geo_coordinates_pt.nt.bz2",
       "http://downloads.dbpedia.org/3.8/pt/geo_coordinates_en_uris_pt.nt.bz2"
-      */
+      
     )
 
     var input: Array[String] = null
     for( i: String <- files){
       input = getFiles(i, "nt")
+      val tdbOutputDir = config.getProperty("org.dbpedia.spotlight.data.tdbOutputNL","")
+      val datasetInputDir = config.getProperty("org.dbpedia.spotlight.data.dbpediaInput","")
       //extract: reload,  modelFile, outputFile,  namedModel
       //input:   (0) outputFile , (1) input model file , (2) nameModel
-      RDFContextExtractor.extractPropertiesJSON(first, input(1), input(0),  input(2))
+      RDFContextExtractor.extractPropertiesJSON(first, input(1), input(0),  input(2) , tdbOutputDir, datasetInputDir)
    	  first = false 
     }
    
@@ -388,6 +390,14 @@ class ExecutionTests extends Assertions {
     //assert(new File("files/outputs/objectsFromTypesAndNtDatabase.tsv").delete)
     //assert(new File("files/outputs/objectsFromTypesAndOwlDatabase.tsv").delete)
     //assert(new File("files/outputs/objectsFromMapBasPropertiesAndNtDatabase.tsv").delete)
+
+  }
+
+}
+
+
+object contextExtraction {
+  def main(args: Array[String]) {
 
   }
 }

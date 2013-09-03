@@ -106,8 +106,11 @@ object IndexMergedOccurrences
         val lucene = new LuceneManager.BufferedMerging(FSDirectory.open(new File(indexOutputDir)),
                                                         minNumDocsBeforeFlush,
                                                         lastOptimize)
-        lucene.setContextSimilarity(similarity);
-        lucene.setDefaultAnalyzer(analyzer);
+        
+        println("Before contextsimilarity.")
+        lucene.setContextSimilarity(similarity)
+        println("Before analyzer.")
+        lucene.setDefaultAnalyzer(analyzer)
         // If the index directory does not exist, tell lucene to overwrite.
         // If it exists, the user has to indicate in command line that he/she wants to overwrite it.
         // I chose command line instead of configuration file to force the user to look at it before running the command.
@@ -118,7 +121,9 @@ object IndexMergedOccurrences
             lucene.shouldOverwrite = shouldOverwrite
         }
 
+        println("Before vector builder.")
         val vectorBuilder = new MergedOccurrencesContextIndexer(lucene)
+        println("After vector builder.")
 
         val freeMemGB : Double = Runtime.getRuntime.freeMemory / 1073741824.0
         if (Runtime.getRuntime.freeMemory < minNumDocsBeforeFlush) LOG.error("Your available memory "+freeMemGB+"GB is less than minNumDocsBeforeFlush. This setting is known to give OutOfMemoryError.");

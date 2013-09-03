@@ -160,7 +160,7 @@ object LinuxTDBLoader {
    */
   def wget(path: String, link: String) : String = {
     /** Download file **/
-    val command: Array[String] = Array( "/usr/local/bin/wget",  "-P" , path, link)
+    val command: Array[String] = Array( "wget",  "-P" , path, link)
     process(command)
     
     /** File name **/
@@ -190,7 +190,7 @@ object LinuxTDBLoader {
    */
   def tdbLoad2(location: String, datafile: String) {
     /** Load TDB **/
-    val command: Array[String] = Array("/Users/carol/Documents/dev/apache-jena-2.10.1/bin/tdbloader2", "--loc" , location, datafile)
+    val command: Array[String] = Array("tdbloader2", "--loc" , location, datafile)
     process(command)
   }
 }

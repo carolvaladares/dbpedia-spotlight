@@ -26,9 +26,8 @@ import scala.Option.option2Iterable
 
 import com.hp.hpl.jena.rdf.model.Model
 
-
+import java.util.Properties
 import com.typesafe.config.{ConfigFactory, Config}
-
 
 /**
  * Context Extraction from RDF
@@ -119,7 +118,7 @@ object RDFContextExtractor extends App {
     DataConn.dataSet.close
   }
   
-  def extractPropertiesJSON( reloadDeafaultModel: Boolean, modelFile:String, outputFile: String,  namedModel: String) {
+  def extractPropertiesJSON( reloadDeafaultModel: Boolean, modelFile:String, outputFile: String,  namedModel: String, tdbOutputDir: String, tdbInputDatasetDir: String) {
 	/** get config file **/
     val config = ConfigFactory.load;
 
@@ -132,15 +131,15 @@ object RDFContextExtractor extends App {
     
     extract2(reloadDeafaultModel, //If it is necessary to load the default model. If is has already been loaded, pass false.
       config.getString("dataSet.inputFile") ,
-      config.getString("dataSet.location"),
+      config.getString("dataSet.location") + "/labels",
       config.getString("dataSet.format"),
       modelFile,
       config.getString("execution.inputFormat"),
       config.getString("execution.extraction"),
       config.getString("execution.outputFormat"),
       outputFile,
-      "/Users/carol/Documents/Intrinsic/Repositories/spotlight-util/files/outputs/tdbs/" + namedModel,
-      "/Users/carol/Documents/Intrinsic/Repositories/spotlight-util/files/datasets/")
+      tdbOutputDir + "/" + namedModel,
+      tdbInputDatasetDir)
 
   }
   
