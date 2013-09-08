@@ -19,12 +19,14 @@
 package org.dbpedia.spotlight.lucene.index
 
 import java.io.File
-import org.dbpedia.spotlight.io.{FileOccurrenceSource}
+import scala.collection.JavaConversions
+import org.dbpedia.spotlight.io.FileOccurrenceSource
 import org.apache.commons.logging.LogFactory
 import org.apache.lucene.store.FSDirectory
 import org.dbpedia.spotlight.lucene.LuceneManager
-import org.dbpedia.spotlight.util.IndexingConfiguration
+import org.dbpedia.spotlight.util.ConfigurationLoader
 import org.dbpedia.spotlight.model.Factory
+import scala.collection.JavaConverters._
 
 /**
  * Indexes all occurrences of a DBpedia Resource in Wikipedia as a Lucene index where each document represents one resource.
@@ -56,87 +58,83 @@ object IndexMergedOccurrences
                 }
             }
         })
-        indexer.close  // important
+        indexer.close()  // important
 
         LOG.info("Finished: indexed " + indexDisplay + " occurrences")
     }
 
     def getBaseDir(baseDirName : String) : String = {
         if (! new File(baseDirName).exists) {
-            println("Base directory not found! "+baseDirName);
-            exit();
+            println("Base directory not found! "+baseDirName)
+            System.exit(1)
         }
         baseDirName
     }
 
     /**
      *
-     * Usage: mvn scala:run -DmainClass=org.dbpedia.spotlight.lucene.index.IndexMergedOccurrences "-DaddArgs=$INDEX_CONFIG_FILE|output/occs.uriSorted.tsv|overwrite"
+     * Usage: mvn scala:run -DmainClass=org.dbpedia.spotlight.lucene.index.IndexMergedOccurrences "-DaddArgs=output/occs.uriSorted.tsv|overwrite"
      */
     def main(args : Array[String])
     {
-        val indexingConfigFileName = args(0)
-        val trainingInputFileName = args(1)
+      // Creates an empty property list
+      val config = new ConfigurationLoader()
+      val trainingInputFileName = args(0)
 
-        var shouldOverwrite = false
-        if (args.length>2) {
-            if (args(2).toLowerCase.contains("overwrite"))
-                shouldOverwrite = true;
-        }
+      var shouldOverwrite = false
+      if (args.length>1) {
+          if (args(1).toLowerCase.contains("overwrite"))
+              shouldOverwrite = true
+      }
 
-        val config = new IndexingConfiguration(indexingConfigFileName)
+      // Command line options
+      val baseDir = config.properties.getProperty("org.dbpedia.spotlight.index.dir")
+      val similarity = Factory.Similarity.fromName("InvCandFreqSimilarity")
+      val stopWords = setAsJavaSetConverter(config.properties.getProperty("org.dbpedia.spotlight.data.stopWords").toSet).asJava.asInstanceOf[java.util.Set[String]]
+      val analyzer = Factory.Analyzer.from(config.properties.getProperty("org.dbpedia.spotlight.lucene.analyzer"), config.properties.getProperty("org.dbpedia.spotlight.lucene.version"), stopWords)
 
-        // Command line options
-        val baseDir = config.get("org.dbpedia.spotlight.index.dir")   //getBaseDir(args(1))
-        val similarity = Factory.Similarity.fromName("InvCandFreqSimilarity")  //config.getSimilarity(args(2))
-        val analyzer = config.getAnalyzer  //config.getAnalyzer(args(3))
+      LOG.info("Using dataset under: "+baseDir)
+      LOG.info("Similarity class: "+similarity.getClass)
+      LOG.info("Analyzer class: "+analyzer.getClass)
 
-        LOG.info("Using dataset under: "+baseDir);
-        LOG.info("Similarity class: "+similarity.getClass);
-        LOG.info("Analyzer class: "+analyzer.getClass);
+      LOG.warn("WARNING: this process will run a lot faster if the occurrences are sorted by URI!")
 
-        LOG.warn("WARNING: this process will run a lot faster if the occurrences are sorted by URI!");
+      val minNumDocsBeforeFlush : Int = config.properties.get("org.dbpedia.spotlight.index.minDocsBeforeFlush", "200000").asInstanceOf[Int]
+      val lastOptimize = false
 
-        val minNumDocsBeforeFlush : Int = config.get("org.dbpedia.spotlight.index.minDocsBeforeFlush", "200000").toInt
-        val lastOptimize = false;
+      //val indexOutputDir = baseDir+"2.9.3/Index.wikipediaTraining.Merged."+analyzer.getClass.getSimpleName+"."+similarity.getClass.getSimpleName;
+      val indexOutputDir = baseDir
 
-        //val indexOutputDir = baseDir+"2.9.3/Index.wikipediaTraining.Merged."+analyzer.getClass.getSimpleName+"."+similarity.getClass.getSimpleName;
-        val indexOutputDir = baseDir
+      val lucene = new LuceneManager.BufferedMerging(FSDirectory.open(new File(indexOutputDir)),
+                                                      minNumDocsBeforeFlush,
+                                                      lastOptimize)
 
-        val lucene = new LuceneManager.BufferedMerging(FSDirectory.open(new File(indexOutputDir)),
-                                                        minNumDocsBeforeFlush,
-                                                        lastOptimize)
-        
-        println("Before contextsimilarity.")
-        lucene.setContextSimilarity(similarity)
-        println("Before analyzer.")
-        lucene.setDefaultAnalyzer(analyzer)
-        // If the index directory does not exist, tell lucene to overwrite.
-        // If it exists, the user has to indicate in command line that he/she wants to overwrite it.
-        // I chose command line instead of configuration file to force the user to look at it before running the command.
-        if (!new File(indexOutputDir).exists()) {
-            lucene.shouldOverwrite = true
-            new File(indexOutputDir).mkdir()
-        } else {
-            lucene.shouldOverwrite = shouldOverwrite
-        }
+      println("Before context similarity.")
+      lucene.setContextSimilarity(similarity)
+      println("Before analyzer.")
+      lucene.setDefaultAnalyzer(analyzer)
+      // If the index directory does not exist, tell lucene to overwrite.
+      // If it exists, the user has to indicate in command line that he/she wants to overwrite it.
+      // I chose command line instead of configuration file to force the user to look at it before running the command.
+      if (!new File(indexOutputDir).exists()) {
+          lucene.shouldOverwrite = true
+          new File(indexOutputDir).mkdir()
+      } else {
+          lucene.shouldOverwrite = shouldOverwrite
+      }
 
-        println("Before vector builder.")
-        val vectorBuilder = new MergedOccurrencesContextIndexer(lucene)
-        println("After vector builder.")
+      val vectorBuilder = new MergedOccurrencesContextIndexer(lucene)
+      val freeMemGB : Double = Runtime.getRuntime.freeMemory / 1073741824.0
+      if (Runtime.getRuntime.freeMemory < minNumDocsBeforeFlush) LOG.error("Your available memory "+freeMemGB+"GB is less than minNumDocsBeforeFlush. This setting is known to give OutOfMemoryError.");
+      LOG.info("Available memory: "+freeMemGB+"GB")
+      LOG.info("Max memory: "+Runtime.getRuntime.maxMemory / 1073741824.0 +"GB")
+      /* Total memory currently in use by the JVM */
+      LOG.info("Total memory (bytes): " + Runtime.getRuntime.totalMemory / 1073741824.0 + "GB")
+      //LOG.info("MinNumDocsBeforeFlush: "+minNumDocsBeforeFlush)
 
-        val freeMemGB : Double = Runtime.getRuntime.freeMemory / 1073741824.0
-        if (Runtime.getRuntime.freeMemory < minNumDocsBeforeFlush) LOG.error("Your available memory "+freeMemGB+"GB is less than minNumDocsBeforeFlush. This setting is known to give OutOfMemoryError.");
-        LOG.info("Available memory: "+freeMemGB+"GB")
-        LOG.info("Max memory: "+Runtime.getRuntime.maxMemory / 1073741824.0 +"GB")
-        /* Total memory currently in use by the JVM */
-        LOG.info("Total memory (bytes): " + Runtime.getRuntime.totalMemory / 1073741824.0 + "GB")
-        //LOG.info("MinNumDocsBeforeFlush: "+minNumDocsBeforeFlush)
-        
-        index(trainingInputFileName, vectorBuilder);
+      index(trainingInputFileName, vectorBuilder)
 
-        LOG.info("Index saved to: "+indexOutputDir );
+      LOG.info("Index saved to: "+indexOutputDir )
         
     }
-
 }

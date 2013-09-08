@@ -9,17 +9,21 @@ import scala.collection.JavaConversions._
 import org.dbpedia.spotlight.model.Paragraph
 import scala.io.Source
 import org.dbpedia.spotlight.db.concurrent.SpotterWrapper
+import java.awt.Desktop
+import scalaz.Alpha.C
 
 object EvaluateSpotlightModel {
 
   def main(args: Array[String]) {
 
-    val model = SpotlightModel.fromFolder(new File(args(0)))
+    //val model = SpotlightModel.fromFolder(new File(args(0)))
+    val model = SpotlightModel.fromFolder(new File("""C:/Users/Renan/Desktop/"""))
 
     val memLoaded = (Runtime.getRuntime.totalMemory() - Runtime.getRuntime.freeMemory()) / (1024 * 1024)
     System.err.println("Memory footprint (model loaded): %s".format( memLoaded ) )
 
-    val heldout = new File(args(1), "heldout.txt")
+    //val heldout = new File(args(1), "heldout.txt")
+    val heldout = new File(args(1), "C:/Users/Renan/Desktop/ag94ab12.txt")
 
     val wikipediaToDBpediaClosure = new WikipediaToDBpediaClosure(
       model.properties.getProperty("namespace"),

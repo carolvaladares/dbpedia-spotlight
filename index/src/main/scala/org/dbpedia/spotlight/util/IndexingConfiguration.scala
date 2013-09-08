@@ -52,81 +52,80 @@ import org.dbpedia.spotlight.model.Factory
 
 class IndexingConfiguration(val configFile: File) {
 
-    private val LOG = LogFactory.getLog(this.getClass)
+  private val LOG = LogFactory.getLog(this.getClass)
 
-    def this(fileName: String) {
-        this(new File(fileName))
+  def this(fileName: String) {
+      this(new File(fileName))
+  }
+
+  private val properties : Properties = new Properties()
+
+  LOG.info("Loading configuration file "+configFile)
+  properties.load(new FileInputStream(configFile))
+  validate()
+
+  def save(configFile : File) {
+    properties.store(new FileOutputStream(configFile), "")
+    LOG.info("Saved configuration file"+configFile)
+  }
+
+  def save() {
+    save(configFile)
+  }
+
+  def get(key : String, defaultValue : String) : String = {
+    properties.getProperty(key, defaultValue)
+  }
+
+  def get(key : String) : String = {
+    val value = get(key, null)
+    if(value == null) {
+      throw new ConfigurationException(key+" not specified in "+configFile)
+    }
+    value
+  }
+
+  def set(key : String, newValue : String) {
+    val value = get(key, null)
+    if (value == null) {
+      throw new ConfigurationException(key+" not specified in "+configFile)
+    }
+    properties.setProperty(key, newValue)
+  }
+
+  def getStopWords(language: String) : Set[String] = {
+    val f = new File(get("org.dbpedia.spotlight.data.stopWords", ""))
+    try {
+      Source.fromFile(f, "UTF-8").getLines().toSet
+    }
+    catch {
+      case e: FileNotFoundException => throw new ConfigurationException("stop words file not found: "+f, e)
+    }
+  }
+
+  def getLanguage = {
+    get("org.dbpedia.spotlight.language")
+  }
+
+  def getAnalyzer : Analyzer = {
+    val lang = get("org.dbpedia.spotlight.language")
+    Factory.Analyzer.from(get("org.dbpedia.spotlight.lucene.analyzer"),get("org.dbpedia.spotlight.lucene.version"), getStopWords(lang))
+  }
+
+  private def validate() { //TODO move validation to finer grained factory classes that have specific purposes (e.g. candidate mapping, lucene indexing, etc.)
+
+    val language = get("org.dbpedia.spotlight.language")
+    if(language==null || language.size==0) {
+      throw new ConfigurationException("Parameter org.dbpedia.spotlight.language not specified in config")
     }
 
-    private val properties : Properties = new Properties()
-
-    LOG.info("Loading configuration file "+configFile)
-    properties.load(new FileInputStream(configFile))
-    validate
-
-    def save(configFile : File) {
-        properties.store(new FileOutputStream(configFile), "")
-        LOG.info("Saved configuration file"+configFile)
+    val stopwordsFile = new File(get("org.dbpedia.spotlight.data.stopWords"))
+    if(!stopwordsFile.isFile) {
+      throw new ConfigurationException("specified stop words file not found: "+stopwordsFile)
     }
 
-    def save() {
-        save(configFile)
-    }
+    val analyzerName = get("org.dbpedia.spotlight.lucene.analyzer")
+    if(analyzerName==null) throw new ConfigurationException("Analyzer not specified")
 
-    def get(key : String, defaultValue : String) : String = {
-        properties.getProperty(key, defaultValue)
-    }
-
-    def get(key : String) : String = {
-        val value = get(key, null)
-        if(value == null) {
-            throw new ConfigurationException(key+" not specified in "+configFile)
-        }
-        value
-    }
-
-    def set(key : String, newValue : String) {
-        val value = get(key, null)
-        if (value == null) {
-            throw new ConfigurationException(key+" not specified in "+configFile)
-        }
-        properties.setProperty(key, newValue)
-    }
-
-    def getStopWords(language: String) : Set[String] = {
-        val f = new File(get("org.dbpedia.spotlight.data.stopWords."+language.toLowerCase, ""))
-        try {
-            Source.fromFile(f, "UTF-8").getLines.toSet
-        }
-        catch {
-            case e: FileNotFoundException => throw new ConfigurationException("stop words file not found: "+f, e)
-        }
-    }
-
-    def getLanguage() = {
-        get("org.dbpedia.spotlight.language")
-    }
-
-    def getAnalyzer : Analyzer = {
-        val lang = get("org.dbpedia.spotlight.language")
-        Factory.Analyzer.from(get("org.dbpedia.spotlight.lucene.analyzer"),get("org.dbpedia.spotlight.lucene.version"), getStopWords(lang))
-    }
-
-    private def validate { //TODO move validation to finer grained factory classes that have specific purposes (e.g. candidate mapping, lucene indexing, etc.)
-
-        val language = get("org.dbpedia.spotlight.language")
-        if(language==null || language.size==0) {
-            throw new ConfigurationException("Parameter org.dbpedia.spotlight.language not specified in config")
-        }
-
-        val stopwordsFile = new File(get("org.dbpedia.spotlight.data.stopWords."+language.toLowerCase))
-        if(!stopwordsFile.isFile) {
-            throw new ConfigurationException("specified stop words file not found: "+stopwordsFile)
-        }
-
-        val analyzerName = get("org.dbpedia.spotlight.lucene.analyzer")
-        if(analyzerName==null) throw new ConfigurationException("Analyzer not specified")
-
-    }
-
+  }
 }

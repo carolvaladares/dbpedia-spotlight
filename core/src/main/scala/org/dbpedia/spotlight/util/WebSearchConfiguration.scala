@@ -25,7 +25,7 @@ class WebSearchConfiguration (val configFile: File) {
 
     LOG.info("Loading configuration file "+configFile)
     properties.load(new FileInputStream(configFile))
-    validate
+    validate()
 
     //TODO copied from IndexingConfiguration
     def get(key : String, defaultValue : String) : String = {
@@ -41,7 +41,7 @@ class WebSearchConfiguration (val configFile: File) {
     }
 
     //TODO validate yahoo data ...
-    private def validate {
+    private def validate() {
 
         get("org.dbpedia.spotlight.yahoo.appID") // will throw an exception if it cannot find
 

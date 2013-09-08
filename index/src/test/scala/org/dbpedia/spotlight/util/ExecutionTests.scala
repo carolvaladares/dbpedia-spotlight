@@ -204,7 +204,7 @@ class ExecutionTests extends Assertions {
     var input: Array[String] = null
     for( i: String <- files){
       input = getFiles(i, "nt")
-      val tdbOutputDir = config.getProperty("org.dbpedia.spotlight.data.tdbOutputNL","")
+      val tdbOutputDir = config.getProperty("org.dbpedia.spotlight.data.tdbsOutputNL","")
       val datasetInputDir = config.getProperty("org.dbpedia.spotlight.data.dbpediaInput","")
       //extract: reload,  modelFile, outputFile,  namedModel
       //input:   (0) outputFile , (1) input model file , (2) nameModel

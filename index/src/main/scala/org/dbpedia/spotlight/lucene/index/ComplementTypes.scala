@@ -25,26 +25,25 @@ import com.hp.hpl.jena.tdb.TDBFactory
 import com.hp.hpl.jena.query.QueryExecutionFactory
 import com.hp.hpl.jena.query.QueryFactory
 import com.hp.hpl.jena.query.ResultSet
+import com.hp.hpl.jena.vocabulary.RDF
+import com.hp.hpl.jena.rdf.model._
 import scala.util.matching.Regex
 import scala.io.Source
 import scala.util.control.Breaks._
-import com.hp.hpl.jena.rdf.model._
 import java.io._
-import java.util.Properties
-import org.dbpedia.spotlight.exceptions.ConfigurationException
 import org.apache.commons.logging.LogFactory
 import org.apache.commons.logging.Log
 import org.apache.commons.io.FileUtils
-import com.hp.hpl.jena.vocabulary.RDF
-import com.google.api.client.http.GenericUrl
 import org.apache.http.util.EntityUtils
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.DefaultHttpClient
+import com.google.api.client.http.GenericUrl
 import scala.util.parsing.json.JSON
 import scala.Predef._
 import scala.Some
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks
+import org.dbpedia.spotlight.util.ConfigurationLoader
 
 class ComplementTypes() {
   def testArrayLength(anArrayLength: Int, aLog: Log) {
@@ -485,21 +484,14 @@ object ComplementTypes {
   val aTypeManager = new ComplementTypes()
 
   // Creates an empty property list
-  val config: Properties = new Properties()
-
-  try {
-    config.load(new FileInputStream(new java.io.File("conf/indexing.properties")))
-  }
-  catch {
-    case e: IOException => {
-      throw new ConfigurationException("Cannot find configuration file " + "conf/indexing.properties", e)
-    }
-  }
+  val config = new ConfigurationLoader()
 
   // Read in from the indexing.properties files all the data we need. Creates arrays accordingly
-  val mainLanguage = Array(config.getProperty("org.dbpedia.spotlight.language_i18n_code", ""))
-  val compLangsArray = config.getProperty("org.dbpedia.spotlight.complement_languages", "").split(",").toArray
+  val mainLanguage = Array(config.properties.getProperty("org.dbpedia.spotlight.language_i18n_code", ""))
+  val compLangsArray = config.properties.getProperty("org.dbpedia.spotlight.complement_languages", "").split(",").toArray
   val allLangsArray = mainLanguage ++ compLangsArray
+
+  //println(mainLanguage(0))
 
   // Checks if the number of languages is not valid
   aTypeManager.testArrayLength(allLangsArray.length, LOG)
@@ -508,10 +500,10 @@ object ComplementTypes {
   // If the download.sh script was executed with the complement types option, all the needed directories were already created
   // and are defined inside the script.
   // TODO: make the download.sh script use directories arguments from the indexing.properties file, centralizing this process. ALso change the comment above accordingly
-  val tdbStoreBaseDir = config.getProperty("org.dbpedia.spotlight.data.tdbStoreBaseDir","")
-  val dbpediaBaseDir = config.getProperty("org.dbpedia.spotlight.data.dbpediaBaseDir","")
-  val outputBaseDir = config.getProperty("org.dbpedia.spotlight.data.outputBaseDir","")
-  val freebaseBaseDir = config.getProperty("org.dbpedia.spotlight.data.freebaseBaseDir","")
+  val tdbStoreBaseDir = config.properties.getProperty("org.dbpedia.spotlight.data.tdbStoreBaseDir","")
+  val dbpediaBaseDir = config.properties.getProperty("org.dbpedia.spotlight.data.dbpediaBaseDir","")
+  val outputBaseDir = config.properties.getProperty("org.dbpedia.spotlight.data.outputBaseDir","")
+  val freebaseBaseDir = config.properties.getProperty("org.dbpedia.spotlight.data.freebaseBaseDir","")
 
   // Creates an array to hold all the names of the instance types files we are going to need
   val instTypesNamesArray = new Array[String](allLangsArray.length)

@@ -61,7 +61,7 @@ object ExtractCandidateMap
     var surfaceFormsFileName    = ""
 
 
-    def saveConceptURIs {
+    def saveConceptURIs() {
         if (!new File(titlesFileName).isFile || !new File(redirectsFileName).isFile || !new File(disambiguationsFileName).isFile) {
             throw new IllegalStateException("labels, redirects or disambiguations file not set")
         }
@@ -84,7 +84,7 @@ object ExtractCandidateMap
             }
             input.close()
         }
-        badURIStream.close
+        badURIStream.close()
 
         LOG.info("  collecting concept URIs from titles in "+titlesFileName+", without redirects and disambiguations...")
         val titlesInputStream = new BZip2CompressorInputStream(new FileInputStream(titlesFileName), true)
@@ -96,8 +96,8 @@ object ExtractCandidateMap
             if (looksLikeAGoodURI(uri) && !badURIs.contains(uri))
                 conceptURIStream.println(uri)
         }
-        conceptURIStream.close
-        titlesInputStream.close
+        conceptURIStream.close()
+        titlesInputStream.close()
 
         LOG.info("Done.")
 //        conceptURIsFileName = conceptURIsFile.getAbsolutePath
@@ -121,7 +121,7 @@ object ExtractCandidateMap
 
 
 
-    def saveRedirectsTransitiveClosure {
+    def saveRedirectsTransitiveClosure() {
         if (!new File(redirectsFileName).isFile) {
             throw new IllegalStateException("redirects file not set")
         }
@@ -131,7 +131,7 @@ object ExtractCandidateMap
         LOG.info("Creating redirects transitive closure file "+redirectTCFileName+" ...")
 
         LOG.info("  loading concept URIs from "+conceptURIsFileName+"...")
-        val conceptURIs = Source.fromFile(conceptURIsFileName, "UTF-8").getLines.toSet
+        val conceptURIs = Source.fromFile(conceptURIsFileName, "UTF-8").getLines().toSet
 
         LOG.info("  loading redirects from "+redirectsFileName+"...")
         var linkMap = Map[String,String]()
@@ -156,7 +156,7 @@ object ExtractCandidateMap
             }
         }
 
-        redURIstream.close
+        redURIstream.close()
         LOG.info("Done.")
 //        redirectTCFileName = redirectTCFileName.getAbsolutePath
 //        IndexConfiguration.set("preferredURIs", redirectTCFileName)
@@ -211,7 +211,7 @@ object ExtractCandidateMap
         var conceptURIs = Set[String]()
         val surfaceFormsStream = new PrintStream(surfaceFormsFileName, "UTF-8")
         // all titles of concept URIs are surface forms
-        for (conceptUri <- Source.fromFile(conceptURIsFileName, "UTF-8").getLines) {
+        for (conceptUri <- Source.fromFile(conceptURIsFileName, "UTF-8").getLines()) {
             getCleanSurfaceForm(conceptUri, stopWords, lowerCased) match {
                 case Some(sf : String) => surfaceFormsStream.println(sf+"\t"+conceptUri)
                 case None => LOG.debug("    concept URI "+conceptUri+"' does not decode to a good surface form")
@@ -238,7 +238,7 @@ object ExtractCandidateMap
             input.close()
         }
 
-        surfaceFormsStream.close
+        surfaceFormsStream.close()
         LOG.info("Done.")
 //        surfaceFormsFileName = surfaceFormsFile.getAbsolutePath
 //        IndexConfiguration.set("surfaceForms", surfaceFormsFileName)
@@ -255,7 +255,7 @@ object ExtractCandidateMap
 
         LOG.info("Creating surface forms file "+surfaceFormsFileName+" ...")
         LOG.info("  loading concept URIs from "+conceptURIsFileName+"...")
-        val conceptURIs = Source.fromFile(conceptURIsFileName, "UTF-8").getLines.toSet
+        val conceptURIs = Source.fromFile(conceptURIsFileName, "UTF-8").getLines().toSet
 
         LOG.info("  storing titles of concept URIs...")
         val surfaceFormsStream = new PrintStream(surfaceFormsFileName, "UTF-8")
@@ -283,7 +283,7 @@ object ExtractCandidateMap
         }
 
         LOG.info("  collecting surface forms from map...")
-        for (currentURI <- linkMap.keys.filter(conceptURIs contains _)) {
+        for (currentURI <- linkMap.keys.filter(conceptURIs contains)) {
             var linkedUris = List(currentURI)
             var cyclePrevention = List[String]()
             while (linkedUris.nonEmpty) {
@@ -294,7 +294,7 @@ object ExtractCandidateMap
                 }
                 // get all redirects and disambiguations that link to the last URI
                 // take care that there are no loops
-                var linksList = linkMap.get(linkedUris.head).getOrElse(List[String]()).filterNot(cyclePrevention contains _)
+                val linksList = linkMap.get(linkedUris.head).getOrElse(List[String]()).filterNot(cyclePrevention contains _)
 
                 // add links that point here
                 linkedUris = linkedUris.tail ::: linksList
@@ -306,7 +306,7 @@ object ExtractCandidateMap
             }
         }
 
-        surfaceFormsStream.close
+        surfaceFormsStream.close()
         LOG.info("Done.")
 //        surfaceFormsFileName = surfaceFormsFile.getAbsolutePath
 //        IndexConfiguration.set("surfaceForms", surfaceFormsFileName)
@@ -326,7 +326,7 @@ object ExtractCandidateMap
         val separator = "\t"
 
         val tsvScanner = new Scanner(new FileInputStream(surrogatesFile), "UTF-8")
-        for(line <- Source.fromFile(surrogatesFile, "UTF-8").getLines) {
+        for(line <- Source.fromFile(surrogatesFile, "UTF-8").getLines()) {
             val el = tsvScanner.nextLine.split(separator)
             val sf = if (lowerCased) new SurfaceForm(el(0).toLowerCase) else new SurfaceForm(el(0))
             val uri = el(1)
@@ -348,14 +348,14 @@ object ExtractCandidateMap
         LOG.info("Exporting surface forms TSV file "+surfaceFormsFileName+" to dbpedia.org NT-file "+ntFile+" ...")
         val ntStream = new PrintStream(ntFile, "UTF-8")
 
-        for (line <- Source.fromFile(surfaceFormsFileName, "UTF-8").getLines) {
+        for (line <- Source.fromFile(surfaceFormsFileName, "UTF-8").getLines()) {
             val elements = line.split("\t")
             val subj = new Resource(SpotlightConfiguration.DEFAULT_NAMESPACE+elements(1))
             val obj = new Literal(elements(0), "lang=" + SpotlightConfiguration.DEFAULT_LANGUAGE_I18N_CODE, Literal.STRING)
             val triple = new Triple(subj, predicate, obj)
             ntStream.println(triple.toN3)
         }
-        ntStream.close
+        ntStream.close()
         LOG.info("Done.")
     }
 
@@ -371,67 +371,70 @@ object ExtractCandidateMap
         LOG.info("Exporting surface forms TSV file "+surfaceFormsFileName+" to lexvo.org NT-file "+ntFile+" ...")
         val ntStream = new PrintStream(ntFile, "UTF-8")
 
-        for (line <- Source.fromFile(surfaceFormsFileName, "UTF-8").getLines) {
+        for (line <- Source.fromFile(surfaceFormsFileName, "UTF-8").getLines()) {
             val elements = line.split("\t")
             val subj = new Resource(SpotlightConfiguration.DEFAULT_NAMESPACE+elements(1))
             val obj = new Resource("http://lexvo.org/id/term/"+langString+"/"+WikiUtil.wikiEncode(elements(0)))
             val triple = new Triple(subj, predicate, obj)
             ntStream.println(triple.toN3)
         }
-        ntStream.close
+        ntStream.close()
         LOG.info("Done.")
     }
 
     def main(args : Array[String]) {
-        val indexingConfigFileName = args(0)
-        val config = new IndexingConfiguration(indexingConfigFileName)
+      //val indexingConfigFileName = args(0)
+      //val config = new IndexingConfiguration(indexingConfigFileName)
 
-        val language = config.getLanguage().toLowerCase
+      // Creates an empty property list
+      val config = new ConfigurationLoader()
 
-        // DBpedia input
-        titlesFileName          = config.get("org.dbpedia.spotlight.data.labels")
-        redirectsFileName       = config.get("org.dbpedia.spotlight.data.redirects")
-        disambiguationsFileName = config.get("org.dbpedia.spotlight.data.disambiguations")
+      val language = config.properties.getProperty("org.dbpedia.spotlight.language").toLowerCase
 
-        // output
-        conceptURIsFileName     = config.get("org.dbpedia.spotlight.data.conceptURIs")
-        redirectTCFileName      = config.get("org.dbpedia.spotlight.data.redirectsTC")
-        surfaceFormsFileName    = config.get("org.dbpedia.spotlight.data.surfaceForms")
+      // DBpedia input
+      titlesFileName          = config.properties.getProperty("org.dbpedia.spotlight.data.labels")
+      redirectsFileName       = config.properties.getProperty("org.dbpedia.spotlight.data.redirects")
+      disambiguationsFileName = config.properties.getProperty("org.dbpedia.spotlight.data.disambiguations")
 
-        maximumSurfaceFormLength = config.get("org.dbpedia.spotlight.data.maxSurfaceFormLength").toInt
+      // output
+      conceptURIsFileName     = config.properties.getProperty("org.dbpedia.spotlight.data.conceptURIs")
+      redirectTCFileName      = config.properties.getProperty("org.dbpedia.spotlight.data.redirectsTC")
+      surfaceFormsFileName    = config.properties.getProperty("org.dbpedia.spotlight.data.surfaceForms")
 
-        //DBpedia config
-        SpotlightConfiguration.DEFAULT_NAMESPACE=config.get("org.dbpedia.spotlight.default_namespace",SpotlightConfiguration.DEFAULT_NAMESPACE)
+      maximumSurfaceFormLength = config.properties.getProperty("org.dbpedia.spotlight.data.maxSurfaceFormLength").toInt
+
+      //DBpedia config
+      SpotlightConfiguration.DEFAULT_NAMESPACE=config.properties.getProperty("org.dbpedia.spotlight.default_namespace",SpotlightConfiguration.DEFAULT_NAMESPACE)
 
 
-        //Bad URIs -- will exclude any URIs that match these patterns. Used for Lists, disambiguations, etc.
-        val blacklistedURIPatternsFileName = config.get("org.dbpedia.spotlight.data.badURIs."+language)
-        blacklistedURIPatterns = Source.fromFile(blacklistedURIPatternsFileName).getLines.map( u => u.r ).toSet
+      //Bad URIs -- will exclude any URIs that match these patterns. Used for Lists, disambiguations, etc.
+      val blacklistedURIPatternsFileName = config.properties.getProperty("org.dbpedia.spotlight.data.badURIs."+language)
+      blacklistedURIPatterns = Source.fromFile(blacklistedURIPatternsFileName).getLines().map( u => u.r ).toSet
 
-        //Stopwords (bad surface forms)
-        val stopWordsFileName = config.get("org.dbpedia.spotlight.data.stopWords."+language)
-        val stopWords = Source.fromFile(stopWordsFileName, "UTF-8").getLines.toSet
+      //Stopwords (bad surface forms)
+      val stopWordsFileName = config.properties.getProperty("org.dbpedia.spotlight.data.stopWords")
+      val stopWords = Source.fromFile(stopWordsFileName, "UTF-8").getLines().toSet
 
-        // get concept URIs
-        saveConceptURIs
+      // get concept URIs
+      saveConceptURIs()
 
-        // get redirects
-        saveRedirectsTransitiveClosure
+      // get redirects
+      saveRedirectsTransitiveClosure()
 
-        // get "clean" surface forms, i.e. the ones obtained from TRDs
-        saveSurfaceForms(stopWords)
+      // get "clean" surface forms, i.e. the ones obtained from TRDs
+      saveSurfaceForms(stopWords)
 
-        // TODO get "extra" surface forms from wikipedia occurrences. (see:
-        //      should allow user to specify a minimum count threshold
-        //      should perform redirectsTransitiveClosure for target URIs
-        //saveExtraSurfaceForms
+      // TODO get "extra" surface forms from wikipedia occurrences. (see:
+      //      should allow user to specify a minimum count threshold
+      //      should perform redirectsTransitiveClosure for target URIs
+      //saveExtraSurfaceForms
 
-        //TODO create another class called CreateLexicalizationsDataset
-        // export to NT format (DBpedia and Lexvo.org)
-        //val dbpediaSurfaceFormsNTFileName = new File("e:/dbpa/data/surface_forms/surface_forms-Wikipedia-TitRedDis.nt")
-        //val lexvoSurfaceFormsNTFileName   = new File("e:/dbpa/data/surface_forms/lexicalizations-Wikipedia-TitRedDis.nt")
-        //exportSurfaceFormsTsvToDBpediaNt(dbpediaSurfaceFormsNTFileName)
-        //exportSurfaceFormsTsvToLexvoNt(lexvoSurfaceFormsNTFileName)
+      //TODO create another class called CreateLexicalizationsDataset
+      // export to NT format (DBpedia and Lexvo.org)
+      //val dbpediaSurfaceFormsNTFileName = new File("e:/dbpa/data/surface_forms/surface_forms-Wikipedia-TitRedDis.nt")
+      //val lexvoSurfaceFormsNTFileName   = new File("e:/dbpa/data/surface_forms/lexicalizations-Wikipedia-TitRedDis.nt")
+      //exportSurfaceFormsTsvToDBpediaNt(dbpediaSurfaceFormsNTFileName)
+      //exportSurfaceFormsTsvToLexvoNt(lexvoSurfaceFormsNTFileName)
     }
 
 }
