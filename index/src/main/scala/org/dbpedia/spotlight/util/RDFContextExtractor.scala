@@ -21,12 +21,8 @@ package org.dbpedia.spotlight.util
 
 import java.io.InputStream
 import java.io.PrintStream
-
 import scala.Option.option2Iterable
-
 import com.hp.hpl.jena.rdf.model.Model
-
-import java.util.Properties
 import com.typesafe.config.{ConfigFactory, Config}
 
 /**
@@ -97,7 +93,7 @@ object RDFContextExtractor extends App {
       loadDataSet(tdbFile, tdbLocation, tdbFormat)
    
     /** converts Model input file into InputStream**/
-    var input: InputStream = ///if (extensor(modelFile).equals(Some("bz2")))
+    val input: InputStream = ///if (extensor(modelFile).equals(Some("bz2")))
      BZipUntar.convert(modelFile) 
     						  // else BZipUntar.toInputStream(modelFile)
     		
@@ -115,12 +111,12 @@ object RDFContextExtractor extends App {
       outputFile)
      
     /** Close tdb **/
-    DataConn.dataSet.close
+    DataConn.dataSet.close()
   }
   
   def extractPropertiesJSON( reloadDeafaultModel: Boolean, modelFile:String, outputFile: String,  namedModel: String, tdbOutputDir: String, tdbInputDatasetDir: String) {
 	/** get config file **/
-    val config = ConfigFactory.load;
+    val config = ConfigFactory.load
 
     /*println(config.getString("dataSet.inputFile"))
     println(config.getString("dataSet.location"))
@@ -173,23 +169,23 @@ object RDFContextExtractor extends App {
     
     /** reload the DataConn.dataSet TDB if requested */
     if (loadtdb) {
-      println("Loading Main TDB");
+      println("Loading Main TDB")
       loadDataSet(tdbFile, tdbLocation, tdbFormat)
     }
     
     /** Get the main TDB */
     DataConn.getTDBFilesystem(tdbLocation)
     
-    println("Loading  " + modelFile + "TDBloader2");
+    println("Loading  " + modelFile + "TDBloader2")
     
     /*** Load TDB by using tdbloader2 - for Linux only **/
     LinuxTDBLoader.tdbloader2(modelFile, datasetsLocation, namedModelLocation)
 
-    println("Getting Model " + namedModelLocation);
+    println("Getting Model " + namedModelLocation)
     /** Add Model into separated TDBs **/
-    val model: Model = DataConn.getTDBFilesystemDataset(namedModelLocation).getDefaultModel()  
+    val model: Model = DataConn.getTDBFilesystemDataset(namedModelLocation).getDefaultModel
    
-    println("Extracting");
+    println("Extracting")
     /**Execute the extraction itself */
     RDFContextExtractor.labelExtraction(
       extraction,
@@ -198,8 +194,8 @@ object RDFContextExtractor extends App {
       outputFile)
       
     /** close tdbs used **/
-    model.close
-    DataConn.dataSet.close
+    model.close()
+    DataConn.dataSet.close()
   }
   
   /**
@@ -231,7 +227,7 @@ object RDFContextExtractor extends App {
     }.toSeq
      .sortBy(e => e._1.getLocalName)
    
-    output.close
+    output.close()
     source = null  
   }
 }

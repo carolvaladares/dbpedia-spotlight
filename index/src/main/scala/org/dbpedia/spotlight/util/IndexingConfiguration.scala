@@ -18,25 +18,6 @@
 
 package org.dbpedia.spotlight.util
 
-/**
- * Copyright 2011 Pablo Mendes, Max Jakob
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import org.apache.commons.logging.LogFactory
-import java.util.Properties
-import io.Source
 import scala.collection.JavaConversions._
 import org.apache.lucene.analysis.Analyzer
 import org.dbpedia.spotlight.exceptions.ConfigurationException
@@ -50,62 +31,9 @@ import org.dbpedia.spotlight.model.Factory
  * @author pablomendes (added getters, multi-language support)
  */
 
-class IndexingConfiguration(val configFile: File) {
+class IndexingConfiguration(aConfigFilePath: String = "../conf/indexing.properties") extends ConfigurationLoader(aConfigFilePath) {
 
-  private val LOG = LogFactory.getLog(this.getClass)
-
-  def this(fileName: String) {
-      this(new File(fileName))
-  }
-
-  private val properties : Properties = new Properties()
-
-  LOG.info("Loading configuration file "+configFile)
-  properties.load(new FileInputStream(configFile))
   validate()
-
-  def save(configFile : File) {
-    properties.store(new FileOutputStream(configFile), "")
-    LOG.info("Saved configuration file"+configFile)
-  }
-
-  def save() {
-    save(configFile)
-  }
-
-  def get(key : String, defaultValue : String) : String = {
-    properties.getProperty(key, defaultValue)
-  }
-
-  def get(key : String) : String = {
-    val value = get(key, null)
-    if(value == null) {
-      throw new ConfigurationException(key+" not specified in "+configFile)
-    }
-    value
-  }
-
-  def set(key : String, newValue : String) {
-    val value = get(key, null)
-    if (value == null) {
-      throw new ConfigurationException(key+" not specified in "+configFile)
-    }
-    properties.setProperty(key, newValue)
-  }
-
-  def getStopWords(language: String) : Set[String] = {
-    val f = new File(get("org.dbpedia.spotlight.data.stopWords", ""))
-    try {
-      Source.fromFile(f, "UTF-8").getLines().toSet
-    }
-    catch {
-      case e: FileNotFoundException => throw new ConfigurationException("stop words file not found: "+f, e)
-    }
-  }
-
-  def getLanguage = {
-    get("org.dbpedia.spotlight.language")
-  }
 
   def getAnalyzer : Analyzer = {
     val lang = get("org.dbpedia.spotlight.language")

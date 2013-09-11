@@ -37,7 +37,7 @@ cp $DBPEDIA_WORKSPACE/data/output/$lang_i18n/surfaceForms-fromOccs-thresh3.tsv $
 cat $DBPEDIA_WORKSPACE/data/output/$lang_i18n/surfaceForms-fromTitRedDis.tsv $DBPEDIA_WORKSPACE/data/output/$lang_i18n/surfaceForms-fromOccs.tsv > $DBPEDIA_WORKSPACE/data/output/$lang_i18n/surfaceForms.tsv
 
 # now that we have our set of surfaceForms, we can build a simple dictionary-based spotter from them
-mvn scala:run -Dlauncher=IndexLingPipeSpotter "-DjavaOpts.Xmx=$JAVA_XMX"
+mvn scala:run -Dlauncher=IndexLingPipeSpotter "-DjavaOpts.Xmx=$JAVA_XMX" "-DaddArgs=$INDEX_CONFIG_FILE"
 
 set -e
 # create a lucene index out of the occurrences

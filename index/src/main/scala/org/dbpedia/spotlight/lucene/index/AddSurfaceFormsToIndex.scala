@@ -21,7 +21,7 @@ package org.dbpedia.spotlight.lucene.index
 
 import scala.collection.JavaConversions._
 import org.dbpedia.spotlight.model.SurfaceForm
-import org.dbpedia.spotlight.util.{ConfigurationLoader, IndexingConfiguration}
+import org.dbpedia.spotlight.util.IndexingConfiguration
 import java.util.Scanner
 import java.io.FileInputStream
 import org.apache.commons.logging.{LogFactory, Log}
@@ -104,12 +104,13 @@ object AddSurfaceFormsToIndex
   }
 
   def main(args : Array[String]) {
-    // Creates an empty property list
-    val configNew = new ConfigurationLoader()
+    //val indexingConfigFileName = "../conf/indexing.properties"
+    val indexingConfigFileName = args(0)
 
-    val indexingConfigFileName = configNew.confFilePath
-    val sourceIndexFileName = configNew.properties.getProperty("org.dbpedia.spotlight.index.dir")
+    // Creates an empty property list
     val config = new IndexingConfiguration(indexingConfigFileName)
+
+    val sourceIndexFileName = config.get("org.dbpedia.spotlight.index.dir")
     val targetIndexFileName = sourceIndexFileName+"-withSF"
     val surfaceFormsFileName = config.get("org.dbpedia.spotlight.data.surfaceForms")
     val sfIndexer = new IndexEnricher(sourceIndexFileName,targetIndexFileName, config)

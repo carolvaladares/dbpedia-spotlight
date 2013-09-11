@@ -29,7 +29,7 @@ OPENNLP_DOWNLOADS="http://opennlp.sourceforge.net/models-1.5"
 DBPEDIA_DOWNLOADS="http://downloads.dbpedia.org"
 SOURCEFORGE_DOWNLOADS="http://dbp-spotlight.svn.sourceforge.net/viewvc/dbp-spotlight/tags/release-"$RELEASE_VERSION"/dist/src/deb/control/data/usr/share/dbpedia-spotlight"
 SPOTLIGHT_DOWNLOADS="http://spotlight.dbpedia.org/download/release-"$RELEASE_VERSION
-GITHUB_DOWNLOADS="--no-check-certificate https://github.com/sandroacoelho/lucene-quickstarter/blob/master"
+GITHUB_DOWNLOADS="--no-check-certificate https://raw.github.com/sandroacoelho/lucene-quickstarter/4a6f571d06ab5ebb303f96eb9e6ad84e9cdd0425"
 WIKIMEDIA_DOWNLOADS="http://dumps.wikimedia.org/"$lang_i18n"wiki/latest"
 
 #+------------------------------------------------------------------------------------------------------------------------------+
@@ -209,24 +209,28 @@ download_file $WIKIMEDIA_DOWNLOADS $lang_i18n"wiki-latest-pages-articles.xml.bz2
 bunzip2 -fk $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml.bz2" > $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml"
 
 echo "Getting LingPipe Spotter..."
-download_file $SOURCEFORGE_DOWNLOADS "spotter.dict" $RESOURCES_DATA
+echo "Current link not working!"
+#download_file $SOURCEFORGE_DOWNLOADS "spotter.dict" $RESOURCES_DATA
 
 echo "Getting Spot Selector..."
 download_file $SPOTLIGHT_DOWNLOADS "spot_selector.tgz" $RESOURCES_DATA
-
-echo "Getting Index Files..."
-download_file $SOURCEFORGE_DOWNLOADS "index.tgz" $RESOURCES_DATA
-tar -xvf $RESOURCES_DATA/index.tgz --force-local -C $RESOURCES_DATA
-rm $RESOURCES_DATA/index.tgz
-download_file $SOURCEFORGE_DOWNLOADS "pos-en-general-brown.HiddenMarkovModel" $RESOURCES_DATA
 tar -xvf $RESOURCES_DATA/spot_selector.tgz --force-local -C $RESOURCES_DATA
 rm $RESOURCES_DATA/spot_selector.tgz
 
-echo "Getting the stop words list..."
+echo "Getting Index Files..."
+echo "Current link not working!"
+#download_file $SOURCEFORGE_DOWNLOADS "index.tgz" $RESOURCES_DATA
+#tar -xvf $RESOURCES_DATA/index.tgz --force-local -C $RESOURCES_DATA
+#rm $RESOURCES_DATA/index.tgz
+
+echo "Copying Hidden Markov Model to the resources folder..."
+cp ../core/src/main/resources/pos-en-general-brown.HiddenMarkovModel $RESOURCES_DATA
+
+echo "Getting the stop words list... (direct link to the pt version at the moment)"
 download_file "$GITHUB_DOWNLOADS"/$lang_i18n "stopwords.list" $RESOURCES_DATA/$lang_i18n
 
-echo "Getting the URI blacklisted patterns list..."
-download_file "$GITHUB_DOWNLOADS"/$lang_i18n "blacklistedURIPatterns.$lang_i18n.list" $RESOURCES_DATA/$lang_i18n
+echo "Getting the URI blacklisted patterns list... (direct link to the pt version at the moment)"
+download_file "$GITHUB_DOWNLOADS"/$lang_i18n "blacklistedURIPatterns."$lang_i18n".list" $RESOURCES_DATA/$lang_i18n
 
 echo "Getting Apache OpenNLP models..."
 # The download_opennlp_file function parameters are: 1) language 2) model_name 3) where/to/save

@@ -28,12 +28,26 @@ import org.apache.lucene.analysis.br.BrazilianAnalyzer
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
 import org.apache.lucene.util.Version
 
+object global {
+  var name: String = "name"
+  var cont: Int = 0
+}
+
 /**
  * Prints the output in a given format to an output print stream.
  * Uses System.out by default.
  */
 trait ContextOutputFormatter {
   def format(subject: String, context: String): String
+}
+
+class OCCOutputFormatter extends ContextOutputFormatter {
+  def format(subject: String, context: String) = {
+    val name = global.name + "#" + global.cont
+    global.cont += 1
+    var sub = subject.replaceAll("\\_[_]*", " ")
+    List(name, subject, sub, context, "-1").mkString("\t")
+  }
 }
 
 class TSVOutputFormatter extends ContextOutputFormatter {

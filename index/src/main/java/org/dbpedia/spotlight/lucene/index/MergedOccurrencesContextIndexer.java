@@ -1,20 +1,20 @@
 /*
- * Copyright 2012 DBpedia Spotlight Development Team
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- *  Check our project website for information on how to acknowledge the authors and how to contribute to the project: http://spotlight.dbpedia.org
- */
+* Copyright 2012 DBpedia Spotlight Development Team
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+* Check our project website for information on how to acknowledge the authors and how to contribute to the project: http://spotlight.dbpedia.org
+*/
 
 package org.dbpedia.spotlight.lucene.index;
 
@@ -40,7 +40,7 @@ import java.util.Map;
  * That is because lucene only offers updates through a delete+rewrite.
  * Therefore we have to read the entire doc into memory, merge with the occurrences we've found
  * and then write it back to disk.
- * 
+ *
  * @author pablomendes
  */
 public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
@@ -67,7 +67,7 @@ public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
      * It is a map from URI (String) to Resource definition (lucene Document).
      * A resource definition is a mergeDoc1IntoDoc2 of all occurrences of that resource.
      */
-    Map<String, Document> uriToDocumentMap = new HashMap<String,Document>(); // the buffer
+    Map<String, Document> uriToDocumentMap = new HashMap<>(); // the buffer
 
     /**
      * Calls {@link org.dbpedia.spotlight.lucene.index.BaseIndexer} constructor
@@ -80,7 +80,7 @@ public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
         this.minNumDocsBeforeFlush = lucene.minNumDocsBeforeFlush();
         this.maxMergesBeforeOptimize = lucene.maxMergesBeforeOptimize();
         this.lastOptimize = lucene.lastOptimize();
-        this.initialFreeMem =  Runtime.getRuntime().maxMemory() - Runtime.getRuntime().totalMemory();
+        this.initialFreeMem = Runtime.getRuntime().maxMemory() - Runtime.getRuntime().totalMemory();
         this.mWriter.setSimilarity(lucene.contextSimilarity());
         LOG.info("Initial free memory = "+this.initialFreeMem);
         LOG.info("Setting buffer size (minNumDocsBeforeFlush) = "+this.minNumDocsBeforeFlush);
@@ -96,7 +96,7 @@ public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
     @Override
     public void add(DBpediaResourceOccurrence occ) throws IndexException {
         numEntriesProcessed++;
-        
+
         String uri = occ.resource().uri();
 
         double gb = 1073741824;
@@ -115,21 +115,21 @@ public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
             LOG.debug("Processed "+ numEntriesProcessed +" occurrences. Allocated mem can hold an est. max of "+maxDocsBeforeError+" entries.");
             LOG.debug("Buffer uriToDocumentMap contains "+uriToDocumentMap.size()+ " entries.");
         }
-        
+
         //Whenever we are close to fill up the memory, merge the buffer with disk and clear the buffer.
-//        if ((uriToDocumentMap.size() >= minNumDocsBeforeFlush) &&  // merge based on raw count
-//           (freeMemory < 0.5 * maxMemory)) { // merge based on memory usage
+            // if ((uriToDocumentMap.size() >= minNumDocsBeforeFlush) && // merge based on raw count
+            // (freeMemory < 0.5 * maxMemory)) { // merge based on memory usage
 
-//        if ((Runtime.getRuntime().freeMemory() < 0.4 * gb) ||
-//            (numEntriesProcessed > (0.7 * maxDocsBeforeError)) ) {
+            // if ((Runtime.getRuntime().freeMemory() < 0.4 * gb) ||
+            // (numEntriesProcessed > (0.7 * maxDocsBeforeError)) ) {
 
-//        if (usedMemory > (maxMemory * 0.5)) {
+            // if (usedMemory > (maxMemory * 0.5)) {
 
 
         if ( (uriToDocumentMap.size() >= minNumDocsBeforeFlush) ||
-             ((freeMemory < 1*gb) && (uriToDocumentMap.size() >= minNumDocsBeforeFlush*0.2))
-            ) {
-            
+                ((freeMemory < 1*gb) && (uriToDocumentMap.size() >= minNumDocsBeforeFlush*0.2))
+                ) {
+
             LOG.info("Processed "+ numEntriesProcessed +" occurrences. Allocated mem can hold an est. max of "+maxDocsBeforeError+" entries.");
             LOG.info("Buffer uriToDocumentMap contains "+uriToDocumentMap.size()+ " entries.");
 
@@ -142,13 +142,13 @@ public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
 
 
             // Clear the buffer, unless the disk operation above failed
-            uriToDocumentMap = new HashMap<String,Document>();
+            uriToDocumentMap = new HashMap<>();
             try {
                 Runtime.getRuntime().gc();
             } catch (Exception e) {
                 LOG.error("Error forcing garbage collection.");
             }
-            
+
             try {
                 LOG.info("Now committing...");
                 mWriter.commit();
@@ -164,13 +164,13 @@ public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
             http://mail-archives.apache.org/mod_mbox/lucene-java-user/201008.mbox/browser
             */
             //try {
-                //if (numMerges % maxMergesBeforeOptimize == 0) {
-                    //LOG.info("Optimizing index...");
-                    //mWriter.optimize();
-                    //LOG.info("Optimize done.");
-                //}
+            //if (numMerges % maxMergesBeforeOptimize == 0) {
+            //LOG.info("Optimizing index...");
+            //mWriter.optimize();
+            //LOG.info("Optimize done.");
+            //}
             //} catch (Exception e) {
-            //    throw new IndexException("Error running optimization.",e);
+            // throw new IndexException("Error running optimization.",e);
             //}
 
         } else {
@@ -192,7 +192,7 @@ public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
             SeparateOccurrencesContextSearcher searcher = new SeparateOccurrencesContextSearcher(this.mLucene);
             LOG.info("Merging "+bufferSize+" resources in memory with " +searcher.getNumberOfEntries()+" resources in disk.");
             int numUpdatedDocs = 0;
-            for(String uri: uriToDocumentMap.keySet()) {                
+            for(String uri: uriToDocumentMap.keySet()) {
                 // Get document from buffer
                 Document docForResource = uriToDocumentMap.get(uri);
                 // Merge with documents from disk if there are any
@@ -211,16 +211,14 @@ public class MergedOccurrencesContextIndexer extends OccurrenceContextIndexer {
             }
 
             double percent = 0.0;
-            if (numUpdatedDocs * bufferSize > 0) // Account for when either of these numbers is zero. 
-                percent = new Double(numUpdatedDocs)/bufferSize;
+            if (numUpdatedDocs * bufferSize > 0) // Account for when either of these numbers is zero.
+                percent = (double) numUpdatedDocs /bufferSize;
 
             LOG.info(String.format("Merge done (%s) resources merged).",percent));
             numMerges++;
 
             searcher.close();
-        } catch (IOException e) {
-            throw new IndexException(e);
-        } catch (SearchException e) {
+        } catch (IOException | SearchException e) {
             throw new IndexException(e);
         }
     }

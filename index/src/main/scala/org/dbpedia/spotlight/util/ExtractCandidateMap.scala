@@ -383,36 +383,33 @@ object ExtractCandidateMap
     }
 
     def main(args : Array[String]) {
-      //val indexingConfigFileName = args(0)
-      //val config = new IndexingConfiguration(indexingConfigFileName)
-
-      // Creates an empty property list
-      val config = new ConfigurationLoader()
+      val indexingConfigFileName = args(0)
+      val config = new IndexingConfiguration(indexingConfigFileName)
 
       val language = config.properties.getProperty("org.dbpedia.spotlight.language").toLowerCase
 
       // DBpedia input
-      titlesFileName          = config.properties.getProperty("org.dbpedia.spotlight.data.labels")
-      redirectsFileName       = config.properties.getProperty("org.dbpedia.spotlight.data.redirects")
-      disambiguationsFileName = config.properties.getProperty("org.dbpedia.spotlight.data.disambiguations")
+      titlesFileName          = config.get("org.dbpedia.spotlight.data.labels")
+      redirectsFileName       = config.get("org.dbpedia.spotlight.data.redirects")
+      disambiguationsFileName = config.get("org.dbpedia.spotlight.data.disambiguations")
 
       // output
-      conceptURIsFileName     = config.properties.getProperty("org.dbpedia.spotlight.data.conceptURIs")
-      redirectTCFileName      = config.properties.getProperty("org.dbpedia.spotlight.data.redirectsTC")
-      surfaceFormsFileName    = config.properties.getProperty("org.dbpedia.spotlight.data.surfaceForms")
+      conceptURIsFileName     = config.get("org.dbpedia.spotlight.data.conceptURIs")
+      redirectTCFileName      = config.get("org.dbpedia.spotlight.data.redirectsTC")
+      surfaceFormsFileName    = config.get("org.dbpedia.spotlight.data.surfaceForms")
 
-      maximumSurfaceFormLength = config.properties.getProperty("org.dbpedia.spotlight.data.maxSurfaceFormLength").toInt
+      maximumSurfaceFormLength = config.get("org.dbpedia.spotlight.data.maxSurfaceFormLength").toInt
 
       //DBpedia config
-      SpotlightConfiguration.DEFAULT_NAMESPACE=config.properties.getProperty("org.dbpedia.spotlight.default_namespace",SpotlightConfiguration.DEFAULT_NAMESPACE)
+      SpotlightConfiguration.DEFAULT_NAMESPACE=config.get("org.dbpedia.spotlight.default_namespace",SpotlightConfiguration.DEFAULT_NAMESPACE)
 
 
       //Bad URIs -- will exclude any URIs that match these patterns. Used for Lists, disambiguations, etc.
-      val blacklistedURIPatternsFileName = config.properties.getProperty("org.dbpedia.spotlight.data.badURIs."+language)
+      val blacklistedURIPatternsFileName = config.get("org.dbpedia.spotlight.data.badURIs."+language)
       blacklistedURIPatterns = Source.fromFile(blacklistedURIPatternsFileName).getLines().map( u => u.r ).toSet
 
       //Stopwords (bad surface forms)
-      val stopWordsFileName = config.properties.getProperty("org.dbpedia.spotlight.data.stopWords")
+      val stopWordsFileName = config.get("org.dbpedia.spotlight.data.stopWords")
       val stopWords = Source.fromFile(stopWordsFileName, "UTF-8").getLines().toSet
 
       // get concept URIs

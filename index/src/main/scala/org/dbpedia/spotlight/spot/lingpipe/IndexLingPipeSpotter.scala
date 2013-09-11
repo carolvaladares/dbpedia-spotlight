@@ -24,9 +24,9 @@ import java.io.{FileInputStream, File}
 import org.semanticweb.yars.nx.parser.NxParser
 import com.aliasi.dict.{DictionaryEntry, MapDictionary}
 import org.dbpedia.spotlight.model.DBpediaResourceOccurrence
-import org.dbpedia.spotlight.util.{ConfigurationLoader, IndexingConfiguration}
+import org.dbpedia.spotlight.util.IndexingConfiguration
 import io.Source
-import org.dbpedia.spotlight.io.{OccurrenceSource, IndexedOccurrencesSource}
+import org.dbpedia.spotlight.io.IndexedOccurrencesSource
 
 /**
  * Index surface forms to a spotter dictionary.
@@ -45,7 +45,6 @@ import org.dbpedia.spotlight.io.{OccurrenceSource, IndexedOccurrencesSource}
 object IndexLingPipeSpotter
 {
   private val LOG = LogFactory.getLog(this.getClass)
-
 
   def getDictionary(occs : Traversable[DBpediaResourceOccurrence], lowerCased: Boolean, uriCountThreshold: Int = 0) : MapDictionary[String] = {
       if (lowerCased) LOG.warn("Lowercasing all surface forms in this dictionary!")
@@ -125,11 +124,13 @@ object IndexLingPipeSpotter
     val source = if (args.size>1) args(1).toLowerCase else "tsv" // index or tsv
     val uriCountThreshold = if (args.size>2) args(2).toInt else 0
 
-    // Creates an empty property list
-    val config = new ConfigurationLoader()
+    val indexingConfigFileName = args(0)
 
-    val candidateMapFile = new File(config.properties.getProperty("org.dbpedia.spotlight.data.surfaceForms"))
-    val indexDir = new File(config.properties.getProperty("org.dbpedia.spotlight.index.dir"))
+    // Creates an empty property list
+    val config = new IndexingConfiguration(indexingConfigFileName)
+
+    val candidateMapFile = new File(config.get("org.dbpedia.spotlight.data.surfaceForms"))
+    val indexDir = new File(config.get("org.dbpedia.spotlight.index.dir"))
 
     if (indexDir.getName.contains("compact"))
         LOG.warn("Beware, this class cannot operate on compact indexes. Based on the file name, we believe that your index has been run through CompactIndex, therefore removing surface forms from the stored fields.")
