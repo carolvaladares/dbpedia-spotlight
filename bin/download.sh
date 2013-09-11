@@ -1,7 +1,6 @@
 #!/bin/bash
 #+------------------------------------------------------------------------------------------------------------------------------+
 #| DBpedia Spotlight - Download script                                                                                          |
-#| @author @sandroacoelho @zaknarfen                                                                                            |
 #+------------------------------------------------------------------------------------------------------------------------------+
 PROGNAME=$(basename $0)
 
@@ -27,9 +26,9 @@ RESOURCES_DATA=$DATA/resources
 # All the download URLs used
 OPENNLP_DOWNLOADS="http://opennlp.sourceforge.net/models-1.5"
 DBPEDIA_DOWNLOADS="http://downloads.dbpedia.org"
-SOURCEFORGE_DOWNLOADS="http://dbp-spotlight.svn.sourceforge.net/viewvc/dbp-spotlight/tags/release-"$RELEASE_VERSION"/dist/src/deb/control/data/usr/share/dbpedia-spotlight"
 SPOTLIGHT_DOWNLOADS="http://spotlight.dbpedia.org/download/release-"$RELEASE_VERSION
-GITHUB_DOWNLOADS="--no-check-certificate https://raw.github.com/sandroacoelho/lucene-quickstarter/4a6f571d06ab5ebb303f96eb9e6ad84e9cdd0425"
+GITHUB_DOWNLOADS1="--no-check-certificate https://raw.github.com/sandroacoelho/lucene-quickstarter/4a6f571d06ab5ebb303f96eb9e6ad84e9cdd0425"
+GITHUB_DOWNLOADS2="--no-check-certificate https://raw.github.com/dbpedia-spotlight/dbpedia-spotlight/release-"$RELEASE_VERSION"/dist/src/deb/control/data/usr/share/dbpedia-spotlight"
 WIKIMEDIA_DOWNLOADS="http://dumps.wikimedia.org/"$lang_i18n"wiki/latest"
 
 #+------------------------------------------------------------------------------------------------------------------------------+
@@ -208,29 +207,25 @@ echo "Getting Wikipedia Dump..."
 download_file $WIKIMEDIA_DOWNLOADS $lang_i18n"wiki-latest-pages-articles.xml.bz2" $WIKIPEDIA_DATA/$lang_i18n
 bunzip2 -fk $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml.bz2" > $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml"
 
-echo "Getting LingPipe Spotter..."
-echo "Current link not working!"
-#download_file $SOURCEFORGE_DOWNLOADS "spotter.dict" $RESOURCES_DATA
+echo "Getting CoOccurrenceBased Spot Selector Statistics..."
+download_file $GITHUB_DOWNLOADS2 "spotter.dict" $RESOURCES_DATA
 
 echo "Getting Spot Selector..."
 download_file $SPOTLIGHT_DOWNLOADS "spot_selector.tgz" $RESOURCES_DATA
 tar -xvf $RESOURCES_DATA/spot_selector.tgz --force-local -C $RESOURCES_DATA
-rm $RESOURCES_DATA/spot_selector.tgz
 
-echo "Getting Index Files..."
-echo "Current link not working!"
-#download_file $SOURCEFORGE_DOWNLOADS "index.tgz" $RESOURCES_DATA
-#tar -xvf $RESOURCES_DATA/index.tgz --force-local -C $RESOURCES_DATA
-#rm $RESOURCES_DATA/index.tgz
+echo "Getting the tiny Lucene Context Index..."
+download_file $GITHUB_DOWNLOADS2 "index.tgz" $RESOURCES_DATA
+tar -xvf $RESOURCES_DATA/index.tgz --force-local -C $OUTPUT_DATA/$lang_i18n
 
 echo "Copying Hidden Markov Model to the resources folder..."
 cp ../core/src/main/resources/pos-en-general-brown.HiddenMarkovModel $RESOURCES_DATA
 
 echo "Getting the stop words list... (direct link to the pt version at the moment)"
-download_file "$GITHUB_DOWNLOADS"/$lang_i18n "stopwords.list" $RESOURCES_DATA/$lang_i18n
+download_file $GITHUB_DOWNLOADS1/$lang_i18n "stopwords.list" $RESOURCES_DATA/$lang_i18n
 
 echo "Getting the URI blacklisted patterns list... (direct link to the pt version at the moment)"
-download_file "$GITHUB_DOWNLOADS"/$lang_i18n "blacklistedURIPatterns."$lang_i18n".list" $RESOURCES_DATA/$lang_i18n
+download_file $GITHUB_DOWNLOADS1/$lang_i18n "blacklistedURIPatterns."$lang_i18n".list" $RESOURCES_DATA/$lang_i18n
 
 echo "Getting Apache OpenNLP models..."
 # The download_opennlp_file function parameters are: 1) language 2) model_name 3) where/to/save
