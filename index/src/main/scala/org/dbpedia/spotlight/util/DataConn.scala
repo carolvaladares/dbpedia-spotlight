@@ -76,7 +76,7 @@ object DataConn {
     dataSet = TDBFactory.createDataset(outputData)
     /** Creates default Model and populate it for labels dataset */
     val tdb: Model = readModel(is, format) //dataSet.getDefaultModel
-    tdb.close
+    tdb.close()
   }
 
   /**

@@ -1,5 +1,3 @@
-package org.dbpedia.spotlight.lucene.index
-
 /* Copyright 2012 Intrinsic Ltda.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,11 +18,9 @@ package org.dbpedia.spotlight.lucene.index
 *
 */
 
+package org.dbpedia.spotlight.util
+
 import com.hp.hpl.jena.util.FileManager
-import com.hp.hpl.jena.tdb.TDBFactory
-import com.hp.hpl.jena.query.QueryExecutionFactory
-import com.hp.hpl.jena.query.QueryFactory
-import com.hp.hpl.jena.query.ResultSet
 import com.hp.hpl.jena.vocabulary.RDF
 import com.hp.hpl.jena.rdf.model._
 import scala.util.matching.Regex
@@ -32,7 +28,6 @@ import scala.io.Source
 import scala.util.control.Breaks._
 import java.io._
 import org.apache.commons.logging.LogFactory
-import org.apache.commons.logging.Log
 import org.apache.commons.io.FileUtils
 import org.apache.http.util.EntityUtils
 import org.apache.http.client.methods.HttpGet
@@ -43,63 +38,10 @@ import scala.Predef._
 import scala.Some
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks
-import org.dbpedia.spotlight.util.ConfigurationLoader
+import TDBHelper._
+import ArrayUtil._
 
 class ComplementTypes() {
-  def testArrayLength(anArrayLength: Int, aLog: Log) {
-    if (anArrayLength < 1) {
-      aLog.error("At least one language must be supplied to execute this process.")
-      System.exit(1)
-    }
-  }
-
-  def createModel(aDirectory: String): Model = {
-    val dataset = TDBFactory.createDataset(aDirectory)
-    dataset.getDefaultModel
-  }
-
-  def createNTFileIterator(aFile: String): StmtIterator = {
-    val input = FileManager.get().open(aFile)
-    val model = ModelFactory.createDefaultModel()
-    model.read(input, null, "N-TRIPLES")
-    model.listStatements()
-  }
-
-  // Builds the default query to be used in the select command
-  def buildQueryRDFType(aString: String): String = {
-    "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" + '\n' +
-    "SELECT ?o " + '\n' +
-    "WHERE {<" + aString + "> rdf:type ?o}"
-  }
-
-  def buildQueryOWLSameAs(aString: String): String = {
-    "PREFIX owl: <http://www.w3.org/2002/07/owl#>" + '\n' +
-      "SELECT ?o " + '\n' +
-      "WHERE {<" + aString + "> owl:sameAs ?o}"
-  }
-
-  // Executes a select query over the datasets
-  def executeQuery(aQuery: String, aModel: Model): ResultSet = {
-    val query = QueryFactory.create(aQuery)
-    val qexec = QueryExecutionFactory.create(query, aModel)
-    qexec.execSelect()
-  }
-
-  // Utility function that returns a String displaying the results of validation
-  def showValidity(infModel :InfModel): String = {
-    // VALIDITY CHECK against RDFS
-    val buf = new StringBuffer()
-    val validity = infModel.validate()
-    if (validity.isValid) {
-      buf.append("The Model is VALID!")
-    } else {
-      buf.append("Model has CONFLICTS.")
-      while (validity.getReports.hasNext) {
-        buf.append(" - " + validity.getReports.next() )
-      }
-    }
-    buf.toString
-  }
 
   // Utility function to append the final string to the initial instance types triples file
   def using[A <: {def close(): Unit}, B](param: A)(f: A => B): B = {
@@ -481,29 +423,25 @@ class ComplementTypes() {
 
 object ComplementTypes {
   private val LOG = LogFactory.getLog(this.getClass)
-  val aTypeManager = new ComplementTypes()
 
-  // Creates an empty property list
-  val config = new ConfigurationLoader()
+  val aTypeManager = new ComplementTypes()
+  val config = new IndexingConfiguration()
 
   // Read in from the indexing.properties files all the data we need. Creates arrays accordingly
-  val mainLanguage = Array(config.properties.getProperty("org.dbpedia.spotlight.language_i18n_code", ""))
-  val compLangsArray = config.properties.getProperty("org.dbpedia.spotlight.complement_languages", "").split(",").toArray
+  val mainLanguage = Array(config.get("org.dbpedia.spotlight.language_i18n_code", ""))
+  val compLangsArray = config.get("org.dbpedia.spotlight.complement_languages", "").split(",").toArray
   val allLangsArray = mainLanguage ++ compLangsArray
 
-  //println(mainLanguage(0))
-
   // Checks if the number of languages is not valid
-  aTypeManager.testArrayLength(allLangsArray.length, LOG)
+  testArrayLength(1, allLangsArray.length, LOG)
 
   // Get the base directories used in this process. The user can set the paths to them in the indexing.properties file.
   // If the download.sh script was executed with the complement types option, all the needed directories were already created
   // and are defined inside the script.
-  // TODO: make the download.sh script use directories arguments from the indexing.properties file, centralizing this process. ALso change the comment above accordingly
-  val tdbStoreBaseDir = config.properties.getProperty("org.dbpedia.spotlight.data.tdbStoreBaseDir","")
-  val dbpediaBaseDir = config.properties.getProperty("org.dbpedia.spotlight.data.dbpediaBaseDir","")
-  val outputBaseDir = config.properties.getProperty("org.dbpedia.spotlight.data.outputBaseDir","")
-  val freebaseBaseDir = config.properties.getProperty("org.dbpedia.spotlight.data.freebaseBaseDir","")
+  val tdbStoreBaseDir = config.get("org.dbpedia.spotlight.data.tdbStoreBaseDir","")
+  val dbpediaBaseDir = config.get("org.dbpedia.spotlight.data.dbpediaBaseDir","")
+  val outputBaseDir = config.get("org.dbpedia.spotlight.data.outputBaseDir","")
+  val freebaseBaseDir = config.get("org.dbpedia.spotlight.data.freebaseBaseDir","")
 
   // Creates an array to hold all the names of the instance types files we are going to need
   val instTypesNamesArray = new Array[String](allLangsArray.length)
@@ -513,11 +451,11 @@ object ComplementTypes {
   val fileIteratorArray = new Array[StmtIterator](allLangsArray.length-1)
 
   // Checks if the number of files to iterate through is not valid
-  aTypeManager.testArrayLength(fileIteratorArray.length, LOG)
+  testArrayLength(1, fileIteratorArray.length, LOG)
 
   def main(args : Array[String]) {
     // Core methods for the types complement task
-    //aTypeManager.compTypesWithOtherLanguages
+    //aTypeManager.compTypesWithOtherLanguages()
     //aTypeManager.compTypesWithFreebaseLocal()
     //aTypeManager.compTypesWithFreebaseRemote()
     //aTypeManager.preprocessDbFbFiles(mainLanguage(0), freebaseBaseDir + "freebase_links_sorted.nt", outputBaseDir + mainLanguage(0) + '/' + mainLanguage(0) + "_en_links_sorted.nt", outputBaseDir + mainLanguage(0) + '/')

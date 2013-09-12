@@ -17,15 +17,13 @@ class ConfigurationLoader(private val aConfigFilePath: String = "") {
   val properties: Properties = new Properties()
   loadConfiguration(properties)
 
-  private val LOG = LogFactory.getLog(this.getClass)
-
   def loadConfigurationFile(x: Properties) = {
-    //LOG.info("Loading configuration file " + configFilePath + """.""")
     val aInputStream = new FileInputStream(configFile)
     if (aInputStream == null) {
       throw new Exception("Cannot load the configuration file!")
     }
     x.load(aInputStream)
+    println("Loaded configuration file " + configFilePath + """.""")
   }
 
   def loadConfiguration(aConfig: Properties) = {
@@ -41,7 +39,7 @@ class ConfigurationLoader(private val aConfigFilePath: String = "") {
 
   def save(configFile: File) {
     properties.store(new FileOutputStream(configFile), "")
-    LOG.info("Saved configuration file " + configFile + """.""")
+    println("Saved configuration file " + configFile + """.""")
   }
 
   def save() {

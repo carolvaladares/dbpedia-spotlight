@@ -31,7 +31,7 @@ import org.dbpedia.spotlight.model.Factory
  * @author pablomendes (added getters, multi-language support)
  */
 
-class IndexingConfiguration(aConfigFilePath: String = "../conf/indexing.properties") extends ConfigurationLoader(aConfigFilePath) {
+class IndexingConfiguration(aConfigFilePath: String = "conf/indexing.properties") extends ConfigurationLoader(aConfigFilePath) {
 
   validate()
 
