@@ -8,11 +8,11 @@ PROGNAME=$(basename $0)
 
 export lang_i18n=pt
 export language=portuguese
-export comp_languages=(it es en)
-#export dbpedia_workspace="E:/Spotlight"
-export dbpedia_workspace="/home/ubuntu/SpotlightData"
+export all_languages=(en bg ca cs de el es fr hu it ko pl pt ru sl tr)
+export dbpedia_workspace="E:/SpotlightTest"
+#export dbpedia_workspace="/home/ubuntu/Spotlight"
 export dbpedia_version=3.8
-RELEASE_VERSION="0.5"
+RELEASE_VERSION="0.6"
 
 # Paths to all the directories we are going to need
 DATA=$dbpedia_workspace/data
@@ -25,8 +25,8 @@ RESOURCES_DATA=$DATA/resources
 
 # All the download URLs used
 OPENNLP_DOWNLOADS="http://opennlp.sourceforge.net/models-1.5"
-DBPEDIA_DOWNLOADS="http://downloads.dbpedia.org"
-SPOTLIGHT_DOWNLOADS="http://spotlight.dbpedia.org/download/release-"$RELEASE_VERSION
+DBPEDIA_DOWNLOADS="http://downloads.dbpedia.org"/$dbpedia_version
+SPOTLIGHT_DOWNLOADS="http://spotlight.dbpedia.org/download/release-0.5"
 GITHUB_DOWNLOADS1="--no-check-certificate https://raw.github.com/sandroacoelho/lucene-quickstarter/4a6f571d06ab5ebb303f96eb9e6ad84e9cdd0425"
 GITHUB_DOWNLOADS2="--no-check-certificate https://raw.github.com/dbpedia-spotlight/dbpedia-spotlight/release-"$RELEASE_VERSION"/dist/src/deb/control/data/usr/share/dbpedia-spotlight"
 WIKIMEDIA_DOWNLOADS="http://dumps.wikimedia.org/"$lang_i18n"wiki/latest"
@@ -65,7 +65,17 @@ function download_file()
                 wget -N $1/$2 --directory-prefix=$3
             else
                 # The file can't be found. We can extract a substring with the file name and show it to the user
-                error_exit "ERROR: The file '"$2"' cannot be found for download.\nYou can change to another language and rerun this script or comment the download command for this file if you already have it inside the respective directory."
+                error_exit "ERROR: The file '"$2"' cannot be found for download.\n"
+            fi
+            ;;
+        "4")
+            echo "panda"
+            wget -q --spider $1 $2/$3
+            if [ $? -eq 0 ] ; then
+                wget -N $1 $2/$3 --directory-prefix=$4
+            else
+                # The file can't be found. We can extract a substring with the file name and show it to the user
+                error_exit "ERROR: The file '"$3"' cannot be found for download.\n"
             fi
             ;;
         *)
@@ -99,69 +109,25 @@ function dl_opennlp_file()
 }
 
 # The function used to test the languages used as complement to the initial language
-function test_comp_lang()
+function test_languages_array
 {
-    local arr=$1
     # Loop through the languages array
-    for i in ${arr[@]}
+    for i in ${all_languages[@]}
     do
        # Checking if the complement languages supplied are valid
-       if ([ $(expr length $i) -ne 2 ] | [ "$i" == "$lang_i18n" ] | [ $( expr match $i [a-zA-Z]\. ) -ne 2 ]); then
+       if ([ $(expr length $i) -ne 2 ] | [ $( expr match $i [a-zA-Z]\. ) -ne 2 ]); then
            error_exit "ERROR: Invalid complement languages!"
        fi
     done
 }
 
-# Just some initial processing for the types complement task
-function init_complement
+function unicodeEscape()
 {
-    # We will decompress the instance types file to a .nt format so we can use the FileManager class from Apache Jena. The original
-    # compressed file will be preserved in the process
-    bunzip2 -fk $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt.bz2 > $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt
-
-    # Removing the last line of the file if there is a "completed" message in the end
-    sed '/\(\# completed\)/d' $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt > $DBPEDIA_DATA/$lang_i18n/tmp.nt
-    mv $DBPEDIA_DATA/$lang_i18n/tmp.nt $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt
-
-    # Create a directory to keep the TDB store of the initial language. This way we do not have to load everything to memory in
-    # order to execute SPARQL queries
-    create_dir $JENA_DATA/$lang_i18n/TDB
-
-    # We will also download the bijective interlanguage links file of the initial language. This file has 'sameAs' relations that can
-    # be used to find types for a resource in another language
-    download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$lang_i18n interlanguage_links_same_as_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
-    bunzip2 -fk $DBPEDIA_DATA/$lang_i18n/interlanguage_links_same_as_$lang_i18n.nt.bz2 > $DBPEDIA_DATA/$lang_i18n/interlanguage_links_same_as_$lang_i18n.nt
-}
-
-# The function used in case the user wants to complement the instance types triples file
-function complement_types()
-{
-    echo -e "\nDo you want to complement the '"$language"' instance types file with other languages? (optional)\nThis file is used in the indexing stage.\n"
-    select yn in "Yes" "No"; do
-        case $yn in    
-            Yes ) # Test if the complement languages array is empty or not defined, and valid
-                  [[ $comp_languages && ${comp_languages-x} ]] && test_comp_lang $comp_languages || error_exit "Complement languages array not defined or empty!"
-                  # Start to set up the complement types stage by creating the directories needed and downloading all the respective files
-                  # for the initial language
-                  init_complement;
-                  # Do the same with all the complement languages
-                  for i in ${comp_languages[@]}
-                  do
-                      # Create the base directory for each language used as complement
-                      create_dir $DBPEDIA_DATA/$i
-                      # Create the directory for the TDB store
-                      create_dir $JENA_DATA/$i
-                      create_dir $JENA_DATA/$i/TDB
-                      # Download and unzip the file we are going to query over
-                      download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$i instance_types_$i.nt.bz2 $DBPEDIA_DATA/$i
-                      bunzip2 -fk $DBPEDIA_DATA/$i/instance_types_$i.nt.bz2 > $DBPEDIA_DATA/$i/instance_types_$i.nt
-                      sed '/\(\# completed\)/d' $DBPEDIA_DATA/$i/instance_types_$i.nt > $DBPEDIA_DATA/$i/tmp.nt
-                      mv $DBPEDIA_DATA/$i/tmp.nt $DBPEDIA_DATA/$i/instance_types_$i.nt
-                  done
-                  break;;
-            No ) break;;
-        esac
-    done
+    bzip2 -d $1
+    /usr/bin/python unicodeEscape.py $1
+    rm $1
+    mv $1".new" $1
+    bzip2 -z -k $1
 }
 
 #+------------------------------------------------------------------------------------------------------------------------------+
@@ -174,38 +140,45 @@ touch $dbpedia_workspace/foo && rm -f $dbpedia_workspace/foo || error_exit "ERRO
 
 set -e
 
+# Test the languages array
+test_languages_array
+
 # Creating all the directories needed
-echo -e "\nCreating directories..."
+echo -e "\nCreating base directories..."
 create_dir $DATA
-create_dir $WIKIPEDIA_DATA
-create_dir $WIKIPEDIA_DATA/$lang_i18n
-create_dir $DBPEDIA_DATA
-create_dir $DBPEDIA_DATA/$lang_i18n
 create_dir $OUTPUT_DATA
+create_dir $WIKIPEDIA_DATA
+create_dir $DBPEDIA_DATA
 create_dir $OPENNLP_DATA
-create_dir $OPENNLP_DATA/$lang_i18n
 create_dir $JENA_DATA
-create_dir $JENA_DATA/$lang_i18n
 create_dir $RESOURCES_DATA
-create_dir $RESOURCES_DATA/$lang_i18n
+
+# Loop through the languages array
+for i in ${all_languages[@]}
+do
+    create_dir $OUTPUT_DATA/$i
+    create_dir $OUTPUT_DATA/$i/index
+    create_dir $WIKIPEDIA_DATA/$i
+    create_dir $DBPEDIA_DATA/$i
+    create_dir $OPENNLP_DATA/$i
+    create_dir $JENA_DATA/$i
+    create_dir $JENA_DATA/$i/TDB
+    create_dir $RESOURCES_DATA/$i
+done
 
 # The next step is to download all the needed files.
 set +e
 
 echo -e "\nGetting DBpedia Files..."
 # The download_file function parameters are: 1) path/to/file 2) file_name 3) where/to/save
-download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$lang_i18n labels_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
-download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$lang_i18n redirects_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
-download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$lang_i18n disambiguations_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
-download_file $DBPEDIA_DOWNLOADS/$dbpedia_version/$lang_i18n instance_types_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
-
-# After creating the directories we can ask the user if he wants to complement the instance types triples file.
-# The idea is to improve the indexing stage of a language using other languages. This is optional.
-complement_types $lang_i18n
+download_file $DBPEDIA_DOWNLOADS/$lang_i18n labels_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
+download_file $DBPEDIA_DOWNLOADS/$lang_i18n redirects_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
+download_file $DBPEDIA_DOWNLOADS/$lang_i18n disambiguations_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
+download_file $DBPEDIA_DOWNLOADS/$lang_i18n instance_types_$lang_i18n.nt.bz2 $DBPEDIA_DATA/$lang_i18n
 
 echo "Getting Wikipedia Dump..."
-download_file $WIKIMEDIA_DOWNLOADS $lang_i18n"wiki-latest-pages-articles.xml.bz2" $WIKIPEDIA_DATA/$lang_i18n
-bunzip2 -fk $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml.bz2" > $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml"
+#download_file $WIKIMEDIA_DOWNLOADS $lang_i18n"wiki-latest-pages-articles.xml.bz2" $WIKIPEDIA_DATA/$lang_i18n
+#bunzip2 -fk $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml.bz2" > $WIKIPEDIA_DATA/$lang_i18n/$lang_i18n"wiki-latest-pages-articles.xml"
 
 echo "Getting CoOccurrenceBased Spot Selector Statistics..."
 download_file $GITHUB_DOWNLOADS2 "spotter.dict" $RESOURCES_DATA
@@ -215,7 +188,9 @@ download_file $SPOTLIGHT_DOWNLOADS "spot_selector.tgz" $RESOURCES_DATA
 tar -xvf $RESOURCES_DATA/spot_selector.tgz --force-local -C $RESOURCES_DATA
 
 echo "Getting the tiny Lucene Context Index..."
-download_file $GITHUB_DOWNLOADS2 "index.tgz" $RESOURCES_DATA
+# Hard coded version release to 0.5. The URL to version 0.6 has a folder and getting it from GitHub is not working
+wget -N --no-check-certificate https://raw.github.com/dbpedia-spotlight/dbpedia-spotlight/release-0.5/dist/src/deb/control/data/usr/share/dbpedia-spotlight/index.tgz --directory-prefix=$RESOURCES_DATA
+# download_file $GITHUB_DOWNLOADS2 "index.tgz" $RESOURCES_DATA
 tar -xvf $RESOURCES_DATA/index.tgz --force-local -C $OUTPUT_DATA/$lang_i18n
 
 echo "Copying Hidden Markov Model to the resources folder..."
@@ -237,6 +212,11 @@ dl_opennlp_file $lang_i18n "pos-maxent.bin" $OPENNLP_DATA/$lang_i18n
 dl_opennlp_file $lang_i18n "sent.bin" $OPENNLP_DATA/$lang_i18n
 dl_opennlp_file $lang_i18n "token.bin" $OPENNLP_DATA/$lang_i18n
 
-echo -e "\nAll the downloads are done!"
+# Run the unicodeEscape.py script
+unicodeEscape $DBPEDIA_DATA/$lang_i18n/disambiguations_$lang_i18n.nt.bz2
+unicodeEscape $DBPEDIA_DATA/$lang_i18n/instance_types_$lang_i18n.nt.bz2
+unicodeEscape $DBPEDIA_DATA/$lang_i18n/labels_$lang_i18n.nt.bz2
+unicodeEscape $DBPEDIA_DATA/$lang_i18n/redirects_$lang_i18n.nt.bz2
 
+echo -e "\nAll the downloads are done!"
 
