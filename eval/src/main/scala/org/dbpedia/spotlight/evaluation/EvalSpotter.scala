@@ -25,7 +25,7 @@ import org.dbpedia.spotlight.spot.ahocorasick.AhoCorasickSpotter
 object EvalSpotter {
 
   def evalCorpus = {
-    MilneWittenCorpus.fromDirectory(new File("/home/max/spotlight-data/milne-witten"))
+    MilneWittenCorpus.fromDirectory(new File("/home/ubuntu/SpotlightData/data/output/pt"))///home/max/spotlight-data/milne-witten"))
     //AnnotatedTextSource.fromOccurrencesFile(new File("/home/max/spotlight-data/CSAWoccs.red-dis-3.7-sorted.tsv")))
   }
 

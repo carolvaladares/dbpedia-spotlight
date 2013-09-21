@@ -35,6 +35,7 @@
 
     <properties>
         <spotlight.basedir>${project.basedir}/..</spotlight.basedir>
+        <scala.compiler.version>2.9.2</scala.compiler.version>
     </properties>
 
 

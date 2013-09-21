@@ -67,15 +67,19 @@ public class NESpotter implements Spotter {
         try {
             if (NESpotter.sentenceModel == null) {
                 NESpotter.sentenceModel  = OpenNLPUtil.loadModel(onlpModelDir, i18nLanguageCode + OpenNLPUtil.OpenNlpModels.SentenceModel.filename(), OpenNLPUtil.OpenNlpModels.SentenceModel.toString());
+                LOG.info("Sentence model name: " + i18nLanguageCode + OpenNLPUtil.OpenNlpModels.SentenceModel.filename());
             }
             if (NESpotter.entityTypes.get(OpenNLPUtil.OpenNlpModels.person.toString()) == null) {
                 buildNameModel(onlpModelDir,OpenNLPUtil.OpenNlpModels.person.toString(),  new URI(openNLPModelsURI.get(OpenNLPUtil.OpenNlpModels.person.toString())),i18nLanguageCode);
+                LOG.info("Sentence model name: " + i18nLanguageCode + OpenNLPUtil.OpenNlpModels.person.filename());
             }
             if (NESpotter.entityTypes.get(OpenNLPUtil.OpenNlpModels.location.toString()) == null) {
                 buildNameModel(onlpModelDir, OpenNLPUtil.OpenNlpModels.location.toString(), new URI(openNLPModelsURI.get(OpenNLPUtil.OpenNlpModels.location.toString())),i18nLanguageCode);
+                LOG.info("Sentence model name: " + i18nLanguageCode + OpenNLPUtil.OpenNlpModels.location.filename());
             }
             if (NESpotter.entityTypes.get(OpenNLPUtil.OpenNlpModels.organization.toString()) == null) {
                 buildNameModel(onlpModelDir, OpenNLPUtil.OpenNlpModels.organization.toString(), new URI(openNLPModelsURI.get(OpenNLPUtil.OpenNlpModels.organization.toString())),i18nLanguageCode);
+                LOG.info("Sentence model name: " + i18nLanguageCode + OpenNLPUtil.OpenNlpModels.organization.filename());
             }
         } catch (Exception e) {
             throw new ConfigurationException("Error initializing NESpotter", e);

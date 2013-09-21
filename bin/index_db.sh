@@ -10,7 +10,7 @@
 # $4 Analyzer+Stemmer language prefix e.g. Dutch(Analzyer|Stemmer)
 # $5 Model target folder
 
-export MVN_OPTS="-Xmx26G"
+export MVN_OPTS="-Xmx10G"
 
 usage ()
 {
@@ -19,7 +19,6 @@ usage ()
      echo "Create a database-backed model of DBpedia Spotlight for a specified language."
      echo " "
 }
-
 
 opennlp="None"
 eval=""

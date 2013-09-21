@@ -23,7 +23,7 @@ class WebSearchConfiguration (val configFile: File) {
 
     SpotlightLog.info(this.getClass, "Loading configuration file %s", configFile)
     properties.load(new FileInputStream(configFile))
-    validate
+    validate()
 
     //TODO copied from IndexingConfiguration
     def get(key : String, defaultValue : String) : String = {
@@ -39,7 +39,7 @@ class WebSearchConfiguration (val configFile: File) {
     }
 
     //TODO validate yahoo data ...
-    private def validate {
+    private def validate() {
 
         get("org.dbpedia.spotlight.yahoo.appID") // will throw an exception if it cannot find
 

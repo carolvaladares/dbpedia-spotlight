@@ -69,7 +69,7 @@ object ExtractOccsFromWikipedia {
         val narrowContext = new ContextExtractor(minContextWindowSize, maxContextWindowSize)
         val contextNarrowFilter = new ContextNarrowFilter(narrowContext)
 
-        val filters = (conceptUriFilter :: redirectResolver :: contextNarrowFilter :: Nil)
+        val filters = conceptUriFilter :: redirectResolver :: contextNarrowFilter :: Nil
 
         val occSource : Traversable[DBpediaResourceOccurrence] = AllOccurrenceSource.fromXMLDumpFile(new File(wikiDumpFileName), Language(languageCode))
         //val filter = new OccurrenceFilter(redirectsTC = redirectsTCMap, conceptURIs = conceptUrisSet, contextExtractor = narrowContext)
