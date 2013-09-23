@@ -1,6 +1,6 @@
 package org.dbpedia.spotlight.db.io.util
 
-class ssim PigTokenOccurrenceParser extends TokenOccurrenceParser {
+class PigTokenOccurrenceParser extends TokenOccurrenceParser {
 
   def parse(tokens: String): Pair[Array[String], Array[Int]] = {
     var tokensA = Array[String]()

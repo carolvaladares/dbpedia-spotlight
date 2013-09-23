@@ -41,9 +41,9 @@ object SpotXMLToTSV {
     //spotter.extract(new Text(xml)).foreach(println)
     spotter.extract(new Text(xml))
 
-    if (spotter.occurences.isEmpty) sys.exit(1)
+    //if (spotter.occurences.isEmpty) sys.exit(1)
 
-    spotter.occurences.foreach(println)
+    //spotter.occurences.foreach(println)
 
     val aConverter  = new SpotXMLToTSV("XML", "TSV", spotter)
   }
