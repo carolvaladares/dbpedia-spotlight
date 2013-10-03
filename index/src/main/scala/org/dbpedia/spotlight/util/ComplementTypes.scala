@@ -40,12 +40,10 @@ import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks
 import TDBHelper._
 import ArrayUtil._
+import org.apache.jena.riot.RiotException
+import com.hp.hpl.jena.query.QueryParseException
 
 class ComplementTypes() {
-  //                                                 "en"
-  val allLanguagesArray = List("af","al","am","an","ar","as","az",
-                               "bg","bn","bp","br","bu","ca","cs","de","dbpedia","el","es","fr","hu","it","ko","pl","pt","ru","sl","tr")
-
   // Utility function to append the final string to the initial instance types triples file
   def using[A <: {def close(): Unit}, B](param: A)(f: A => B): B = {
     try { f(param) } finally { param.close() }
@@ -75,9 +73,6 @@ class ComplementTypes() {
   }
 
   def reformatString(aResourceGroup: String): String = {
-    val aLength = aResourceGroup.split(" ").length
-    //println(aResourceGroup)
-
     var initialIndex = -1
     var finalIndex = -1
     for (resource <- aResourceGroup.split(" ")) {
@@ -89,19 +84,19 @@ class ComplementTypes() {
         finalIndex = currentIndex
       }
     }
-
-    //initialIndex = getIndex(aResourceGroup.split(" ")(0).reverse.dropRight(1).reverse)
-    //finalIndex = getIndex(aResourceGroup.split(" ")(aLength-1))
-    var finalString = ""// ("\N " * (finalIndex-initalIndex+1)).dropRight(1)
+    var finalString = ""
 
     //println(initialIndex)
     //println(finalIndex)
 
+    //println("A resource group = " + aResourceGroup)
     if (initialIndex == -1 && finalIndex == -1) {
       ""
     } else {
       val groupArray = aResourceGroup.split(" ")
+      //println("Before group 0 = " + groupArray(0))
       groupArray(0) = groupArray(0).reverse.dropRight(1).reverse
+      //println("After group 0 = " + groupArray(0))
       var auxString = ""
       if (ComplementTypes.compLangsArray.length-1 > finalIndex - initialIndex) {
         initialIndex = 0
@@ -113,10 +108,9 @@ class ComplementTypes() {
             auxString += groupArray(j) + " "
           }
         }
-        //println(auxString)
-        //new java.util.Scanner(System.in).nextLine()
+        //println("Aux string = " + auxString)
         if (auxString == "") {
-          finalString += """\N """
+          finalString += """/N """
         } else {
           finalString += auxString
         }
@@ -153,10 +147,8 @@ class ComplementTypes() {
     fixEnEntry(ComplementTypes.compLangsArray)
 
     for (line <- lines.drop(1)) {
-      //println(line)
       for (language <- ComplementTypes.compLangsArray) {
         val resource = line.split(" ")(2)
-        //println(resource.split("/")(2))
         try {
           if (resource.split("/")(2).split("""\.""")(0) == language) {
             appendToFile(newPath, line)
@@ -170,9 +162,10 @@ class ComplementTypes() {
   }
 
   def rebuildInterlanguageLinksFile(aPath: String) {
-    //val aNewPath = filterFile(aPath)
-    //System.exit(1)
-    val aNewPath = aPath + """.new"""
+    // Filter the interlanguage file to only accept the complement languages
+    val aNewPath = filterFile(aPath)
+
+    // Get the .new file with onyl the complement languages and rebuild it to a columns format
     val lines = (Source fromFile aNewPath).getLines()
     val firstLineColumns = lines.drop(1).take(1).toList
 
@@ -183,52 +176,48 @@ class ComplementTypes() {
     // <resource_main_lang> <sameAs> <resource_another_lang>
     var resourceMainLanguage = firstLine.split(" ")(0)
     var sameAs = firstLine.split(" ")(1)
-    var resourcesGroup = firstLine.split(" ")(2).dropRight(3)
+    // The last dot from the line gets removed here
+    var resourcesGroup = firstLine.split(" ")(2).dropRight(1)
 
     // Remove!
     fixEnEntry(ComplementTypes.compLangsArray)
 
     // Read line except the first one which is the timestamp
     for (line <- (Source fromFile aPath).getLines().drop(1)) {
+      // The last dot from the line gets removed here
       val columns = line.split(" ")
       if (columns(0) == resourceMainLanguage) {
-        resourcesGroup += " " + columns(2).reverse.dropRight(1).reverse.dropRight(3)
+        resourcesGroup += " " + columns(2).reverse.dropRight(1).reverse.dropRight(1)
       } else {
         resourcesGroup = reformatString(resourcesGroup)
-        if (resourcesGroup != "") {
+        if (resourcesGroup != "<") {
           resourcesGroup += "> ."
-          appendToFile("E:/Spotlight/interlanguage_links_same_as_pt_columns", resourceMainLanguage+'\t'+sameAs+'\t'+resourcesGroup)
+          appendToFile(ComplementTypes.linksFile.dropRight(3) + "_columns", resourceMainLanguage+'\t'+sameAs+'\t'+resourcesGroup.replaceAll("""\\u""","""\\\\u""").replaceAll("""\\U""","""\\\\U""").replaceAll(">>",">"))
         }
-        val lineArray = line.toString.dropRight(3).split(" ")
+        val lineArray = line.toString.split(" ")
         resourceMainLanguage = lineArray(0)
         sameAs = lineArray(1)
-        resourcesGroup = lineArray(2)
-        //resourceMainLanguage = columns(0)
+        resourcesGroup = lineArray(2).dropRight(1)
       }
     }
-    System.exit(1)
+
+    ComplementTypes.linksFile = ComplementTypes.linksFile.dropRight(3) + "_columns"
   }
 
-  /*def rebuildInterlanguageLinksFile(aPath: String) {
-    val lines = (Source fromFile aPath).getLines()
-    val firstLineColumns = lines.drop(1).take(1).toList
-    var stringToAppend = firstLineColumns(0).dropRight(3)
-    var firstColumn = stringToAppend.split(" ")(0)
-    for (line <- (Source fromFile aPath).getLines().drop(1)) {
-      val columns = line.split(" ")
-      //println(unescapeJava(columns(0)))
-      //println(unescapeJava(firstColumn))
-      //if (unescapeJava(columns(0)) == unescapeJava(firstColumn)) {
-      if (columns(0) == firstColumn) {
-        stringToAppend += " " + columns(2).reverse.dropRight(1).reverse.dropRight(3)
-      } else {
-        stringToAppend += "> ."
-        appendToFile("E:/Spotlight/interlanguage_links_pt_new", stringToAppend)
-        stringToAppend = line.toString.replaceAll(" ", "\t").dropRight(3)
-        firstColumn = columns(0)
-      }
-    }
-  }   */
+  // Every time this method is called we delete the TDB store files for the main language and create new ones. This happens
+  // because as we generate statements and add them to the main language instance types file, we also modify the model
+  // for this language. If we do not delete the files Jena would create a model using the old files. This also guarantees
+  // that no NULL pointer exceptions will be thrown at this point
+  def loadTDBModel(aLanguageName: String): Model = {
+    val instTypesName = "instance_types_" + aLanguageName + ".nt"
+    println(instTypesName)
+    println(ComplementTypes.tdbStoreBaseDir + aLanguageName + "/TDB")
+    println(ComplementTypes.dbpediaBaseDir + aLanguageName + '/' + instTypesName)
+    FileUtils.cleanDirectory(new java.io.File(ComplementTypes.tdbStoreBaseDir + aLanguageName + "/TDB"))
+    val aTDBStore = createModel(ComplementTypes.tdbStoreBaseDir + aLanguageName + "/TDB")
+    FileManager.get().readModel( aTDBStore, ComplementTypes.dbpediaBaseDir + aLanguageName + '/' + instTypesName, "N-TRIPLES" )
+    aTDBStore
+  }
 
   def preprocessDbFbFiles(aMainLanguage:String, aFbLinksFile: String, aMainEnLinksFile: String, anOutputPath: String) {
     val loop = new Breaks
@@ -237,16 +226,12 @@ class ComplementTypes() {
     var auxIndex = 0
     for (lineA <- (Source fromFile aMainEnLinksFile).getLines()) {
       val lineAList = lineA.split(" ").toList
-      //println("DERP" + lineAList.mkString)
       loop.breakable {
         for (lineB <- (Source fromFile aFbLinksFile).getLines()) {
           if (j >= auxIndex) {
             val lineBList: List[String] = lineB.split(" ").toList
-            //println("ESSE AI... " + lineAList(2)(29) + " MAIOR DO QUE " + lineBList.head(29))
             lineBList match {
               case a if lineBList.head(29) > lineAList(2)(29) => {
-                //println("ESSE AI... " + lineAList(2)(29) + " MAIOR DO QUE " + lineBList.head(29))
-                //System.exit(1)
                 j = 0
                 loop.break()
               }
@@ -255,7 +240,6 @@ class ComplementTypes() {
                 auxIndex = j
                 val finalString = lineAList(2) + " <http://www.w3.org/2002/07/owl#sameAs> " + lineBList(2)
                 appendToFile(anOutputPath + aMainLanguage + "_mid.nt", finalString)
-                //println(finalString)
                 println("Hum j = " + j.toString + " e aux = " + auxIndex.toString)
                 j = 0
                 loop.break()
@@ -491,169 +475,93 @@ class ComplementTypes() {
   // and is loaded in the companion object
   def compTypesWithOtherLanguages() {
     println("Starting types complement using other languages...")
-    // Get the information we need from the companion object
-    val mainLanguage = ComplementTypes.mainLanguage(0)
-    val allLangsArray = ComplementTypes.allLangsArray
-    val instTypesNamesArray = ComplementTypes.instTypesNamesArray
-    val fileIteratorArray = ComplementTypes.fileIteratorArray
-    val tdbStoreArray = ComplementTypes.tdbStoreArray
-    val dbpediaBaseDir = ComplementTypes.dbpediaBaseDir
-    val tdbStoreBaseDir = ComplementTypes.tdbStoreBaseDir
-    val outputBaseDir = ComplementTypes.outputBaseDir
-
     val aLinksFile = ComplementTypes.linksFile
-
-    // Every time this method is called we delete the TDB store files for the main language and create new ones. This happens
-    // because as we generate statements and add them to the main language instance types file, we also modify the model
-    // for this language. If we do not delete the files Jena would create a model using the old files. This also guarantees
-    // that no NULL pointer exceptions will be thrown at this point
-    var i = 0
-    for( langName <- allLangsArray ){
-      instTypesNamesArray(i) = "instance_types_" + langName + ".nt"
-      println(instTypesNamesArray(i))
-      println(tdbStoreBaseDir + langName + "/TDB")
-      println(dbpediaBaseDir + langName + '/' + instTypesNamesArray(i))
-      FileUtils.cleanDirectory(new java.io.File(tdbStoreBaseDir + langName + "/TDB"))
-      tdbStoreArray(i) = createModel(tdbStoreBaseDir + langName + "/TDB")
-      FileManager.get().readModel( tdbStoreArray(i), dbpediaBaseDir + langName + '/' + instTypesNamesArray(i), "N-TRIPLES" )
-      i += 1
-    }
 
     // Now for each bijective inter languages links file we proceed with the core routine of the language types complement.
     // First it executes the query over the main language instance types file to see if there are types for the current resource.
     // If not, executes another query using the sameAs relation in the complement language instance types file. In the end the
     // routine adds the results to the current instance types file of the main language, complementing it
-    val aLinksFileIterator = createNTFileIterator(aLinksFile)
-    while (aLinksFileIterator.hasNext) {
-      val stmt = aLinksFileIterator.nextStatement()
-      val subject = stmt.getSubject.toString
-      val obj = stmt.getObject.toString
+    var lines = createNTFileIterator(aLinksFile)
 
-      // The idea is to query the instance types file related to the object in order to complement the instance types file
-      // related to the subject. For instance, if in portuguese a subject has no types associated to it, we can
-      // use other languages to find dbpedia types for it
-      val newSubject = obj
+    fixEnEntry(ComplementTypes.compLangsArray)
+    val tmpFileName = "E:/Spotlight/tmp_links_"
 
-      // A query to find if the subject from the main language has any types in the instance types triples file
-      val occsQuery = buildQueryRDFType(subject)
-      val occsResults = executeQuery(occsQuery, tdbStoreArray(0))
+    // Make a pattern so we can replace the owl occurrences
+    val pattern = new Regex("(O|o)wl")
 
-      //TODO, if the subject has at least one type, search for new types in the object instance types file and add them accordingly, a join operation
-      /*if (occsResults.hasNext()) {
-        while (occsResults.hasNext()) {
-
-        }
-      } else {*/
-      if (!occsResults.hasNext) {
-        val langsColumnsArray = obj.split(" ")
-        langsColumnsArray(0) = langsColumnsArray(0).reverse.dropRight(1).reverse
-        for(langsColumn <- langsColumnsArray) {
-          // A query to find the types of a subject in the instance types triples file
-          val newTypesQuery = buildQueryRDFType(langsColumn)
-          val newTypesResult = executeQuery(newTypesQuery, tdbStoreArray(i))
-
-          // Make a pattern so we can replace the owl occurrences
-          val pattern = new Regex("(O|o)wl")
-
-          if (newTypesResult.hasNext) {
-            // Iterating the ResultSet to get all its elements
-            while (newTypesResult.hasNext) {
-              // <subject> <predicate> <object>
-              var finalString = "<" + subject + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "
-              val soln = newTypesResult.nextSolution()
-              var newObject = ""
-
-              if ((pattern findFirstMatchIn soln.toString) != None) {
-                newObject = "http://www.w3.org/2002/07/owl#Thing"
-              } else {
-                newObject = soln.get("o").toString
-              }
-              finalString = finalString + "<" + newObject + "> ."
-
-              // Displays on the screen the final string to be added to the subject
-              // instance types triples file. For debugging purposes
-              //System.out.println(finalString)
-
-              // We can now concatenate the final string to the current instance types file and update the
-              // current model
-              appendToFile(dbpediaBaseDir + mainLanguage + '/' + instTypesNamesArray(0), finalString)
-              addStatementToModel(subject, RDF.`type`.toString, newObject, tdbStoreArray(0))
-            }
-            break()
-          }
-        }
+    var tdbStore: Model = loadTDBModel(ComplementTypes.allLangsArray(0))
+    for (i <- 0 until ComplementTypes.allLangsArray.length) {
+      println("Processing the " + ComplementTypes.allLangsArray(i) + " language.")
+      if (i > 0) {
+        tdbStore.close()
+        tdbStore = loadTDBModel(ComplementTypes.allLangsArray(i))
+        lines = createNTFileIterator(tmpFileName + i)
       }
-    }
 
-
-    /*// Now for each bijective inter languages links file we proceed with the core routine of the language types complement.
-    // First it executes the query over the main language instance types file to see if there are types for the current resource.
-    // If not, executes another query using the sameAs relation in the complement language instance types file. In the end the
-    // routine adds the results to the current instance types file of the main language, complementing it
-    i = 1
-    for( aLinksFile <- fileIteratorArray ){
-      while (aLinksFile.hasNext) {
-        val stmt = aLinksFile.nextStatement()
-        val subject = stmt.getSubject.toString
-        val obj = stmt.getObject.toString
-
+      while (lines.hasNext) {
         // The idea is to query the instance types file related to the object in order to complement the instance types file
         // related to the subject. For instance, if in portuguese a subject has no types associated to it, we can
         // use other languages to find dbpedia types for it
-        val newSubject = obj
+        val stmt = lines.nextStatement()
+        val subject = stmt.getSubject.toString
+        val predicate = stmt.getPredicate.toString
+        val theObject = stmt.getObject.toString.replaceAll("""\\u""", """\\\\u""").replaceAll("""\\U""", """\\\\U""")
 
-        // A query to find if the subject from the main language has any types in the instance types triples file
-        val occsQuery = buildQueryRDFType(subject)
-        val occsResults = executeQuery(occsQuery, tdbStoreArray(0))
+        if (i == 0) {
+          // A query to find if the subject from the main language has any types in the instance types triples file
+          val occsQuery = buildQueryRDFType(subject)
+          val occsResults = executeQuery(occsQuery, tdbStore)
 
-        // A query to find the types of a subject in the instance types triples file
-        val newTypesQuery = buildQueryRDFType(newSubject)
-        val newTypesResult = executeQuery(newTypesQuery, tdbStoreArray(i))
-
-        //TODO, if the subject has at least one type, search for new types in the object instance types file and add them accordingly, a join operation
-        /*if (occsResults.hasNext()) {
-          while (occsResults.hasNext()) {
-
+          if (!occsResults.hasNext && ComplementTypes.allLangsArray.length-1 > i) {
+            appendToFile(tmpFileName + (i + 1), "<" + subject + "> <" + predicate + "> <" + theObject + "> .")
           }
-        } else {*/
-        if (!occsResults.hasNext) {
+        } else {
+          val thirdColumn = stmt.getObject.toString
 
-          // Make a pattern so we can replace the owl occurrences
-          val pattern = new Regex("(O|o)wl")
+          val subject = stmt.getSubject.toString
+          val predicate = stmt.getPredicate.toString
+          val theObject = stmt.getObject.toString.replaceAll("""\\u""", """\\\\u""").replaceAll("""\\U""", """\\\\U""")
+          val compLanguages = thirdColumn.split(" ")
 
-          // Iterating the ResultSet to get all its elements
-          while (newTypesResult.hasNext) {
-            // <subject> <predicate> <object>
-            var finalString = "<" + subject + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "
-            val soln = newTypesResult.nextSolution()
-            var newObject = ""
+          // Empty flag to mark if this language has no resource associated with the main language
+          if (compLanguages(i-1) != "/N") {
 
-            if ((pattern findFirstMatchIn soln.toString) != None) {
-              newObject = "http://www.w3.org/2002/07/owl#Thing"
-            } else {
-              newObject = soln.get("o").toString
+            // A query to find the types of a subject in the instance types triples file
+            val newTypesQuery = buildQueryRDFType(compLanguages(i-1))
+
+            try {
+              val newTypesResult = executeQuery(newTypesQuery, tdbStore)
+
+              if (newTypesResult.hasNext) {
+                // Iterating the ResultSet to get all its elements
+                while (newTypesResult.hasNext) {
+                  // <subject> <predicate> <object>
+                  var finalString = "<" + subject + "> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "
+                  val soln = newTypesResult.nextSolution()
+                  var newObject = ""
+
+                  if ((pattern findFirstMatchIn soln.toString) != None) {
+                    newObject = "http://www.w3.org/2002/07/owl#Thing"
+                  } else {
+                    newObject = soln.get("o").toString
+                  }
+                  finalString = finalString + "<" + newObject + "> ."
+
+                  // We can now concatenate the final string to the current instance types file and update the
+                  // current model
+                  appendToFile(ComplementTypes.dbpediaBaseDir + ComplementTypes.mainLanguage(0) + '/' + "instance_types_" + ComplementTypes.mainLanguage(0) + ".nt", finalString)
+                }
+              } else if(ComplementTypes.allLangsArray.length > i) {
+                appendToFile(tmpFileName + (i + 1), "<" + subject + "> <" + predicate + "> <" + theObject + "> .")
+              }
+            } catch {
+              case (e: RiotException) =>
+              case (e: QueryParseException) =>
             }
-            finalString = finalString + "<" + newObject + "> ."
-
-            // Displays on the screen the final string to be added to the subject
-            // instance types triples file. For debugging purposes
-            //System.out.println(finalString)
-
-            // We can now concatenate the final string to the current instance types file and update the
-            // current model
-            appendToFile(dbpediaBaseDir + mainLanguage + '/' + instTypesNamesArray(0), finalString)
-            addStatementToModel(subject, RDF.`type`.toString, newObject, tdbStoreArray(0))
           }
         }
       }
-      i += 1
-    }*/
-
-    // Close the datasets now that we are done
-    i = 0
-    for( langName <- allLangsArray ){
-      tdbStoreArray(i).close()
-      i += 1
+      tdbStore.close()
     }
     println("Done!")
   }
@@ -681,6 +589,7 @@ object ComplementTypes {
   val dbpediaBaseDir = config.get("org.dbpedia.spotlight.data.dbpediaBaseDir","")
   val outputBaseDir = config.get("org.dbpedia.spotlight.data.outputBaseDir","")
   val freebaseBaseDir = config.get("org.dbpedia.spotlight.data.freebaseBaseDir","")
+  var linksFile = config.get("org.dbpedia.spotlight.data.interlanguageLinks","")
 
   // Creates an array to hold all the names of the instance types files we are going to need
   val instTypesNamesArray = new Array[String](allLangsArray.length)
@@ -689,13 +598,11 @@ object ComplementTypes {
   // Creates an iterator array so we can check every resource of the main language related to each complement language
   val fileIteratorArray = new Array[StmtIterator](allLangsArray.length-1)
 
-  val linksFile = "E:/Spotlight/interlanguage_links_same_as_pt_columns"
-
   // Checks if the number of files to iterate through is not valid
   testArrayLength(1, fileIteratorArray.length, LOG)
 
   def main(args : Array[String]) {
-    //aTypeManager.rebuildInterlanguageLinksFile("E:/Spotlight/interlanguage_links_same_as_pt.nt")
+    aTypeManager.rebuildInterlanguageLinksFile("E:/Spotlight/interlanguage_links_same_as_pt.nt")
 
     // Core methods for the types complement task
     aTypeManager.compTypesWithOtherLanguages()

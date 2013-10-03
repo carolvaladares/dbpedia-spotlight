@@ -44,9 +44,15 @@ object TDBHelper {
   }
 
   def buildQueryRDFType(aString: String): String = {
-    "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>" + '\n' +
-      "SELECT ?o " + '\n' +
-      "WHERE {<" + aString + "> rdf:type ?o}"
+    if (aString.contains("http")) {
+      "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"  + '\n' +
+        "SELECT ?o " + '\n' +
+        "WHERE {<" + aString + "> rdf:type ?o}"
+    } else {
+      "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"  + '\n' +
+        "SELECT ?o " + '\n' +
+        "WHERE {<" + aString.replaceAll("ttp", "http") + "> rdf:type ?o}"
+    }
   }
 
   def buildQueryOWLSameAs(aString: String): String = {
