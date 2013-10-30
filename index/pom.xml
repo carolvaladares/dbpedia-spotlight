@@ -37,6 +37,11 @@
     <properties>
         <javaOpts.Xmx>4g</javaOpts.Xmx> <!-- default that can be adjusted on the command line with -DjavaOpts.Xmx=... -->
         <spotlight.basedir>${project.basedir}/..</spotlight.basedir>
+         <jena.version>2.10.1</jena.version>
+        <jena.iri.version>0.9.6</jena.iri.version>
+        <java.compiler.version>1.7</java.compiler.version>
+        <java.tdb.version>0.10.1</java.tdb.version>
+        <scala.maven.plugin.version>3.1.0</scala.maven.plugin.version>
     </properties>
 
     <build>
@@ -154,6 +159,13 @@
                                 <jvmArg>-Xmx3G</jvmArg>
                             </jvmArgs>
                         </launcher>
+                        <launcher>
+                            <id>RDFContextExtractor</id>
+                            <mainClass>org.dbpedia.spotlight.util.RDFContextExtractor</mainClass>
+                            <jvmArgs>
+                                <jvmArg>-Xmx${javaOpts.Xmx}</jvmArg>
+                            </jvmArgs>
+                        </launcher>
                     </launchers>
                 </configuration>
             </plugin>
@@ -243,6 +255,60 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-arq</artifactId>
+            <version>${jena.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-core</artifactId>
+            <version>${jena.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-iri</artifactId>
+            <version>${jena.iri.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-tdb</artifactId>
+            <version>0.10.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.api-client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.16.0-rc</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.0-alpha4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>1.5</version>
         </dependency>
 
     </dependencies>
