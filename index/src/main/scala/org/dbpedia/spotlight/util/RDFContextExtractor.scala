@@ -149,33 +149,33 @@ object RDFContextExtractor  { //extends App
     
     /** reload the DataConn.dataSet TDB if requested */
     if (loadtdb) {
-    //  println("Loading Main TDB")
-    //  loadDataSet(tdbFile, tdbLocation, tdbFormat)
+      println("Loading Main TDB")
+      loadDataSet(tdbFile, tdbLocation, tdbFormat)
     }
     
     /** Get the main TDB */
-   // DataConn.getTDBFilesystem(tdbLocation)
+    DataConn.getTDBFilesystem(tdbLocation)
     
-  //  println("Loading  " + modelFile + "TDBloader2")
+    println("Loading  " + modelFile + "TDBloader2")
     
     /*** Load TDB by using tdbloader2 - for Linux only **/
     LinuxTDBLoader.tdbloader2(modelFile, datasetsLocation, namedModelLocation)
 
-  //  println("Getting Model " + namedModelLocation)
+    println("Getting Model " + namedModelLocation)
     /** Add Model into separated TDBs **/
-   // val model: Model = DataConn.getTDBFilesystemDataset(namedModelLocation).getDefaultModel
+    val model: Model = DataConn.getTDBFilesystemDataset(namedModelLocation).getDefaultModel
    
-   // println("Extracting")
+    println("Extracting")
     /**Execute the extraction itself */
-   // RDFContextExtractor.labelExtraction(
-   //   extraction,
-   //   outformat,
-   //   model,
-   //   outputFile)
+    RDFContextExtractor.labelExtraction(
+      extraction,
+      outformat,
+      model,
+      outputFile)
       
     /** close tdbs used **/
-  //  model.close()
-   // DataConn.dataSet.close()
+    model.close()
+    DataConn.dataSet.close()
   }
   
   
