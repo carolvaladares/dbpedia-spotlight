@@ -119,7 +119,6 @@ object LinuxTDBLoader {
   def tdbloader2(source: String, datasetLocation : String, tdbLocation: String) : Array[String] =  {
     
     val URL = """(?i)\b(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]""".r //"""(http|ftp)://(.*)\.([a-z]+)""".r
-    var unzipedFile: String = ""
 
     /** download http file into datasetLocation directory **/
     var input:String = source match {
@@ -127,6 +126,7 @@ object LinuxTDBLoader {
       case _ => source
     }
 
+    var unzipedFile: String = input
     /** uncompress the input file in the same directory **/
     if( extensor(input) contains "bz2") {
       unzipedFile = unzip(input)
