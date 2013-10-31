@@ -78,7 +78,7 @@ object DataConn {
     /** Creates tdb */
     dataSet = TDBFactory.createDataset(outputData)
     /** Creates default Model and populate it for labels dataset */
-    val tdb: Model = readModel(is, format) //dataSet.getDefaultModel
+    val tdb: Model = readIntoModel(dataSet.getDefaultModel, is, format)//readModel(is, format) //dataSet.getDefaultModel
     tdb.close()
   }
 
@@ -99,7 +99,7 @@ object DataConn {
    */
   def readModel (is: InputStream, format: String) : Model = {
     /** Creates a model*/
-    val model: Model = ModelFactory.createDefaultModel
+    val model: Model = dataSet.getDefaultModel//ModelFactory.createDefaultModel
     /** Reads the input file into model **/
     val reader = model.getReader(format)
     reader.setProperty("allowBadURIs", "true")
