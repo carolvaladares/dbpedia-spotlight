@@ -52,16 +52,15 @@ object RDFContextExtractor  { //extends App
 
   
   /** Get file extension */
-  def extensor(file: String) = file.split('.').drop(1).lastOption
+  def extensor(file: String) = file.split('.').drop(1).last
   
   /** Loads a datafile into the TDB DataConn.dataset, 
   * For the Context Extraction purpose, is must be the Labels DBpedia dataset.
   **/
   def loadDataSet(tdbFile: String, tdbLocation: String, tdbFormat: String) {
     /** Convert TDB input file into InputStream*/
-    val tdbModel: InputStream = //if (extensor(tdbFile).equals(Some("bz2"))) 
-    BZipUntar.convert(tdbFile) 
-   	  					        //else BZipUntar.toInputStream(tdbFile)
+    val tdbModel: InputStream = if (extensor(tdbFile) contains "bz2") BZipUntar.convert(tdbFile) 
+   	  					        else BZipUntar.toInputStream(tdbFile)
     /** Creates and populates TDB */
     DataConn.createTDBFilesystem(tdbLocation, tdbModel, tdbFormat)
   }
@@ -98,9 +97,8 @@ object RDFContextExtractor  { //extends App
       loadDataSet(tdbFile, tdbLocation, tdbFormat)
    
     /** converts Model input file into InputStream **/
-    val input: InputStream = ///if (extensor(modelFile).equals(Some("bz2")))
-     BZipUntar.convert(modelFile) 
-    						  // else BZipUntar.toInputStream(modelFile)
+    val input: InputStream = if (extensor(modelFile) contains "bz2") BZipUntar.convert(modelFile) 
+    						   else BZipUntar.toInputStream(modelFile)
     		
     /** Get the main TDB - Labels dataset */
     DataConn.getTDBFilesystem(tdbLocation)
@@ -155,7 +153,7 @@ object RDFContextExtractor  { //extends App
     
     /** Get the main TDB */
     DataConn.getTDBFilesystem(tdbLocation)
-    
+
     println("Loading  " + modelFile + "TDBloader2")
     
     /*** Load TDB by using tdbloader2 - for Linux only **/
@@ -352,7 +350,7 @@ object RDFContextExtractor  { //extends App
       outputFile, 
       namedModelLocation,
       datasetsLocation) 
-      
+
     /*for( i: String <- files){
     
       input = getFiles("http://downloads.dbpedia.org/3.8/en/" +  i, "nt", outputDir)
