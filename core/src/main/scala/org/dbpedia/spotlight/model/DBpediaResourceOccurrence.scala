@@ -92,6 +92,11 @@ class DBpediaResourceOccurrence(val id : String,
         id+"\t"+resource.uri+"\t"+surfaceForm.name+"\t"+context.text.replaceAll("\\s+", " ")+"\t"+textOffset+"\t"+resource.types.map(_.typeID).mkString(",")
     }
 
+    //Extracts VB tokens from the context.
+    def toVerbsTsvString( f: (Text, String) => String) = {
+        id+"\t"+resource.uri+"\t"+surfaceForm.name+"\t"+ f( new Text ( context.text.replaceAll("\\s+", " ") ) ,  surfaceForm.name)+"\t"+textOffset+"\t"+resource.types.map(_.typeID).mkString(",")
+    }
+
 
     def setSimilarityScore(s: Double) {
         setFeature(new Score("finalScore", similarityScore))

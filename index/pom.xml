@@ -166,6 +166,14 @@
                                 <jvmArg>-Xmx${javaOpts.Xmx}</jvmArg>
                             </jvmArgs>
                         </launcher>
+                         <launcher>
+                            <id>ExtractVerbsOccsFromWikipedia</id>
+                            <mainClass>org.dbpedia.spotlight.lucene.index.ExtractVerbsOccsFromWikipedia</mainClass>
+                            <jvmArgs>
+                                <jvmArg>-Xmx${javaOpts.Xmx}</jvmArg>
+                            </jvmArgs>
+                        </launcher>
+                        
                     </launchers>
                 </configuration>
             </plugin>

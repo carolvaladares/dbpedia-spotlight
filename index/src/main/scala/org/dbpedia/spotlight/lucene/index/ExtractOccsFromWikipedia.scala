@@ -27,6 +27,8 @@ import org.dbpedia.spotlight.io._
 import org.dbpedia.spotlight.model.DBpediaResourceOccurrence
 import org.dbpedia.spotlight.BzipUtils
 import org.dbpedia.extraction.util.Language
+import org.dbpedia.spotlight.util.OpenNLPPOSTSpotter
+import org.dbpedia.spotlight.model.Text;
 
 /**
  * Saves Occurrences to a TSV file.
@@ -40,10 +42,11 @@ import org.dbpedia.extraction.util.Language
  *
  * @author maxjakob
  * @author pablomendes (small fixes)
+ * @author carolvaladares (extraction of verb tokens related to a given surfaceForm)
  */
 object ExtractOccsFromWikipedia {
 
-    def main(args : Array[String]) {
+    def extract(args: Array[String],  extractionRule : (Text, String) => String = (t: Text, s: String) => t.text) {
         val indexingConfigFileName = args(0)
         val targetFileName = args(1)
 
@@ -77,9 +80,57 @@ object ExtractOccsFromWikipedia {
 
         val occs = filters.foldLeft(occSource){ (o,f) => f.filterOccs(o) }
 
-        FileOccurrenceSource.writeToFile(occs, new File(targetFileName))
+        FileOccurrenceSource.writeToFile(occs, new File(targetFileName), extractionRule)
 
         SpotlightLog.info(this.getClass, "Occurrences saved to: %s", targetFileName)
+    }
+
+    def main(args : Array[String]) {
+        extract(args)
+    }
+}
+
+object ExtractVerbsOccsFromWikipedia { 
+
+     /** Verbs tokens extraction **/
+    var postags: OpenNLPPOSTSpotter = null
+    /** extracts verbs on the left of the surface form **/
+    var leftExtraction: Boolean = true
+     /** extracts verbs on the right of the surface form **/
+    var rightExtraction: Boolean = true
+
+    /**
+     * Extracts verb tokens related to a specific surfaceForm from a given wikipedia paragraph.
+     */
+    def verbExtracionRule( paragraph: Text, surfaceForm : String) : String = {
+        val spots = postags.extract( paragraph, surfaceForm)
+        if(leftExtraction && rightExtraction)
+            spots(0).toList.mkString(" ") + spots(1).toList.mkString(" ")
+        else if( leftExtraction )  
+            spots(0).toList.mkString(" ")
+        else 
+            spots(1).toList.mkString(" ")
+    }
+
+    def main(args: Array[String]) {
+
+        val indexingConfigFileName = args(0)
+        val config = new IndexingConfiguration(indexingConfigFileName)
+        val opennlpDir: String = config.get("org.dbpedia.spotlight.data.opennlp")
+        var language: String = config.get("org.dbpedia.spotlight.language_i18n_code")
+
+        postags = new OpenNLPPOSTSpotter( 
+                    new File( opennlpDir + "/" + language + "/" + language + "-sent.bin"),
+                    new File( opennlpDir + "/" + language + "/" + language + "-token.bin"),
+                    new File( opennlpDir + "/" + language + "/" + language + "-pos-maxent.bin"),
+                    new File( opennlpDir + "/" + language + "/" + language + "-chunker.bin") 
+                )
+
+        leftExtraction = if(args contains "-l") true else false
+        rightExtraction = if(args contains "-r") true else false
+
+        ExtractOccsFromWikipedia.extract(args, verbExtracionRule)
 
     }
+
 }

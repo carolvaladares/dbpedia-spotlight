@@ -42,7 +42,7 @@ object FileOccurrenceSource
     /**
      * Saves DBpediaResourceOccurrence to a tab-separated file.
      */
-    def writeToFile(occSource : Traversable[DBpediaResourceOccurrence], tsvFile : File) {
+    def writeToFile(occSource : Traversable[DBpediaResourceOccurrence], tsvFile : File,  f : (Text, String) => String = (t: Text, s: String) => t.text) {
         var indexDisplay = 0
         SpotlightLog.info(this.getClass, "Writing occurrences to file %s ...", tsvFile)
 
@@ -53,7 +53,7 @@ object FileOccurrenceSource
         val outStream = new PrintStream(o, true, "UTF-8")
 
         for (occ <- occSource) {
-            outStream.println(occ.toTsvString)
+            outStream.println(occ.toVerbsTsvString(f))
 
             indexDisplay += 1
             if (indexDisplay % 100000 == 0) {
