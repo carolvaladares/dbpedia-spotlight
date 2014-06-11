@@ -246,6 +246,7 @@ object BratCorpus {
     )
 
      (texts, ann)
+     
     //new BratCorpus(texts, ann)
     //new ConvertFromBratToOpenNLPCorpus(texts, ann)
   }
